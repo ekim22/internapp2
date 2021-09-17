@@ -6,7 +6,7 @@ import {Component, Input, OnInit, Output} from '@angular/core';
   styleUrls: ['./post-create.component.css']
 })
 export class PostCreateComponent implements OnInit {
-  text = 'hello';
+  text = '';
   paraText!: String;
 
   constructor() { }

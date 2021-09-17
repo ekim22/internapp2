@@ -1,7 +1,9 @@
-<div class=".mat-typography">
-  <textarea name="text" id="text" cols="30" rows="6" [(ngModel)]="text" ></textarea>
-  <br>
-  <button type="submit" (click)="onSubmit()">Save Post</button>
-  <p>{{ paraText }}</p>
-</div>
+<mat-card>
+  <mat-form-field>
+    <textarea matInput name="text" id="text" cols="30" rows="6" [(ngModel)]="text" ></textarea>
+  </mat-form-field>
+  <button mat-raised-button color="accent" type="submit" (click)="onSubmit()">Save Post</button>
+</mat-card>
 
+<br>
+<p>{{ paraText }}</p>
