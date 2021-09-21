@@ -17,7 +17,7 @@ export class PostCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    this.postsService.addPost(new Post(this.title, this.content));
+    this.postsService.addPost({title: this.title, content: this.content});
   }
 
 }

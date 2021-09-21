@@ -1,12 +1,27 @@
-<mat-card>
-  <mat-form-field>
-    <label class="mat-body" for="title">Title</label>
-    <textarea matInput name="title" id="title" rows="1" [(ngModel)]="title">Title</textarea>
-  </mat-form-field>
-  <mat-form-field>
-    <label class="mat-body" for="content">Content</label>
-    <textarea matInput name="content" id="content" rows="6" [(ngModel)]="content">Content</textarea>
-  </mat-form-field>
-  <button mat-raised-button color="accent" type="submit" (click)="onSubmit()">Save Post</button>
-</mat-card>
-<br>
+<!--<form action="" #postForm="ngForm">-->
+<!--  <mat-card >-->
+<!--    <mat-form-field>-->
+<!--      <label class="mat-body" for="title">Title</label>-->
+<!--      <textarea matInput name="title" id="title" rows="1" type="text" [(ngModel)]="title" required>Title</textarea>-->
+<!--    </mat-form-field>-->
+<!--    <mat-form-field>-->
+<!--      <label class="mat-body" for="content">Content</label>-->
+<!--      <textarea matInput name="content" id="content" rows="6" [(ngModel)]="content" required>Content</textarea>-->
+<!--    </mat-form-field>-->
+<!--    <button mat-raised-button color="accent" type="submit" (click)="onSubmit()" [disabled]="postForm.invalid">Save Post</button>-->
+<!--  </mat-card>-->
+<!--</form>-->
+
+  <mat-card>
+    <form (submit)="onSubmit()" #postForm="ngForm">
+      <mat-form-field>
+        <mat-label class="mat-body">Title</mat-label>
+        <textarea matInput name="title" id="title" rows="1" type="text" [(ngModel)]="title" required>Title</textarea>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label class="mat-body">Content</mat-label>
+        <textarea matInput name="content" id="content" rows="6" [(ngModel)]="content" required>Content</textarea>
+      </mat-form-field>
+      <button mat-raised-button color="accent" type="submit" [disabled]="postForm.invalid">Save Post</button>
+    </form>
+  </mat-card>
