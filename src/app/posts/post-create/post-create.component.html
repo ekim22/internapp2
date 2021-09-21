@@ -13,14 +13,14 @@
 <!--</form>-->
 
   <mat-card>
-    <form (submit)="onSubmit()" #postForm="ngForm">
+    <form (submit)="onSubmit(postForm)" #postForm="ngForm">
       <mat-form-field>
         <mat-label class="mat-body">Title</mat-label>
-        <textarea matInput name="title" id="title" rows="1" type="text" [(ngModel)]="title" required>Title</textarea>
+        <textarea matInput name="title" rows="1" type="text" ngModel required>Title</textarea>
       </mat-form-field>
       <mat-form-field>
         <mat-label class="mat-body">Content</mat-label>
-        <textarea matInput name="content" id="content" rows="6" [(ngModel)]="content" required>Content</textarea>
+        <textarea matInput name="content" rows="4" ngModel required>Content</textarea>
       </mat-form-field>
       <button mat-raised-button color="accent" type="submit" [disabled]="postForm.invalid">Save Post</button>
     </form>
