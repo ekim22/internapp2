@@ -1,9 +1,12 @@
 <mat-card>
   <mat-form-field>
-    <textarea matInput name="text" id="text" cols="30" rows="6" [(ngModel)]="text" ></textarea>
+    <label class="mat-body" for="title">Title</label>
+    <textarea matInput name="title" id="title" rows="1" [(ngModel)]="title">Title</textarea>
+  </mat-form-field>
+  <mat-form-field>
+    <label class="mat-body" for="content">Content</label>
+    <textarea matInput name="content" id="content" rows="6" [(ngModel)]="content">Content</textarea>
   </mat-form-field>
   <button mat-raised-button color="accent" type="submit" (click)="onSubmit()">Save Post</button>
 </mat-card>
-
 <br>
-<p>{{ paraText }}</p>
