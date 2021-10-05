@@ -1,17 +1,3 @@
-<!--<form action="" #postForm="ngForm">-->
-<!--  <mat-card >-->
-<!--    <mat-form-field>-->
-<!--      <label class="mat-body" for="title">Title</label>-->
-<!--      <textarea matInput name="title" id="title" rows="1" type="text" [(ngModel)]="title" required>Title</textarea>-->
-<!--    </mat-form-field>-->
-<!--    <mat-form-field>-->
-<!--      <label class="mat-body" for="content">Content</label>-->
-<!--      <textarea matInput name="content" id="content" rows="6" [(ngModel)]="content" required>Content</textarea>-->
-<!--    </mat-form-field>-->
-<!--    <button mat-raised-button color="accent" type="submit" (click)="onSubmit()" [disabled]="postForm.invalid">Save Post</button>-->
-<!--  </mat-card>-->
-<!--</form>-->
-
 <mat-card>
   <form (submit)="onSubmit(postForm)" #postForm="ngForm">
     <mat-form-field>

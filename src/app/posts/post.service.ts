@@ -9,14 +9,14 @@ import {Post} from "./post.model";
 })
 export class PostService {
   postsChanged = new Subject<Post[]>();
-  posts: Post[] = [
-    // {title: 'First Post', content: 'This is content'},
-    // {title: 'Second Post', content: 'This is content'},
-    // {title: 'Third Post', content: 'This is content'},
+  private posts: Post[] = [
+    {title: 'First Post', content: 'This is first content'},
+    {title: 'Second Post', content: 'This is second content'},
+    {title: 'Third Post', content: 'This is third content'},
   ]
 
   getPosts() {
-    return this.posts.slice();
+    return [...this.posts];
   }
 
   addPost(post: Post) {
