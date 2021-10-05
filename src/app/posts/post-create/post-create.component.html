@@ -12,16 +12,31 @@
 <!--  </mat-card>-->
 <!--</form>-->
 
-  <mat-card>
-    <form (submit)="onSubmit(postForm)" #postForm="ngForm">
-      <mat-form-field>
-        <mat-label class="mat-body">Title</mat-label>
-        <textarea matInput name="title" rows="1" type="text" ngModel required>Title</textarea>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label class="mat-body">Content</mat-label>
-        <textarea matInput name="content" rows="4" ngModel required>Content</textarea>
-      </mat-form-field>
-      <button mat-raised-button color="accent" type="submit" [disabled]="postForm.invalid">Save Post</button>
-    </form>
-  </mat-card>
+<mat-card>
+  <form (submit)="onSubmit(postForm)" #postForm="ngForm">
+    <mat-form-field>
+      <mat-label class="mat-body">Title</mat-label>
+      <textarea
+        matInput
+        name="title"
+        rows="1"
+        type="text"
+        ngModel
+        required
+        #title="ngModel">Title</textarea>
+      <mat-error *ngIf="title.invalid">Please enter a post title</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label class="mat-body">Content</mat-label>
+      <textarea
+        matInput
+        name="content"
+        rows="4"
+        ngModel
+        required
+        #content="ngModel">Content</textarea>
+      <mat-error *ngIf="content.invalid">Please enter some post content</mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="accent" type="submit" [disabled]="postForm.invalid">Save Post</button>
+  </form>
+</mat-card>
