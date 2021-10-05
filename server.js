@@ -18,6 +18,7 @@ const onError = error => {
   if (error.syscall !== "listen") {
     throw error;
   }
+  let addr;
   const bind = typeof addr === "string" ? "pipe" + addr : "port " + port;
   switch (error.code) {
     case "EACCES":
