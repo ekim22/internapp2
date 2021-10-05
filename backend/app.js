@@ -8,7 +8,6 @@ app.use((req, res, next) => {
 })
 
 app.use((req, res, next) => {
-  console.log('Second middleware')
   // Send implicitly ends the response! No need for end()
   res.send('Hello from express!');
 })
