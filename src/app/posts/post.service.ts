@@ -19,7 +19,7 @@ export class PostService {
 
   addPost(post: Post) {
     this.posts.push(post);
-    this.postsChanged.next(this.posts);
+    this.postsChanged.next([...this.posts]);
   }
 
   getPostChangedListener() {
