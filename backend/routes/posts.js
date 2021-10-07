@@ -7,10 +7,12 @@ const router = express.Router();
 router.get('', (req, res, next) => {
   Post.find()
       .then((documents) => {
-        res.status(200).json({
-          message: 'Posts sent!',
-          posts: documents,
-        });
+        setTimeout(() => {
+          res.status(200).json({
+            message: 'Posts sent!',
+            posts: documents,
+          });
+        }, 1000);
       });
 });
 

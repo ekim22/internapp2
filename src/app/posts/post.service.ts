@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Subject} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 import {Post} from './post.model';
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,8 @@ export class PostService {
   private postsChanged = new Subject<Post[]>();
   private posts: Post[] = []
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient,
+              private router: Router) {}
 
   getPost(postId: string | null) {
     return this.httpClient.get<{message: string, post: {_id: string, title: string, content: string}}>('http://localhost:3000/api/posts/' + postId);
@@ -41,6 +43,7 @@ export class PostService {
           post.id = responseData.postId;
           this.posts.push(post);
           this.postsChanged.next([...this.posts])
+          this.router.navigate(['/']);
         });
   }
 
@@ -53,6 +56,8 @@ export class PostService {
         this.posts[oldPostIndex] = newPost
         console.log(this.posts)
         this.postsChanged.next([...this.posts])
+        this.router.navigate(['/']);
+
       })
   }
 
