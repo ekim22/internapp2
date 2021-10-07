@@ -26,6 +26,22 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get('/', (req, res) => {
+  res.status(200).json({
+    message: 'This is the root of the server!',
+  });
+});
+
+app.get('/api/posts', (req, res, next) => {
+  Post.find()
+      .then((documents) => {
+        res.status(200).json({
+          message: 'Posts sent successfully',
+          posts: documents,
+        });
+      });
+});
+
 app.post('/api/posts', (req, res, next) => {
   const post = new Post({
     title: req.body.title,
@@ -36,16 +52,6 @@ app.post('/api/posts', (req, res, next) => {
         res.status(201).json({
           message: 'Post added successfully!',
           postId: result._id,
-        });
-      });
-});
-
-app.get('/api/posts', (req, res, next) => {
-  Post.find()
-      .then((documents) => {
-        res.status(200).json({
-          message: 'Posts sent successfully',
-          posts: documents,
         });
       });
 });
