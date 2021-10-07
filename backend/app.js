@@ -36,7 +36,7 @@ app.get('/api/posts', (req, res, next) => {
   Post.find()
       .then((documents) => {
         res.status(200).json({
-          message: 'Posts sent successfully',
+          message: 'Posts sent!',
           posts: documents,
         });
       });
@@ -48,19 +48,30 @@ app.post('/api/posts', (req, res, next) => {
     content: req.body.content,
   });
   post.save().then(
-      (result) => {
+      (post) => {
         res.status(201).json({
-          message: 'Post added successfully!',
-          postId: result._id,
+          message: 'Post created!',
+          postId: post._id,
         });
       });
+});
+
+app.patch('/api/posts/:id', (req, res, next) => {
+  Post.findOne({_id: req.params.id}, (err, foundPost) => {
+    foundPost.title = req.body.title;
+    foundPost.content = req.body.content;
+    foundPost.save().then(
+        () => {
+          res.status(200).json({message: 'Post updated!'});
+        },
+    );
+  });
 });
 
 app.delete('/api/posts/:id', (req, res, next) => {
   Post.findByIdAndDelete(req.params.id)
       .then(() => {
-        console.log(req.params.id);
-        res.status(200).json({message: 'Post deleted'});
+        res.status(200).json({message: 'Post deleted!'});
       });
 });
 

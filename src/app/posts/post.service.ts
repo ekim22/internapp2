@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Subject} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import {Post} from './post.model';
 
 @Injectable({
@@ -30,19 +30,30 @@ export class PostService {
           });
         }))
         .subscribe((transformedPosts) => {
-          console.log(transformedPosts);
           this.posts = transformedPosts;
           this.postsChanged.next([...this.posts]);
         });
   }
 
-  addPost(post: Post) {
+  createPost(post: Post) {
     this.httpClient.post<{message: string, postId: string}>('http://localhost:3000/api/posts', post)
         .subscribe((responseData) => {
           post.id = responseData.postId;
           this.posts.push(post);
           this.postsChanged.next([...this.posts])
         });
+  }
+
+  updatePost(post: Post) {
+    const newPost: Post = {title: post.title, content: post.content, id: post.id}
+    this.httpClient.patch<{message: string}>('http://localhost:3000/api/posts/' + post.id, post)
+      .subscribe((responseData) => {
+        console.log(responseData)
+        const oldPostIndex = this.posts.findIndex(p => p.id === post.id);
+        this.posts[oldPostIndex] = newPost
+        console.log(this.posts)
+        this.postsChanged.next([...this.posts])
+      })
   }
 
   deletePost(postId: string) {
