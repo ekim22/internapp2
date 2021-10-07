@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
   });
 });
 
-app.use(postsRoutes);
+app.use('/api/posts', postsRoutes);
 
 
 module.exports = app;

@@ -4,7 +4,7 @@ const Post = require('../models/post');
 
 const router = express.Router();
 
-router.get('/api/posts', (req, res, next) => {
+router.get('', (req, res, next) => {
   Post.find()
       .then((documents) => {
         res.status(200).json({
@@ -14,7 +14,7 @@ router.get('/api/posts', (req, res, next) => {
       });
 });
 
-router.get('/api/posts/:id', (req, res, next) => {
+router.get('/:id', (req, res, next) => {
   Post.findOne({_id: req.params.id}).then((post) => {
     if (post) {
       res.status(200).json({
@@ -30,7 +30,7 @@ router.get('/api/posts/:id', (req, res, next) => {
   );
 });
 
-router.post('/api/posts', (req, res, next) => {
+router.post('', (req, res, next) => {
   const post = new Post({
     title: req.body.title,
     content: req.body.content,
@@ -44,7 +44,7 @@ router.post('/api/posts', (req, res, next) => {
       });
 });
 
-router.patch('/api/posts/:id', (req, res, next) => {
+router.patch('/:id', (req, res, next) => {
   Post.findOne({_id: req.params.id}, (err, foundPost) => {
     foundPost.title = req.body.title;
     foundPost.content = req.body.content;
@@ -56,7 +56,7 @@ router.patch('/api/posts/:id', (req, res, next) => {
   });
 });
 
-router.delete('/api/posts/:id', (req, res, next) => {
+router.delete('/:id', (req, res, next) => {
   Post.findByIdAndDelete(req.params.id)
       .then(() => {
         res.status(200).json({message: 'Post deleted!'});
