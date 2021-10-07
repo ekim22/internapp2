@@ -13,8 +13,8 @@ export class PostService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getPost(id: string | null) {
-    return <Post>{...this.posts.find(p => p.id === id)};
+  getPost(postId: string | null) {
+    return this.httpClient.get<{message: string, post: {_id: string, title: string, content: string}}>('http://localhost:3000/api/posts/' + postId);
   }
 
   getPosts() {

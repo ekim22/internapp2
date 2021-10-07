@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const Post = require('./models/post');
+const postsRoutes = require('./routes/posts');
 
 const app = express();
 
@@ -32,47 +32,7 @@ app.get('/', (req, res) => {
   });
 });
 
-app.get('/api/posts', (req, res, next) => {
-  Post.find()
-      .then((documents) => {
-        res.status(200).json({
-          message: 'Posts sent!',
-          posts: documents,
-        });
-      });
-});
+app.use(postsRoutes);
 
-app.post('/api/posts', (req, res, next) => {
-  const post = new Post({
-    title: req.body.title,
-    content: req.body.content,
-  });
-  post.save().then(
-      (post) => {
-        res.status(201).json({
-          message: 'Post created!',
-          postId: post._id,
-        });
-      });
-});
-
-app.patch('/api/posts/:id', (req, res, next) => {
-  Post.findOne({_id: req.params.id}, (err, foundPost) => {
-    foundPost.title = req.body.title;
-    foundPost.content = req.body.content;
-    foundPost.save().then(
-        () => {
-          res.status(200).json({message: 'Post updated!'});
-        },
-    );
-  });
-});
-
-app.delete('/api/posts/:id', (req, res, next) => {
-  Post.findByIdAndDelete(req.params.id)
-      .then(() => {
-        res.status(200).json({message: 'Post deleted!'});
-      });
-});
 
 module.exports = app;
