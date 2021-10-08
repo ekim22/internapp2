@@ -12,7 +12,7 @@ router.get('', (req, res, next) => {
             message: 'Posts sent!',
             posts: documents,
           });
-        }, 1000);
+        }, 500);
       });
 });
 

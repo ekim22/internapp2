@@ -11,6 +11,7 @@ import {ActivatedRoute, ParamMap} from "@angular/router";
 })
 export class PostCreateComponent implements OnInit {
   form!: FormGroup;
+  imagePreview!: string | ArrayBuffer | null;
   private mode = 'create';
   private postId!: string | null;
   public post: Post = {id: "", title: "", content: ""};
@@ -34,7 +35,7 @@ export class PostCreateComponent implements OnInit {
           this.post = {id: postData.post._id, title: postData.post.title, content: postData.post.content}
           setTimeout(() => {
             this.isLoading = false;
-          }, 1000)
+          }, 500)
           this.form.setValue({title: this.post.title, content: this.post.content, image: null})
         });
       } else {
@@ -48,8 +49,11 @@ export class PostCreateComponent implements OnInit {
     const file = (event.target as HTMLInputElement).files![0];
     this.form.patchValue({image: file});
     this.form.get('image')?.updateValueAndValidity();
-    console.log(file);
-    console.log(this.form);
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result;
+    }
+    reader.readAsDataURL(file);
   }
 
   onSubmit() {
