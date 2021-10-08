@@ -1,7 +1,7 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PostService} from "../post.service";
 import {Post} from "../post.model";
-import {NgForm} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, ParamMap} from "@angular/router";
 
 @Component({
@@ -10,6 +10,7 @@ import {ActivatedRoute, ParamMap} from "@angular/router";
   styleUrls: ['./post-create.component.css']
 })
 export class PostCreateComponent implements OnInit {
+  form!: FormGroup;
   private mode = 'create';
   private postId!: string | null;
   public post: Post = {id: "", title: "", content: ""};
@@ -19,6 +20,10 @@ export class PostCreateComponent implements OnInit {
               public route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.form = new FormGroup({
+      'title': new FormControl(null, {validators: [Validators.required]}),
+      'content': new FormControl(null, {validators: [Validators.required]})
+    })
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('postId')) {
         this.mode = 'edit';
@@ -29,6 +34,7 @@ export class PostCreateComponent implements OnInit {
           setTimeout(() => {
             this.isLoading = false;
           }, 1000)
+          this.form.setValue({'title': this.post.title, 'content': this.post.content})
         });
       } else {
         this.mode = 'create';
@@ -37,15 +43,18 @@ export class PostCreateComponent implements OnInit {
     });
   }
 
-  onSubmit(form: NgForm) {
-    let newPost: Post = {id: "", title: form.value.title, content: form.value.content};
+  onSubmit() {
+    if (this.form.invalid) {
+      return;
+    }
+    let newPost: Post = {id: "", title: this.form.value.title, content: this.form.value.content};
     if (this.mode === 'create') {
       this.postsService.createPost(newPost);
     } else if (this.mode === 'edit') {
       newPost = this.post
       this.postsService.updatePost(newPost);
     }
-    form.resetForm();
+    this.form.reset();
   }
 
 }
