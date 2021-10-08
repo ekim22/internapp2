@@ -21,8 +21,9 @@ export class PostCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      'title': new FormControl(null, {validators: [Validators.required]}),
-      'content': new FormControl(null, {validators: [Validators.required]})
+      title: new FormControl(null, {validators: [Validators.required]}),
+      content: new FormControl(null, {validators: [Validators.required]}),
+      image: new FormControl(null, )
     })
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('postId')) {
@@ -34,13 +35,21 @@ export class PostCreateComponent implements OnInit {
           setTimeout(() => {
             this.isLoading = false;
           }, 1000)
-          this.form.setValue({'title': this.post.title, 'content': this.post.content})
+          this.form.setValue({title: this.post.title, content: this.post.content, image: null})
         });
       } else {
         this.mode = 'create';
         this.postId = null;
       }
     });
+  }
+
+  onImagePicked(event: Event) {
+    const file = (event.target as HTMLInputElement).files![0];
+    this.form.patchValue({image: file});
+    this.form.get('image')?.updateValueAndValidity();
+    console.log(file);
+    console.log(this.form);
   }
 
   onSubmit() {
