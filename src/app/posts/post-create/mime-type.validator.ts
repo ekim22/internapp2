@@ -23,6 +23,11 @@ export const mimeType = (control: AbstractControl): Promise<{[key: string]: any}
         case "ffd8ffe8":
           isValid = true;
           break;
+        case "47494638":
+        case "47494639":
+        case "47494661":
+          isValid = true;
+          break;
         default:
           isValid = false; // Or you can use the blob.type as fallback
           break;
