@@ -26,6 +26,6 @@
         rows="4">Content</textarea>
       <mat-error *ngIf="form.get('content')!.invalid">Please enter some post content</mat-error>
     </mat-form-field>
-    <button mat-raised-button color="accent" type="submit" [disabled]="form.invalid">Save Post</button>
+    <button mat-raised-button color="accent" type="submit" [disabled]="!form.valid">Save Post</button>
   </form>
 </mat-card>
