@@ -9,6 +9,11 @@ button {
   margin-top: 1rem;
 }
 
+.mat-button {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
 mat-spinner {
   margin: auto;
 }
@@ -18,7 +23,7 @@ input[type="file"] {
 }
 
 .image-preview {
-  height: 5rem;
+  height: 10rem;
   margin: 1rem 0;
 }
 
