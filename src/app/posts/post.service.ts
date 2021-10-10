@@ -37,14 +37,19 @@ export class PostService {
         });
   }
 
-  createPost(post: Post) {
-    this.httpClient.post<{message: string, postId: string}>('http://localhost:3000/api/posts', post)
-        .subscribe((responseData) => {
-          post.id = responseData.postId;
-          this.posts.push(post);
-          this.postsChanged.next([...this.posts])
-          this.router.navigate(['/']);
-        });
+  createPost(post: Post, image: File) {
+    const postData = new FormData();
+    postData.append('title', post.title);
+    postData.append('content', post.content);
+    postData.append('image', image, post.title);
+    this.httpClient
+      .post<{message: string, postId: string}>('http://localhost:3000/api/posts', postData)
+      .subscribe((responseData) => {
+        post.id = responseData.postId;
+        this.posts.push(post);
+        this.postsChanged.next([...this.posts])
+        this.router.navigate(['/']);
+      });
   }
 
   updatePost(post: Post) {
