@@ -58,15 +58,17 @@ router.get('/:id', (req, res, next) => {
 
 router.post('', multer({storage: storage}).single('image'),
     (req, res, next) => {
+      const url = req.protocol + '://' + req.get('host');
       const post = new Post({
         title: req.body.title,
         content: req.body.content,
+        imagePath: url + '/images' + req.file.filename,
       });
       post.save().then(
           (post) => {
             res.status(201).json({
               message: 'Post created!',
-              postId: post._id,
+              post: post,
             });
           });
     });

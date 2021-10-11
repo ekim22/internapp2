@@ -15,7 +15,7 @@ export class PostCreateComponent implements OnInit {
   imagePreview!: string | ArrayBuffer | null;
   private mode = 'create';
   private postId!: string | null;
-  public post: Post = {_id: "", title: "", content: ""};
+  public post: Post = {_id: "", title: "", content: "", imagePath: ""};
   public isLoading = false;
 
   constructor(private postsService: PostService,
@@ -33,7 +33,7 @@ export class PostCreateComponent implements OnInit {
         this.postId = paramMap.get('postId');
         this.isLoading = true;
         this.postsService.getPost(this.postId).subscribe(postData => {
-          this.post = {_id: postData.post._id, title: postData.post.title, content: postData.post.content}
+          this.post = {_id: postData.post._id, title: postData.post.title, content: postData.post.content, imagePath: postData.post.imagePath}
           setTimeout(() => {
             this.isLoading = false;
           }, 500)
@@ -61,7 +61,7 @@ export class PostCreateComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.post = {_id: "", title: this.form.value.title, content: this.form.value.content}
+    this.post = {_id: "", title: this.form.value.title, content: this.form.value.content, imagePath: ""}
     if (this.mode === 'create') {
       this.postsService.createPost(this.post, this.form.value.image);
     } else if (this.mode === 'edit') {
