@@ -61,12 +61,11 @@ export class PostCreateComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    let newPost: Post = {_id: "", title: this.form.value.title, content: this.form.value.content};
+    this.post = {_id: "", title: this.form.value.title, content: this.form.value.content}
     if (this.mode === 'create') {
-      this.postsService.createPost(newPost, this.form.value.image);
+      this.postsService.createPost(this.post, this.form.value.image);
     } else if (this.mode === 'edit') {
-      newPost = this.post
-      this.postsService.updatePost(newPost);
+      this.postsService.updatePost(this.post);
     }
     this.form.reset();
   }

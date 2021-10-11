@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Subject} from 'rxjs';
-import {map, tap} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {Post} from './post.model';
 import {Router} from "@angular/router";
 
@@ -16,14 +16,14 @@ export class PostService {
               private router: Router) {}
 
   getPost(postId: string | null) {
-    return this.httpClient.get<{message: string, post: {_id: string, title: string, content: string}}>('http://localhost:3000/api/posts/' + postId);
+    return this.httpClient.get<{message: string, post: Post}>('http://localhost:3000/api/posts/' + postId);
   }
 
   getPosts() {
     this.httpClient
-        .get<{message: string, posts: any}>('http://localhost:3000/api/posts')
+        .get<{message: string, posts: Post[]}>('http://localhost:3000/api/posts')
         .pipe(map((postData) => {
-          return postData.posts.map((post: { title: any; content: any; _id: any; }) => {
+          return postData.posts.map((post: Post) => {
             return {
               ...post,
               _id: post._id.toString(),
