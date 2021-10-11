@@ -36,7 +36,6 @@ router.get('', (req, res, next) => {
             message: 'Posts sent!',
             posts: documents,
           });
-          console.log(documents);
         }, 500);
       });
 });
@@ -74,17 +73,23 @@ router.post('', multer({storage: storage}).single('image'),
           });
     });
 
-router.patch('/:id', (req, res, next) => {
-  Post.findOne({_id: req.params.id}, (err, foundPost) => {
-    foundPost.title = req.body.title;
-    foundPost.content = req.body.content;
-    foundPost.save().then(
-        () => {
-          res.status(200).json({message: 'Post updated!'});
-        },
-    );
-  });
-});
+router.patch('/:id', multer({storage: storage}).single('image'),
+    (req, res, next) => {
+      console.log(req.file);
+      const url = req.protocol + '://' + req.get('host');
+      Post.findOne({_id: req.params.id}, (err, foundPost) => {
+        foundPost.title = req.body.title;
+        foundPost.content = req.body.content;
+        foundPost.imagePath = url + '/images/' + req.file.filename;
+        foundPost.save().then(
+            (updatedPost) => {
+              res.status(200).json({
+                message: 'Post updated!',
+              });
+            },
+        );
+      });
+    });
 
 router.delete('/:id', (req, res, next) => {
   Post.findByIdAndDelete(req.params.id)

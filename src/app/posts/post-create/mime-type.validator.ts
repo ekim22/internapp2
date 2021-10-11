@@ -1,7 +1,10 @@
 import {AbstractControl} from "@angular/forms";
-import {Observable, Observer} from "rxjs";
+import {Observable, Observer, of} from "rxjs";
 
-export const mimeType = (control: AbstractControl): Promise<{[key: string]: any}> | Observable<{[key: string]: any}>=> {
+export const mimeType = (control: AbstractControl): Promise<{[key: string]: any}> | Observable<{[key: string]: any} | null>=> {
+  if (typeof (control.value) === 'string') {
+    return of(null);
+  }
   const file = control.value as Blob;
   const fileReader = new FileReader();
   return new Observable((observer: Observer<{ [key: string]: any }>) => {

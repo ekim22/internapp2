@@ -33,11 +33,20 @@ export class PostCreateComponent implements OnInit {
         this.postId = paramMap.get('postId');
         this.isLoading = true;
         this.postsService.getPost(this.postId).subscribe(postData => {
-          this.post = {_id: postData.post._id, title: postData.post.title, content: postData.post.content, imagePath: postData.post.imagePath}
+          this.post = {
+            _id: postData.post._id,
+            title: postData.post.title,
+            content: postData.post.content,
+            imagePath: postData.post.imagePath
+          }
           setTimeout(() => {
             this.isLoading = false;
           }, 500)
-          this.form.setValue({title: this.post.title, content: this.post.content, image: null})
+          this.form.setValue({
+            title: this.post.title,
+            content: this.post.content,
+            image: this.post.imagePath
+          })
         });
       } else {
         this.mode = 'create';
@@ -61,11 +70,18 @@ export class PostCreateComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.post = {_id: "", title: this.form.value.title, content: this.form.value.content, imagePath: ""}
     if (this.mode === 'create') {
+      this.post = {_id: "", title: this.form.value.title, content: this.form.value.content, imagePath: ""}
+      console.log(this.post)
       this.postsService.createPost(this.post, this.form.value.image);
     } else if (this.mode === 'edit') {
-      this.postsService.updatePost(this.post);
+      let editedPost = {
+        ...this.post,
+        title: this.form.value.title,
+        content: this.form.value.content,
+        imagePath: this.form.value.image
+      }
+      this.postsService.updatePost(editedPost);
     }
     this.form.reset();
   }
