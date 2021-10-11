@@ -36,6 +36,7 @@ router.get('', (req, res, next) => {
             message: 'Posts sent!',
             posts: documents,
           });
+          console.log(documents);
         }, 500);
       });
 });
@@ -62,7 +63,7 @@ router.post('', multer({storage: storage}).single('image'),
       const post = new Post({
         title: req.body.title,
         content: req.body.content,
-        imagePath: url + '/images' + req.file.filename,
+        imagePath: url + '/images/' + req.file.filename,
       });
       post.save().then(
           (post) => {
