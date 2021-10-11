@@ -25,9 +25,8 @@ export class PostService {
         .pipe(map((postData) => {
           return postData.posts.map((post: { title: any; content: any; _id: any; }) => {
             return {
-              title: post.title,
-              content: post.content,
-              id: post._id.toString(),
+              ...post,
+              _id: post._id.toString(),
             };
           });
         }))
@@ -45,7 +44,7 @@ export class PostService {
     this.httpClient
       .post<{message: string, postId: string}>('http://localhost:3000/api/posts', postData)
       .subscribe((responseData) => {
-        post.id = responseData.postId;
+        post._id = responseData.postId;
         this.posts.push(post);
         this.postsChanged.next([...this.posts])
         this.router.navigate(['/']);
@@ -53,11 +52,11 @@ export class PostService {
   }
 
   updatePost(post: Post) {
-    const newPost: Post = {title: post.title, content: post.content, id: post.id}
-    this.httpClient.patch<{message: string}>('http://localhost:3000/api/posts/' + post.id, post)
+    const newPost: Post = {title: post.title, content: post.content, _id: post._id}
+    this.httpClient.patch<{message: string}>('http://localhost:3000/api/posts/' + post._id, post)
       .subscribe((responseData) => {
         console.log(responseData)
-        const oldPostIndex = this.posts.findIndex(p => p.id === post.id);
+        const oldPostIndex = this.posts.findIndex(p => p._id === post._id);
         this.posts[oldPostIndex] = newPost
         console.log(this.posts)
         this.postsChanged.next([...this.posts])
@@ -69,7 +68,7 @@ export class PostService {
   deletePost(postId: string) {
     this.httpClient.delete('http://localhost:3000/api/posts/' + postId)
         .subscribe(() => {
-          this.posts = this.posts.filter(post => post.id !== postId);
+          this.posts = this.posts.filter(post => post._id !== postId);
           this.postsChanged.next([...this.posts]);
         });
   }
