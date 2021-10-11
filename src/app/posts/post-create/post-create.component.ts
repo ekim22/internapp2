@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {PostService} from "../post.service";
 import {Post} from "../post.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, ParamMap} from "@angular/router";
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {mimeType} from "./mime-type.validator";
 
 @Component({
@@ -19,7 +19,8 @@ export class PostCreateComponent implements OnInit {
   public isLoading = false;
 
   constructor(private postsService: PostService,
-              public route: ActivatedRoute) { }
+              public route: ActivatedRoute,
+              public router: Router) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -85,6 +86,10 @@ export class PostCreateComponent implements OnInit {
       this.postsService.updatePost(editedPost);
     }
     this.form.reset();
+  }
+
+  onCancel() {
+    this.router.navigate(['/'])
   }
 
 }

@@ -30,3 +30,7 @@ input[type="file"] {
 .image-preview img {
   height: 100%
 }
+
+.cancel-edit {
+  margin-left: 5px;
+}
