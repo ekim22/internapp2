@@ -75,14 +75,17 @@ router.post('', multer({storage: storage}).single('image'),
 
 router.patch('/:id', multer({storage: storage}).single('image'),
     (req, res, next) => {
-      console.log(req.file);
-      const url = req.protocol + '://' + req.get('host');
+      let imagePath = req.body.imagePath;
+      if (req.file) {
+        const url = req.protocol + '://' + req.get('host');
+        imagePath = url + '/images/' + req.file.filename;
+      }
       Post.findOne({_id: req.params.id}, (err, foundPost) => {
         foundPost.title = req.body.title;
         foundPost.content = req.body.content;
-        foundPost.imagePath = url + '/images/' + req.file.filename;
+        foundPost.imagePath = imagePath;
         foundPost.save().then(
-            (updatedPost) => {
+            () => {
               res.status(200).json({
                 message: 'Post updated!',
               });

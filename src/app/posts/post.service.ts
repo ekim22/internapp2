@@ -58,13 +58,11 @@ export class PostService {
     let newPost: Post = {title: post.title, content: post.content, _id: post._id, imagePath: post.imagePath}
     let postData: Post | FormData;
     if (typeof(post.imagePath) === 'object') {
-      console.log("in post.imagePath object")
       postData = new FormData();
       postData.append('title', post.title);
       postData.append('content', post.content);
       postData.append('image', post.imagePath, post.title);
     } else {
-      console.log("in post.imagePath text")
       postData = newPost;
     }
     this.httpClient.patch<{message: string}>('http://localhost:3000/api/posts/' + post._id, postData)
