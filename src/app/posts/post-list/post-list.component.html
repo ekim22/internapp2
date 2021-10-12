@@ -1,6 +1,7 @@
 <div class="action-buttons">
-  <button mat-raised-button (click)="accordion.openAll()">Expand All</button>
-  <button mat-raised-button (click)="accordion.closeAll()">Collapse All</button>
+  <button mat-raised-button (click)="onExpandOrCollapse(accordion)">
+    {{ this.listExpandOrCollapse }}
+  </button>
 </div>
 <mat-accordion multi="true" #accordion="matAccordion">
   <mat-spinner *ngIf="isLoading"></mat-spinner>
