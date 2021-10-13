@@ -11,6 +11,7 @@ import {MatAccordion} from "@angular/material/expansion";
 })
 export class PostListComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
+  postCount = 0;
   listExpandOrCollapse: string = 'Expand';
   private postsChangedSub!: Subscription;
   public isLoading = false;
@@ -23,6 +24,7 @@ export class PostListComponent implements OnInit, OnDestroy {
     this.postsChangedSub = this.postService.getPostChangedListener().subscribe(
       (posts: Post[]) => {
         this.posts = posts;
+        this.postCount = this.posts.length;
         this.isLoading = false;
       }
     )
