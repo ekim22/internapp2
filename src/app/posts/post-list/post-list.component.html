@@ -1,12 +1,12 @@
-<div class="action-buttons">
-  <button mat-raised-button color="primary" (click)="onExpandOrCollapse(accordion)">
-    <span class="material-icons" *ngIf="this.listExpandOrCollapse === 'Expand'">unfold_more</span>
-    <span class="material-icons" *ngIf="this.listExpandOrCollapse === 'Collapse'">unfold_less</span>
-    {{ this.listExpandOrCollapse }}
-  </button>
-</div>
-<mat-accordion multi="true" #accordion="matAccordion">
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<mat-accordion multi="true" #accordion="matAccordion" *ngIf="posts.length > 0 && !isLoading">
+  <div class="action-buttons">
+    <button mat-raised-button color="primary" (click)="onExpandOrCollapse(accordion)">
+      <span class="material-icons" *ngIf="this.listExpandOrCollapse === 'Expand'">unfold_more</span>
+      <span class="material-icons" *ngIf="this.listExpandOrCollapse === 'Collapse'">unfold_less</span>
+      {{ this.listExpandOrCollapse }}
+    </button>
+  </div>
   <mat-expansion-panel *ngFor="let post of posts">
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -23,5 +23,5 @@
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
-<mat-paginator [length]="this.postCount" [pageSize]="this.postsPerPage" [pageSizeOptions]="this.pageSizeOptions" (page)="onChangedPageSize($event)"></mat-paginator>
+<mat-paginator [length]="this.postListLength" [pageSize]="this.postsPerPage" [pageSizeOptions]="this.pageSizeOptions" (page)="onChangedPageSize($event)" *ngIf="posts.length > 0"></mat-paginator>
 <p class="info-text mat-body-1" *ngIf="posts.length === 0 && !isLoading">No posts created yet!</p>

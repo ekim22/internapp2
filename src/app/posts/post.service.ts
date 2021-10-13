@@ -4,8 +4,6 @@ import {Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Post} from './post.model';
 import {Router} from "@angular/router";
-import {promptGlobalAnalytics} from "@angular/cli/models/analytics";
-import {PageEvent} from "@angular/material/paginator";
 
 @Injectable({
   providedIn: 'root',
