@@ -1,5 +1,7 @@
 <div class="action-buttons">
   <button mat-raised-button (click)="onExpandOrCollapse(accordion)">
+    <span class="material-icons" *ngIf="this.listExpandOrCollapse === 'Expand'">expand</span>
+    <span class="material-icons" *ngIf="this.listExpandOrCollapse === 'Collapse'">close_fullscreen</span>
     {{ this.listExpandOrCollapse }}
   </button>
 </div>
