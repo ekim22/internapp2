@@ -5,6 +5,7 @@ import {map} from 'rxjs/operators';
 import {Post} from './post.model';
 import {Router} from "@angular/router";
 import {promptGlobalAnalytics} from "@angular/cli/models/analytics";
+import {PageEvent} from "@angular/material/paginator";
 
 @Injectable({
   providedIn: 'root',
@@ -20,9 +21,11 @@ export class PostService {
     return this.httpClient.get<{message: string, post: Post}>('http://localhost:3000/api/posts/' + postId);
   }
 
-  getPosts() {
+  getPosts(pageIndex: number, pageSize: number) {
+    // Backticks indicate that it is a template literal.
+    const queryParams = `?pageIndex=${pageIndex}&pageSize=${pageSize}`;
     this.httpClient
-        .get<{message: string, posts: Post[]}>('http://localhost:3000/api/posts')
+        .get<{message: string, posts: Post[]}>('http://localhost:3000/api/posts' + queryParams)
         .pipe(map((postData) => {
           return postData.posts.map((post: Post) => {
             return {
@@ -71,7 +74,6 @@ export class PostService {
         this.posts[oldPostIndex] = post;
         this.postsChanged.next([...this.posts])
         this.router.navigate(['/']);
-
       })
   }
 

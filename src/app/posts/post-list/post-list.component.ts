@@ -12,8 +12,9 @@ import {PageEvent} from "@angular/material/paginator";
 })
 export class PostListComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
-  postCount = 0;
-  postsPerPage = 2;
+  postListLength = 12;
+  postsPerPage = 5;
+  currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10, 15]
   listExpandOrCollapse: string = 'Expand';
   private postsChangedSub!: Subscription;
@@ -22,12 +23,11 @@ export class PostListComponent implements OnInit, OnDestroy {
   constructor(private postService: PostService) { }
 
   ngOnInit(): void {
-    this.postService.getPosts();
+    this.postService.getPosts(this.currentPage, this.postsPerPage);
     this.isLoading = true;
     this.postsChangedSub = this.postService.getPostChangedListener().subscribe(
       (posts: Post[]) => {
         this.posts = posts;
-        this.postCount = this.posts.length;
         this.isLoading = false;
       }
     )
@@ -51,7 +51,11 @@ export class PostListComponent implements OnInit, OnDestroy {
   }
 
   onChangedPageSize(pageData: PageEvent) {
-    console.log(pageData)
+    this.isLoading = true;
+    this.currentPage = pageData.pageIndex + 1;
+    this.postsPerPage = pageData.pageSize;
+    this.postService.getPosts(this.currentPage, this.postsPerPage);
+
   }
 
 }
