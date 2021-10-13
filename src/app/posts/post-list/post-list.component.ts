@@ -3,6 +3,7 @@ import {PostService} from "../post.service";
 import {Post} from "../post.model";
 import {Subscription} from "rxjs";
 import {MatAccordion} from "@angular/material/expansion";
+import {PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-post-list',
@@ -12,6 +13,8 @@ import {MatAccordion} from "@angular/material/expansion";
 export class PostListComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
   postCount = 0;
+  postsPerPage = 2;
+  pageSizeOptions = [1, 2, 5, 10, 15]
   listExpandOrCollapse: string = 'Expand';
   private postsChangedSub!: Subscription;
   public isLoading = false;
@@ -45,6 +48,10 @@ export class PostListComponent implements OnInit, OnDestroy {
       accordion.openAll();
     }
     this.listExpandOrCollapse = this.listExpandOrCollapse === 'Collapse' ? 'Expand' : 'Collapse';
+  }
+
+  onChangedPageSize(pageData: PageEvent) {
+    console.log(pageData)
   }
 
 }
