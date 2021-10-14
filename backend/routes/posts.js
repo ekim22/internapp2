@@ -29,21 +29,22 @@ const storage = multer.diskStorage({
 });
 
 router.get('', (req, res, next) => {
-  console.log(req.query);
-  const pageIndex = +req.query.pageIndex;
-  const pageSize = +req.query.pageSize;
   const postQuery = Post.find();
-  if (pageIndex && pageSize) {
-    postQuery
-        .skip(pageSize * (pageIndex - 1))
-        .limit(pageSize);
-  }
+  let fetchedPosts;
+  postQuery
+      .skip(+req.query.pageSize * (+req.query.pageIndex))
+      .limit(+req.query.pageSize);
   postQuery.find()
       .then((documents) => {
+        fetchedPosts = documents;
+        return Post.count();
+      })
+      .then((count) => {
         setTimeout(() => {
           res.status(200).json({
             message: 'Posts sent!',
-            posts: documents,
+            posts: fetchedPosts,
+            maxPosts: count,
           });
         }, 500);
       });

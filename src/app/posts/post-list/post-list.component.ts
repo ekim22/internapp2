@@ -12,10 +12,12 @@ import {PageEvent} from "@angular/material/paginator";
 })
 export class PostListComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
-  postListLength = 12;
-  postsPerPage = 5;
-  currentPage = 1;
-  pageSizeOptions = [1, 2, 5, 10, 15]
+  // Angular counts pages from 0
+  currentPage = 0;
+  // Default set to 0 and updates when postService returns getPosts()
+  postCount = 0;
+  pageSizeOptions = [1, 3, 6, 12, 18]
+  pageSizeDefault = 10;
   listExpandOrCollapse: string = 'Expand';
   private postsChangedSub!: Subscription;
   public isLoading = false;
@@ -23,11 +25,12 @@ export class PostListComponent implements OnInit, OnDestroy {
   constructor(private postService: PostService) { }
 
   ngOnInit(): void {
-    this.postService.getPosts(this.currentPage, this.postsPerPage);
+    this.postService.getPosts(this.currentPage, this.pageSizeDefault);
     this.isLoading = true;
     this.postsChangedSub = this.postService.getPostChangedListener().subscribe(
-      (posts: Post[]) => {
-        this.posts = posts;
+      (postData: {posts: Post[]; postCount: number}) => {
+        this.posts = postData.posts;
+        this.postCount = postData.postCount;
         this.isLoading = false;
       }
     )
@@ -38,7 +41,9 @@ export class PostListComponent implements OnInit, OnDestroy {
   }
 
   onDelete(postId: string) {
-    this.postService.deletePost(postId);
+    this.postService.deletePost(postId).subscribe(() => {
+      this.postService.getPosts(this.currentPage, this.pageSizeDefault)
+    });
   }
 
   onExpandOrCollapse(accordion: MatAccordion) {
@@ -52,9 +57,9 @@ export class PostListComponent implements OnInit, OnDestroy {
 
   onChangedPageSize(pageData: PageEvent) {
     this.isLoading = true;
-    this.currentPage = pageData.pageIndex + 1;
-    this.postsPerPage = pageData.pageSize;
-    this.postService.getPosts(this.currentPage, this.postsPerPage);
+    this.currentPage = pageData.pageIndex;
+    this.pageSizeDefault = pageData.pageSize;
+    this.postService.getPosts(this.currentPage, this.pageSizeDefault);
 
   }
 

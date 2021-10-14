@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
   providedIn: 'root',
 })
 export class PostService {
-  private postsChanged = new Subject<Post[]>();
+  private postsChanged = new Subject<{posts: Post[], postCount: number}>();
   private posts: Post[] = []
 
   constructor(private httpClient: HttpClient,
@@ -23,18 +23,18 @@ export class PostService {
     // Backticks indicate that it is a template literal.
     const queryParams = `?pageIndex=${pageIndex}&pageSize=${pageSize}`;
     this.httpClient
-        .get<{message: string, posts: Post[]}>('http://localhost:3000/api/posts' + queryParams)
+        .get<{message: string, posts: Post[], maxPosts: number}>('http://localhost:3000/api/posts' + queryParams)
         .pipe(map((postData) => {
-          return postData.posts.map((post: Post) => {
+          return { posts: postData.posts.map((post: Post) => {
             return {
               ...post,
               _id: post._id.toString(),
             };
-          });
+          }), maxPosts: postData.maxPosts };
         }))
         .subscribe((transformedPosts) => {
-          this.posts = transformedPosts;
-          this.postsChanged.next([...this.posts]);
+          this.posts = transformedPosts.posts;
+          this.postsChanged.next({posts: [...this.posts], postCount: transformedPosts.maxPosts});
         });
   }
 
@@ -46,11 +46,6 @@ export class PostService {
     this.httpClient
       .post<{message: string, post: Post}>('http://localhost:3000/api/posts', postData)
       .subscribe((responseData) => {
-        // post._id = responseData.postId;
-        this.posts.push(responseData.post);
-        console.log(this.posts)
-        this.postsChanged.next([...this.posts])
-        console.log(this.posts)
         this.router.navigate(['/']);
       });
   }
@@ -68,19 +63,12 @@ export class PostService {
     }
     this.httpClient.patch<{message: string}>('http://localhost:3000/api/posts/' + post._id, postData)
       .subscribe((responseData) => {
-        const oldPostIndex = this.posts.findIndex(p => p._id === post._id);
-        this.posts[oldPostIndex] = post;
-        this.postsChanged.next([...this.posts])
         this.router.navigate(['/']);
       })
   }
 
   deletePost(postId: string) {
-    this.httpClient.delete('http://localhost:3000/api/posts/' + postId)
-        .subscribe(() => {
-          this.posts = this.posts.filter(post => post._id !== postId);
-          this.postsChanged.next([...this.posts]);
-        });
+    return this.httpClient.delete('http://localhost:3000/api/posts/' + postId);
   }
 
   getPostChangedListener() {
