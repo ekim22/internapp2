@@ -60,7 +60,6 @@ export class PostListComponent implements OnInit, OnDestroy {
     this.currentPage = pageData.pageIndex;
     this.pageSizeDefault = pageData.pageSize;
     this.postService.getPosts(this.currentPage, this.pageSizeDefault);
-
   }
 
 }
