@@ -1,1 +1,24 @@
-<p>login works!</p>
+<mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <form (submit)="onSubmit()" *ngIf="!isLoading">
+    <mat-form-field>
+      <mat-label class="mat-body">Email Address</mat-label>
+      <textarea
+        matInput
+        rows="1"
+        type="email"
+      ></textarea>
+      <mat-error>Please enter a valid email</mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <mat-label class="mat-body">Content</mat-label>
+      <input type="password" matInput placeholder="Password">
+      <mat-error>Please enter a valid password</mat-error>
+    </mat-form-field>
+    <br>
+    <mat-action-row>
+      <button mat-raised-button color="accent" type="submit">Login</button>
+    </mat-action-row>
+  </form>
+</mat-card>
