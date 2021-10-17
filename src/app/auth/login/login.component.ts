@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
@@ -14,8 +15,8 @@ export class LoginComponent implements OnInit {
     this.isLoading = false;
   }
 
-  onSubmit() {
-    console.log("Authenticating...")
+  onLogin(form: NgForm) {
+    console.log(form.value);
   }
 
 }
