@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {PostService} from "../post.service";
 import {Post} from "../post.model";
 import {Subscription} from "rxjs";
@@ -60,6 +60,7 @@ export class PostListComponent implements OnInit, OnDestroy {
     this.currentPage = pageData.pageIndex;
     this.pageSizeDefault = pageData.pageSize;
     this.postService.getPosts(this.currentPage, this.pageSizeDefault);
+    this.listExpandOrCollapse = 'Expand';
   }
 
 }
