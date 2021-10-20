@@ -39,7 +39,9 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+backend/.eslintrc.js
 
 # System Files
 .DS_Store
 Thumbs.db
+backend/images/
