@@ -34,3 +34,8 @@ input[type="file"] {
 .cancel-edit {
   margin-left: 5px;
 }
+
+.flex-box {
+  display: flex;
+  justify-content: flex-end;
+}
