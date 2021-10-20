@@ -17,7 +17,7 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label class="mat-body">Password</mat-label>
-      <input type="password" name="password" ngModel #password="ngModel" matInput placeholder="Password">
+      <input type="password" name="password" autocomplete="off" ngModel #password="ngModel" matInput placeholder="Password">
       <mat-error *ngIf="password.invalid">Please enter a valid password</mat-error>
     </mat-form-field>
     <div class="flex-box">

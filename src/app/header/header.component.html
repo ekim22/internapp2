@@ -11,5 +11,8 @@
     <li>
       <a mat-button routerLink="/signup" routerLinkActive="mat-accent" *ngIf="!isAuthenticated">Signup</a>
     </li>
+    <li>
+      <a mat-button *ngIf="isAuthenticated" (click)="onLogout()">Logout</a>
+    </li>
   </ul>
 </mat-toolbar>
