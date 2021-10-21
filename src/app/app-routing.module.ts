@@ -7,10 +7,9 @@ import {SignupComponent} from "./auth/signup/signup.component";
 import {AuthGuard} from "./auth/auth.guard";
 
 const routes: Routes = [
-  { path: '', canActivate: [AuthGuard], component: PostListComponent, children: [
-      { path: 'create', component: PostCreateComponent },
-      { path: 'edit/:postId', component: PostCreateComponent },
-    ] },
+  { path: '', canActivate: [AuthGuard], component: PostListComponent},
+  { path: 'create', canActivate: [AuthGuard], component: PostCreateComponent },
+  { path: 'edit/:postId', canActivate: [AuthGuard], component: PostCreateComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
 ];
