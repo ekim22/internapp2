@@ -40,6 +40,7 @@ export class AuthService {
   }
 
   logout() {
+    this.token = "";
     this.loggedIn.next(false);
     this.router.navigate(['/login']);
   }
