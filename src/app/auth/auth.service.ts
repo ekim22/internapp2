@@ -9,9 +9,14 @@ import {BehaviorSubject, Subject} from "rxjs";
 })
 export class AuthService {
   loggedIn = new BehaviorSubject<boolean>(false);
+  private token!: string;
 
   constructor(private httpClient: HttpClient,
               private router: Router) {}
+
+  getToken() {
+    return this.token;
+  }
 
   createUser(email: string, password: string) {
     const authData: AuthData = {email: email, password: password}
@@ -25,10 +30,11 @@ export class AuthService {
 
   login(email: string, password: string) {
     const authData: AuthData = {email: email, password: password}
-    this.httpClient.post('http://localhost:3000/api/users/login', authData).subscribe(res => {
+    this.httpClient.post<{token: string}>('http://localhost:3000/api/users/login', authData).subscribe(res => {
       if (res) {
         console.log(res)
         this.loggedIn.next(true);
+        this.token = res.token;
         this.router.navigate(['/']);
       }
     })
