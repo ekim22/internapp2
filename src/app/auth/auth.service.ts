@@ -32,7 +32,6 @@ export class AuthService {
     const authData: AuthData = {email: email, password: password}
     this.httpClient.post<{token: string}>('http://localhost:3000/api/users/login', authData).subscribe(res => {
       if (res) {
-        console.log(res)
         this.loggedIn.next(true);
         this.token = res.token;
         this.router.navigate(['/']);
