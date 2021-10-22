@@ -6,7 +6,7 @@ import {Pipe, PipeTransform} from "@angular/core";
 })
 export class LinebreakPipe implements PipeTransform {
   transform(value: any, ...args: any[]): any {
-    return value.replace(/\\n/g, '<br />');
+    return value.replace(/\n/g, '<br>');
   }
 
 }
