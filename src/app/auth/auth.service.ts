@@ -30,8 +30,7 @@ export class AuthService {
       AuthService.setSession(res);
       this.router.navigate(['/']);
       this.loggedIn.next(this.isLoggedIn());
-      console.log(localStorage.getItem('id_token'))
-      console.log(localStorage.getItem('expires_at'))
+      this.autoLogout();
     })
   }
 
@@ -51,6 +50,14 @@ export class AuthService {
 
   isLoggedIn() {
     return moment().isBefore(this.getTokenExpiration());
+  }
+
+  autoLogout() {
+    if (this.isLoggedIn()) {
+      setTimeout(() => {
+        this.logout()
+      }, this.getTokenExpiration().valueOf() - moment().valueOf())
+    }
   }
 
   getTokenExpiration() {
