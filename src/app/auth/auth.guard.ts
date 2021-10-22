@@ -8,7 +8,8 @@ import {
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { AuthService } from "./auth.service";
-import { map, take, tap } from "rxjs/operators";
+import * as moment from "moment/moment";
+
 
 @Injectable({
   providedIn: "root"
@@ -19,15 +20,12 @@ export class AuthGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.authService.loggedIn.pipe(
-      tap(isAuth => {
-        if (isAuth) {
-          return true
-        }
-          this.router.navigate(['/login']);
-          return false
-      })
-    )
+    const authToken = localStorage.getItem("id_token");
+    const isTokenExpired = moment().isBefore(this.authService.getTokenExpiration());
+    if (authToken && isTokenExpired) {
+      return true;
+    }
+    return this.router.createUrlTree(['/login'])
   }
 
 }

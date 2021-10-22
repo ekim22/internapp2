@@ -44,10 +44,12 @@ router.post('/login', (req, res, next) => {
             message: 'Auth failed',
           });
         }
+        // The expiresIn in the jwt is NOT the same as expiresIn in the res body.
         const token = jwt.sign({email: result.email, userId: result._id},
             'secret_this_should_be_longer', {expiresIn: '1h'});
         res.status(200).json({
           token: token,
+          expiresIn: 3600,
         });
       })
       .catch((error) => {
