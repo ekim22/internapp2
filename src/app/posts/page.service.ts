@@ -4,7 +4,7 @@ import {Injectable} from "@angular/core";
   providedIn: 'root'
 })
 export class PageService {
-  private _pageSizeOptions = [1, 3, 6, 10, 15, 25];
+  private _pageSizeOptions = [1, 5, 10, 15, 25];
   private _pageSize = 10;
   private _pageIndex = 0;
 
