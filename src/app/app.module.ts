@@ -13,6 +13,8 @@ import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import { HeaderComponent } from './header/header.component';
 import {MatToolbarModule} from "@angular/material/toolbar";
+import { MatIconModule } from "@angular/material/icon";
+import { MatMenuModule } from "@angular/material/menu";
 import { PostListComponent } from './posts/post-list/post-list.component';
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
@@ -21,6 +23,7 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { LoginComponent } from './auth/login/login.component';
 import {AuthInterceptor} from "./auth/auth-interceptor";
 import {LinebreakPipe} from "./utils/linebreak.pipe";
+
 
 @NgModule({
   declarations: [
@@ -33,20 +36,22 @@ import {LinebreakPipe} from "./utils/linebreak.pipe";
     LinebreakPipe,
   ],
     imports: [
-        BrowserModule,
-        AppRoutingModule,
-        ReactiveFormsModule,
-        FormsModule,
-        BrowserAnimationsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatCardModule,
-        MatButtonModule,
-        MatToolbarModule,
-        MatExpansionModule,
-        HttpClientModule,
-        MatProgressSpinnerModule,
-        MatPaginatorModule,
+      BrowserModule,
+      AppRoutingModule,
+      ReactiveFormsModule,
+      FormsModule,
+      BrowserAnimationsModule,
+      MatFormFieldModule,
+      MatInputModule,
+      MatCardModule,
+      MatButtonModule,
+      MatToolbarModule,
+      MatIconModule,
+      MatMenuModule,
+      MatExpansionModule,
+      HttpClientModule,
+      MatProgressSpinnerModule,
+      MatPaginatorModule,
     ],
   // multi: true simply means there can be multi interceptors so don't override any
   // existing interceptors
