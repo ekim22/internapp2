@@ -23,5 +23,5 @@
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
-<mat-paginator [length]="this.postCount" [pageSize]="this.pageSizeDefault" [pageSizeOptions]="this.pageSizeOptions" (page)="onChangedPageSize($event)" *ngIf="posts.length > 0"></mat-paginator>
+<mat-paginator [length]="this.itemsOnPage" [pageSize]="this.pageSize" [pageSizeOptions]="this.pageSizeOptions" [pageIndex]="this.currentPage" (page)="onChangedPageSize($event)" *ngIf="posts.length > 0"></mat-paginator>
 <p class="info-text mat-body-1" *ngIf="posts.length === 0 && !isLoading">No posts created yet!</p>

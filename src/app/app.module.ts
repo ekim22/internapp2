@@ -30,7 +30,7 @@ import {LinebreakPipe} from "./utils/linebreak.pipe";
     PostListComponent,
     SignupComponent,
     LoginComponent,
-    LinebreakPipe
+    LinebreakPipe,
   ],
     imports: [
         BrowserModule,

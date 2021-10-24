@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "./auth/auth.service";
+import {PageService} from "./posts/page.service";
 
 @Component({
   selector: 'app-root',

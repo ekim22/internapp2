@@ -4,6 +4,7 @@ import {Post} from "../post.model";
 import {Subscription} from "rxjs";
 import {MatAccordion} from "@angular/material/expansion";
 import {PageEvent} from "@angular/material/paginator";
+import {PageService} from "../page.service";
 
 @Component({
   selector: 'app-post-list',
@@ -13,36 +14,43 @@ import {PageEvent} from "@angular/material/paginator";
 export class PostListComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
   // Angular counts pages from 0
-  currentPage = 0;
+  currentPage!: number;
+  pageSize!: number;
   // Default set to 0 and updates when postService returns getPosts()
-  postCount = 0;
-  pageSizeOptions = [1, 3, 6, 12, 18]
-  pageSizeDefault = 10;
+  itemsOnPage = 0;
+  pageSizeOptions!: number[];
   listExpandOrCollapse: string = 'Expand';
   private postsChangedSub!: Subscription;
   public isLoading = false;
 
-  constructor(private postService: PostService) { }
+  constructor(private postService: PostService,
+              private pageService: PageService) { }
 
   ngOnInit(): void {
-    this.postService.getPosts(this.currentPage, this.pageSizeDefault);
+    this.pageSize = this.pageService.pageSize;
+    this.currentPage = this.pageService.pageIndex
+    this.pageSizeOptions = this.pageService.pageSizeOptions;
+    this.postService.getPosts(this.currentPage, this.pageSize);
     this.isLoading = true;
     this.postsChangedSub = this.postService.getPostChangedListener().subscribe(
       (postData: {posts: Post[]; postCount: number}) => {
         this.posts = postData.posts;
-        this.postCount = postData.postCount;
+        this.itemsOnPage = postData.postCount;
         this.isLoading = false;
       }
     )
+
   }
 
   ngOnDestroy(): void {
     this.postsChangedSub.unsubscribe();
+    this.pageService.pageSize = this.pageSize;
+    this.pageService.pageIndex = this.currentPage;
   }
 
   onDelete(postId: string) {
     this.postService.deletePost(postId).subscribe(() => {
-      this.postService.getPosts(this.currentPage, this.pageSizeDefault)
+      this.postService.getPosts(this.currentPage, this.pageSize)
     });
   }
 
@@ -56,10 +64,11 @@ export class PostListComponent implements OnInit, OnDestroy {
   }
 
   onChangedPageSize(pageData: PageEvent) {
+    this.pageService.pageSize = this.pageSize;
     this.isLoading = true;
     this.currentPage = pageData.pageIndex;
-    this.pageSizeDefault = pageData.pageSize;
-    this.postService.getPosts(this.currentPage, this.pageSizeDefault);
+    this.pageSize = pageData.pageSize;
+    this.postService.getPosts(this.currentPage, this.pageSize);
     this.listExpandOrCollapse = 'Expand';
   }
 
