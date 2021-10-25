@@ -1,28 +1,34 @@
-<mat-card>
+<mat-card class="login-panel">
   <mat-spinner *ngIf="isLoading"></mat-spinner>
   <form (submit)="onSignup(signupForm)" #signupForm="ngForm" *ngIf="!isLoading">
     <mat-form-field>
       <mat-label class="mat-body">Email Address</mat-label>
-      <textarea
+      <div class="input-icon icon-username">
+
+      </div>
+      <input
         matInput
-        rows="1"
         type="email"
         name="email"
         ngModel
         #email="ngModel"
         required
         email
-      ></textarea>
-      <mat-error *ngIf="email.invalid">Please enter a valid email</mat-error>
+        placeholder="Ex: pat@example.com"
+      >
+      <mat-icon matPrefix class="input">account_circle</mat-icon>
+      <mat-error *ngIf="email.invalid">Email is <strong>required</strong></mat-error>
     </mat-form-field>
+    <br>
     <br>
     <mat-form-field>
       <mat-label class="mat-body">Password</mat-label>
       <input type="password" name="password" autocomplete="off" ngModel #password="ngModel" matInput placeholder="Password">
+      <mat-icon matPrefix class="input">lock</mat-icon>
       <mat-error *ngIf="password.invalid">Please enter a valid password</mat-error>
     </mat-form-field>
-    <div class="flex-box">
-      <button mat-raised-button color="primary" type="submit">Signup</button>
+    <div class="flex-box-login">
+      <button mat-raised-button color="accent" type="submit">Signup</button>
     </div>
   </form>
 </mat-card>
