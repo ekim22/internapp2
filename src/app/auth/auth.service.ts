@@ -41,9 +41,13 @@ export class AuthService {
     localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()));
   }
 
-  logout() {
+  private static clearSession() {
     localStorage.removeItem("id_token");
     localStorage.removeItem("expires_at");
+  }
+
+  logout() {
+    AuthService.clearSession();
     this.router.navigate(['/login']);
     this.loggedIn.next(this.isLoggedIn());
   }
