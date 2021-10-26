@@ -29,12 +29,15 @@ router.post('/signup', (req, res, next) => {
 });
 
 router.post('/login', (req, res, next) => {
+  let returnedUser;
   User.findOne({email: req.body.email})
       .then((user) => {
         if (!user) {
           return res.status(401).json({
             message: 'Auth failed',
           });
+        } else {
+          returnedUser = user;
         }
         return bcrypt.compare(req.body.password, user.password);
       })
@@ -45,7 +48,7 @@ router.post('/login', (req, res, next) => {
           });
         }
         // The expiresIn in the jwt is NOT the same as expiresIn in the res body.
-        const token = jwt.sign({email: result.email, userId: result._id},
+        const token = jwt.sign({email: returnedUser.email, userId: returnedUser._id},
             'secret_this_should_be_longer', {expiresIn: '1h'});
         res.status(200).json({
           token: token,
