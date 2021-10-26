@@ -3,8 +3,8 @@
   <mat-card-title>Log in to your account</mat-card-title>
   <br>
   <form (submit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!isLoading">
-    <mat-form-field>
-      <mat-label class="mat-body">Email Address</mat-label>
+    <mat-form-field appearance="outline">
+      <mat-label class="mat-body">&nbsp; Email Address</mat-label>
       <div class="input-icon icon-username">
       </div>
       <input
@@ -16,13 +16,14 @@
         required
         email
         placeholder="Ex: pat@example.com">
-      <mat-icon matPrefix class="input material-icons-outlined">account_circle</mat-icon>
+      <mat-icon matPrefix class="input material-icons-outlined" color="primary">account_circle</mat-icon>
       <mat-error *ngIf="email.invalid">Email is <strong>required</strong></mat-error>
     </mat-form-field>
-    <mat-form-field>
-      <mat-label class="mat-body">Password</mat-label>
-      <input type="password" name="password" autocomplete="off" ngModel #password="ngModel" matInput placeholder="Password">
-      <mat-icon matPrefix class="input material-icons-outlined">lock</mat-icon>
+    <mat-form-field appearance="outline">
+      <mat-label class="mat-body">&nbsp; Password</mat-label>
+      <input [type]="hide? 'password' : 'text'" name="password" autocomplete="off" ngModel #password="ngModel" matInput placeholder="Password">
+      <mat-icon matPrefix class="input material-icons-outlined" color="primary">lock</mat-icon>
+      <mat-icon matSuffix class="hide material-icons-outlined" (click)="hide = !hide">{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
       <mat-error *ngIf="password.invalid">Please enter a valid password</mat-error>
     </mat-form-field>
     <div class="flex-box-login">

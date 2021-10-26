@@ -12,7 +12,6 @@ export class AppComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    console.log(this.authService.isLoggedIn())
     if (this.authService.isLoggedIn()) {
       this.authService.autoLogout();
     }

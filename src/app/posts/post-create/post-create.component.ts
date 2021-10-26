@@ -74,7 +74,6 @@ export class PostCreateComponent implements OnInit {
     }
     if (this.mode === 'create') {
       this.post = {_id: "", title: this.form.value.title, content: this.form.value.content, imagePath: ""}
-      console.log(this.post)
       this.postsService.createPost(this.post, this.form.value.image);
     } else if (this.mode === 'edit') {
       let editedPost = {
