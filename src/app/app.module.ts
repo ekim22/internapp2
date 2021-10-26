@@ -23,6 +23,7 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { LoginComponent } from './auth/login/login.component';
 import {AuthInterceptor} from "./auth/auth-interceptor";
 import {LinebreakPipe} from "./utils/linebreak.pipe";
+import {MatDividerModule} from "@angular/material/divider";
 
 
 @NgModule({
@@ -35,24 +36,25 @@ import {LinebreakPipe} from "./utils/linebreak.pipe";
     LoginComponent,
     LinebreakPipe,
   ],
-    imports: [
-      BrowserModule,
-      AppRoutingModule,
-      ReactiveFormsModule,
-      FormsModule,
-      BrowserAnimationsModule,
-      MatFormFieldModule,
-      MatInputModule,
-      MatCardModule,
-      MatButtonModule,
-      MatToolbarModule,
-      MatIconModule,
-      MatMenuModule,
-      MatExpansionModule,
-      HttpClientModule,
-      MatProgressSpinnerModule,
-      MatPaginatorModule,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCardModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatMenuModule,
+    MatExpansionModule,
+    HttpClientModule,
+    MatProgressSpinnerModule,
+    MatPaginatorModule,
+    MatDividerModule,
+  ],
   // multi: true simply means there can be multi interceptors so don't override any
   // existing interceptors
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],

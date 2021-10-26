@@ -1,10 +1,11 @@
 <mat-card class="login-panel">
   <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <mat-card-title>Log in to your account</mat-card-title>
+  <br>
   <form (submit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!isLoading">
     <mat-form-field>
       <mat-label class="mat-body">Email Address</mat-label>
       <div class="input-icon icon-username">
-
       </div>
       <input
         matInput
@@ -14,13 +15,10 @@
         #email="ngModel"
         required
         email
-        placeholder="Ex: pat@example.com"
-      >
+        placeholder="Ex: pat@example.com">
       <mat-icon matPrefix class="input">account_circle</mat-icon>
       <mat-error *ngIf="email.invalid">Email is <strong>required</strong></mat-error>
     </mat-form-field>
-    <br>
-    <br>
     <mat-form-field>
       <mat-label class="mat-body">Password</mat-label>
       <input type="password" name="password" autocomplete="off" ngModel #password="ngModel" matInput placeholder="Password">
@@ -31,4 +29,10 @@
       <button mat-raised-button color="primary" type="submit">Login</button>
     </div>
   </form>
+  <br>
+  <mat-divider></mat-divider>
+  <mat-card-footer>
+    New to Post List? &nbsp;
+    <a routerLink="/signup">Sign Up</a>
+  </mat-card-footer>
 </mat-card>
