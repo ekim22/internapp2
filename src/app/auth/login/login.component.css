@@ -30,9 +30,14 @@ form input[type="text"]{
 
 form input[type="email"]:-webkit-autofill,
 form input[type="password"]:-webkit-autofill,
-form input[type="text"]:-webkit-autofill{
+form input[type="text"]:-webkit-autofill {
   width: 95%;
   -webkit-box-shadow: 0 0 0 30px white inset;
+}
+
+::ng-deep.mat-form-field-outline {
+  /* Might be able to use this line to fill input on autofill */
+  /*background-color: lightgoldenrodyellow !important;*/
 }
 
 .input {

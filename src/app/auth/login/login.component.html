@@ -21,9 +21,11 @@
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label class="mat-body">&nbsp; Password</mat-label>
-      <input [type]="hide? 'password' : 'text'" name="password" autocomplete="off" ngModel #password="ngModel" matInput placeholder="Password">
+      <input [type]="hide ? 'password' : 'text'" name="password" autocomplete ngModel #password="ngModel" matInput placeholder="Password">
       <mat-icon matPrefix class="input material-icons-outlined" color="primary">lock</mat-icon>
-      <mat-icon matSuffix class="hide material-icons-outlined" (click)="hide = !hide">{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+      <button type="button" class="hide" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon class="material-icons">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
       <mat-error *ngIf="password.invalid">Please enter a valid password</mat-error>
     </mat-form-field>
     <div class="flex-box-login">
