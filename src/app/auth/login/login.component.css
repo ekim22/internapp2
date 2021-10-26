@@ -23,8 +23,16 @@ mat-form-field {
 form input[type="email"],
 form input[type="password"],
 form input[type="text"]{
+  width: 95%;
   height: 26px;
   padding-left: 1em;
+}
+
+form input[type="email"]:-webkit-autofill,
+form input[type="password"]:-webkit-autofill,
+form input[type="text"]:-webkit-autofill{
+  width: 95%;
+  -webkit-box-shadow: 0 0 0 30px white inset;
 }
 
 .input {

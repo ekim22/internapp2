@@ -18,7 +18,6 @@ export class AuthService {
     const authData: AuthData = {email: email, password: password}
     this.httpClient.post('http://localhost:3000/api/users/signup', authData).subscribe(res => {
       if (res) {
-        console.log(res)
         this.login(email, password);
       }
     })
