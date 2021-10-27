@@ -9,6 +9,7 @@ import {AuthService} from "../auth.service";
 })
 export class SignupComponent implements OnInit {
   isLoading = false;
+  hide = true;
 
   constructor(private authService: AuthService) { }
 

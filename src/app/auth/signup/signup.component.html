@@ -1,10 +1,12 @@
 <mat-card class="login-panel">
   <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <mat-card-title>{{ !isLoading ? "Sign up for an account" : "Logging in to your account..."}}</mat-card-title>
+  <mat-divider></mat-divider>
+  <br>
   <form (submit)="onSignup(signupForm)" #signupForm="ngForm" *ngIf="!isLoading">
-    <mat-form-field>
-      <mat-label class="mat-body">Email Address</mat-label>
+    <mat-form-field appearance="outline">
+      <mat-label class="mat-body">&nbsp; Email Address</mat-label>
       <div class="input-icon icon-username">
-
       </div>
       <input
         matInput
@@ -14,21 +16,27 @@
         #email="ngModel"
         required
         email
-        placeholder="Ex: pat@example.com"
-      >
-      <mat-icon matPrefix class="input">account_circle</mat-icon>
+        placeholder="Ex: pat@example.com">
+      <mat-icon matPrefix class="input material-icons-outlined" color="primary">account_circle</mat-icon>
       <mat-error *ngIf="email.invalid">Email is <strong>required</strong></mat-error>
     </mat-form-field>
-    <br>
-    <br>
-    <mat-form-field>
-      <mat-label class="mat-body">Password</mat-label>
-      <input type="password" name="password" autocomplete="off" ngModel #password="ngModel" matInput placeholder="Password">
-      <mat-icon matPrefix class="input">lock</mat-icon>
+    <mat-form-field appearance="outline">
+      <mat-label class="mat-body">&nbsp; Password</mat-label>
+      <input [type]="hide ? 'password' : 'text'" name="password" autocomplete ngModel #password="ngModel" matInput placeholder="Password">
+      <mat-icon matPrefix class="input material-icons-outlined" color="primary">lock</mat-icon>
+      <button type="button" class="hide" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon class="material-icons">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
       <mat-error *ngIf="password.invalid">Please enter a valid password</mat-error>
     </mat-form-field>
     <div class="flex-box-login">
-      <button mat-raised-button color="accent" type="submit">Sign up</button>
+      <button mat-raised-button color="accent" type="submit">Create Account</button>
     </div>
   </form>
+  <br>
+  <mat-divider></mat-divider>
+  <mat-card-footer>
+    Already have an account?&nbsp;
+    <a routerLink="/login">Log In</a>
+  </mat-card-footer>
 </mat-card>

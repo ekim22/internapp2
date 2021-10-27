@@ -24,6 +24,7 @@ import { LoginComponent } from './auth/login/login.component';
 import {AuthInterceptor} from "./auth/auth-interceptor";
 import {LinebreakPipe} from "./utils/linebreak.pipe";
 import {MatDividerModule} from "@angular/material/divider";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import {MatDividerModule} from "@angular/material/divider";
     MatProgressSpinnerModule,
     MatPaginatorModule,
     MatDividerModule,
+    MatProgressBarModule,
   ],
   // multi: true simply means there can be multi interceptors so don't override any
   // existing interceptors
