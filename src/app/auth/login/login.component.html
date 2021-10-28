@@ -1,7 +1,6 @@
 <mat-card class="login-panel">
   <mat-spinner *ngIf="isLoading"></mat-spinner>
   <mat-card-title>{{ !isLoading ? "Log in to your account" : "Logging in to your account..."}}</mat-card-title>
-  <mat-divider></mat-divider>
   <br>
   <form (submit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!isLoading">
     <mat-form-field appearance="outline">
