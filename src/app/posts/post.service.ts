@@ -4,6 +4,8 @@ import {Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Post} from './post.model';
 import {Router} from "@angular/router";
+import * as moment from "moment/moment";
+import {now} from "moment";
 
 @Injectable({
   providedIn: 'root',
