@@ -44,8 +44,6 @@ export class PostListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.postsChangedSub.unsubscribe();
-    this.pageService.pageSize = this.pageSize;
-    this.pageService.pageIndex = this.currentPage;
   }
 
   onDelete(postId: string) {
@@ -65,10 +63,12 @@ export class PostListComponent implements OnInit, OnDestroy {
   }
 
   onChangedPageSize(pageData: PageEvent) {
-    this.pageService.pageSize = this.pageSize;
-    this.isLoading = true;
-    this.currentPage = pageData.pageIndex;
     this.pageSize = pageData.pageSize;
+    this.currentPage = pageData.pageIndex;
+    this.pageService.pageSize = this.pageSize;
+    this.pageService.pageIndex = this.currentPage;
+    this.isLoading = true;
+
     this.postService.getPosts(this.currentPage, this.pageSize);
     this.listExpandOrCollapse = 'Expand';
   }

@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
 import {AuthService} from "../auth/auth.service";
+import {PageService} from "../posts/page.service";
 
 @Component({
   selector: 'app-header',
@@ -11,7 +12,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isAuthenticated!: boolean;
   private loginListener!: Subscription;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,
+              private pageService: PageService) { }
 
   ngOnInit(): void {
     this.loginListener = this.authService.loggedIn.subscribe((isLogged) => {
@@ -25,6 +27,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onLogout() {
     this.authService.logout();
+    this.pageService.setPageOptionsToDefault();
   }
 
 }
