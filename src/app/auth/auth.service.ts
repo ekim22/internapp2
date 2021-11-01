@@ -16,10 +16,13 @@ export class AuthService {
 
   createUser(email: string, password: string) {
     const authData: AuthData = {email: email, password: password}
-    this.httpClient.post('http://localhost:3000/api/users/signup', authData).subscribe(res => {
-      if (res) {
-        this.login(email, password);
-      }
+    this.httpClient.post('http://localhost:3000/api/users/signup', authData).subscribe(() => {
+      this.login(email, password);
+    }, error => {
+      setTimeout(() => {
+        this.loggedIn.next(false);
+      }, 1200)
+      console.log(error)
     })
   }
 
@@ -30,6 +33,11 @@ export class AuthService {
       this.router.navigate(['/']);
       this.loggedIn.next(this.isLoggedIn());
       this.autoLogout();
+    }, error => {
+      setTimeout(() => {
+        this.loggedIn.next(false);
+      }, 1200)
+      console.log(error);
     })
   }
 
