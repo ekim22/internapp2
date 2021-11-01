@@ -29,8 +29,8 @@ const storage = multer.diskStorage({
   },
 });
 
-router.get('', checkAuth, (req, res, next) => {
-  const postQuery = Post.find();
+router.get('', checkAuth, (req, res) => {
+  const postQuery = Post.find({creator: req.userData.userId});
   let fetchedPosts;
   postQuery
       .skip(+req.query.pageSize * (+req.query.pageIndex))
@@ -38,7 +38,7 @@ router.get('', checkAuth, (req, res, next) => {
   postQuery.find()
       .then((documents) => {
         fetchedPosts = documents;
-        return Post.count();
+        return Post.countDocuments({creator: req.userData.userId});
       })
       .then((count) => {
         setTimeout(() => {
@@ -51,7 +51,7 @@ router.get('', checkAuth, (req, res, next) => {
       });
 });
 
-router.get('/:id', checkAuth, (req, res, next) => {
+router.get('/:id', checkAuth, (req, res) => {
   Post.findOne({_id: req.params.id}).then((post) => {
     if (post) {
       res.status(200).json({
@@ -68,7 +68,7 @@ router.get('/:id', checkAuth, (req, res, next) => {
 });
 
 router.post('', checkAuth, multer({storage: storage}).single('image'),
-    (req, res, next) => {
+    (req, res) => {
       const url = req.protocol + '://' + req.get('host');
       const post = new Post({
         title: req.body.title,
@@ -86,7 +86,7 @@ router.post('', checkAuth, multer({storage: storage}).single('image'),
     });
 
 router.patch('/:id', checkAuth, multer({storage: storage}).single('image'),
-    (req, res, next) => {
+    (req, res) => {
       let imagePath = req.body.imagePath;
       if (req.file) {
         const url = req.protocol + '://' + req.get('host');
@@ -106,7 +106,7 @@ router.patch('/:id', checkAuth, multer({storage: storage}).single('image'),
       });
     });
 
-router.delete('/:id', checkAuth, (req, res, next) => {
+router.delete('/:id', checkAuth, (req, res) => {
   Post.findByIdAndDelete(req.params.id)
       .then(() => {
         res.status(200).json({message: 'Post deleted!'});
