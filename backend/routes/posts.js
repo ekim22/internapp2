@@ -92,24 +92,33 @@ router.patch('/:id', checkAuth, multer({storage: storage}).single('image'),
         const url = req.protocol + '://' + req.get('host');
         imagePath = url + '/images/' + req.file.filename;
       }
-      Post.findOne({_id: req.params.id}, (err, foundPost) => {
+      Post.findOne({_id: req.params.id, creator: req.userData.userId}, (err, foundPost) => {
         foundPost.title = req.body.title;
         foundPost.content = req.body.content;
         foundPost.imagePath = imagePath;
+        if (err) {
+          res.status(401).json({message: err});
+        }
         foundPost.save().then(
-            () => {
-              res.status(200).json({
-                message: 'Post updated!',
-              });
+            (result) => {
+              if (result) {
+                res.status(200).json({message: 'Post updated!'});
+              } else {
+                res.status(401).json({message: 'Not authorized!'});
+              }
             },
         );
       });
     });
 
 router.delete('/:id', checkAuth, (req, res) => {
-  Post.findByIdAndDelete(req.params.id)
-      .then(() => {
-        res.status(200).json({message: 'Post deleted!'});
+  Post.deleteOne({_id: req.params.id, creator: req.userData.userId})
+      .then((result) => {
+        if (result.deletedCount > 0) {
+          res.status(200).json({message: 'Post deleted!'});
+        } else {
+          res.status(401).json({message: 'Not authorized!'});
+        }
       });
 });
 
