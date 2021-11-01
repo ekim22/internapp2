@@ -29,8 +29,6 @@ export class PageService {
   }
 
   setPageOptionsToDefault() {
-    console.log('setting to defaults')
-    this._pageSizeOptions = [1, 5, 10, 15, 25];
     this._pageSize = 10;
     this._pageIndex = 0;
   }
