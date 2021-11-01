@@ -21,7 +21,7 @@ export class AuthService {
     }, error => {
       setTimeout(() => {
         this.loggedIn.next(false);
-      }, 1200)
+      }, 2500)
       console.log(error)
     })
   }
@@ -36,7 +36,7 @@ export class AuthService {
     }, error => {
       setTimeout(() => {
         this.loggedIn.next(false);
-      }, 1200)
+      }, 2500)
       console.log(error);
     })
   }
