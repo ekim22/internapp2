@@ -25,6 +25,9 @@ import {AuthInterceptor} from "./auth/auth-interceptor";
 import {LinebreakPipe} from "./utils/linebreak.pipe";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {ErrorInterceptor} from "./error-interceptor";
+import {MatDialogModule} from "@angular/material/dialog";
+import { ErrorComponent } from './error/error.component';
 
 
 @NgModule({
@@ -36,6 +39,7 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     SignupComponent,
     LoginComponent,
     LinebreakPipe,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,10 +60,15 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     MatPaginatorModule,
     MatDividerModule,
     MatProgressBarModule,
+    MatDialogModule,
   ],
   // multi: true simply means there can be multi interceptors so don't override any
   // existing interceptors
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
-  bootstrap: [AppComponent]
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [ErrorComponent]
 })
 export class AppModule { }
