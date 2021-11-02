@@ -11,6 +11,7 @@ import {Subscription} from "rxjs";
 export class SignupComponent implements OnInit, OnDestroy {
   isLoading = false;
   hide = true;
+  isFormInvalid = false;
   private loginListener!: Subscription;
 
 
@@ -23,11 +24,13 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   onSignup(form: NgForm) {
-    this.isLoading = true;
-    if (form.invalid) {
-      return;
+    if (form.valid) {
+      this.isLoading = true;
+      this.authService.createUser(form.value.email, form.value.password);
+    } else {
+      alert('sign up failed')
+      this.isFormInvalid = true;
     }
-    this.authService.createUser(form.value.email, form.value.password);
   }
 
   ngOnDestroy() {
