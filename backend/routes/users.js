@@ -7,6 +7,11 @@ const User = require('../models/user');
 const router = express.Router();
 
 router.post('/signup', (req, res, next) => {
+  if (!req.body.email || !req.body.password) {
+    return res.status(500).json({
+      message: 'Email and password cannot be empty!',
+    });
+  }
   bcrypt.hash(req.body.password, 10).then(
       (hash) => {
         const user = new User({
@@ -21,7 +26,7 @@ router.post('/signup', (req, res, next) => {
               });
             }).catch((err) => {
           res.status(500).json({
-            error: err,
+            message: 'Failed to create account!',
           });
         });
       },
@@ -34,7 +39,7 @@ router.post('/login', (req, res, next) => {
       .then((user) => {
         if (!user) {
           return res.status(401).json({
-            message: 'Auth failed',
+            message: 'Invalid credentials!',
           });
         } else {
           returnedUser = user;
@@ -44,7 +49,7 @@ router.post('/login', (req, res, next) => {
       .then((result) => {
         if (!result) {
           return res.status(401).json({
-            message: 'Auth failed',
+            message: 'Invalid password!',
           });
         }
         // The expiresIn in the jwt is NOT the same as expiresIn in the res body.
@@ -55,9 +60,9 @@ router.post('/login', (req, res, next) => {
           expiresIn: 3600,
         });
       })
-      .catch((error) => {
-        return res.status(401).json({
-          message: 'Auth failed',
+      .catch(() => {
+        res.status(401).json({
+          message: 'Invalid credentials!',
         });
       })
   ;
