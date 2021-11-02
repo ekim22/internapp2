@@ -16,13 +16,12 @@ export class AuthService {
 
   createUser(email: string, password: string) {
     const authData: AuthData = {email: email, password: password}
-    this.httpClient.post('http://localhost:3000/api/users/signup', authData).subscribe(() => {
+    this.httpClient.post('http://localhost:3000/api/users/signup', authData).subscribe((res) => {
       this.login(email, password);
     }, error => {
       setTimeout(() => {
         this.loggedIn.next(false);
-      }, 2500)
-      console.log(error)
+      }, 2000)
     })
   }
 
@@ -36,8 +35,7 @@ export class AuthService {
     }, error => {
       setTimeout(() => {
         this.loggedIn.next(false);
-      }, 2500)
-      console.log(error);
+      }, 2000)
     })
   }
 
