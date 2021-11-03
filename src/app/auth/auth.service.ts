@@ -4,6 +4,7 @@ import {AuthData} from "./auth-data.model";
 import {Router} from "@angular/router";
 import {BehaviorSubject} from "rxjs";
 import * as moment from "moment/moment";
+import {tap} from "rxjs/operators";
 
 @Injectable({
   providedIn: "root"
@@ -27,8 +28,11 @@ export class AuthService {
 
   login(email: string, password: string) {
     const authData: AuthData = {email: email, password: password}
-    this.httpClient.post<{token: string, expiresIn: number}>('http://localhost:3000/api/users/login', authData).subscribe(res => {
-      AuthService.setSession(res);
+    this.httpClient.post<{token: string, expiresIn: number}>('http://localhost:3000/api/users/login', authData).pipe(tap(
+      ({token, expiresIn}) => {
+        AuthService.setSession({token, expiresIn})
+      }
+    )).subscribe(res => {
       this.router.navigate(['/']);
       this.loggedIn.next(this.isLoggedIn());
       this.autoLogout();
