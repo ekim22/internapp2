@@ -14,21 +14,23 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    MatCardModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatMenuModule,
-    MatExpansionModule,
-    MatProgressSpinnerModule,
-    MatPaginatorModule,
-    MatDividerModule,
-    MatProgressBarModule,
-    MatDialogModule,
-  ],
+  // This is kept merely for instructional purposes. Angular understands that the export
+  // automatically implies the import, so import can be omitted.
+  // imports: [
+  //   MatFormFieldModule,
+  //   MatInputModule,
+  //   MatCardModule,
+  //   MatButtonModule,
+  //   MatToolbarModule,
+  //   MatIconModule,
+  //   MatMenuModule,
+  //   MatExpansionModule,
+  //   MatProgressSpinnerModule,
+  //   MatPaginatorModule,
+  //   MatDividerModule,
+  //   MatProgressBarModule,
+  //   MatDialogModule,
+  // ],
   exports: [
     MatFormFieldModule,
     MatInputModule,
