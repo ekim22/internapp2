@@ -21,7 +21,7 @@ import {LinebreakPipe} from "../utils/linebreak.pipe";
     ReactiveFormsModule,
   ],
   exports: [
-    PostListComponent,
+    // PostListComponent,
     PostCreateComponent,
     LinebreakPipe
   ]
