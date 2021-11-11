@@ -6,10 +6,10 @@
       <a mat-button routerLink="/create" routerLinkActive="active">Create a Post</a>
     </li>
     <li>
-      <a mat-button routerLink="/login" routerLinkActive="active" *ngIf="!isAuthenticated">Log in</a>
+      <a mat-button routerLink="/auth/login" routerLinkActive="active" *ngIf="!isAuthenticated">Log in</a>
     </li>
     <li>
-      <a mat-button routerLink="/signup" routerLinkActive="active" *ngIf="!isAuthenticated">Sign up</a>
+      <a mat-button routerLink="/auth/signup" routerLinkActive="active" *ngIf="!isAuthenticated">Sign up</a>
     </li>
     <li>
       <a mat-button *ngIf="isAuthenticated" (click)="onLogout()">Logout</a>

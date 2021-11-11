@@ -12,7 +12,6 @@ import {ErrorInterceptor} from "./error-interceptor";
 import { ErrorComponent } from './error/error.component';
 import {AngularMaterialModule} from "./angular-material.module";
 import {PostsModule} from "./posts/posts.module";
-import {AuthModule} from "./auth/auth.module";
 
 
 @NgModule({
@@ -28,7 +27,6 @@ import {AuthModule} from "./auth/auth.module";
     HttpClientModule,
     AngularMaterialModule,
     PostsModule,
-    AuthModule,
   ],
   // multi: true simply means there can be multi interceptors so don't override any
   // existing interceptors
