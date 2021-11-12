@@ -57,7 +57,7 @@ export class AuthService {
 
   logout() {
     AuthService.clearSession();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
     this.loggedIn.next(this.isLoggedIn());
   }
 
