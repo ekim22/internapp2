@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {BehaviorSubject} from "rxjs";
 import * as moment from "moment/moment";
 import {tap} from "rxjs/operators";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: "root"
@@ -17,7 +18,7 @@ export class AuthService {
 
   createUser(email: string, password: string) {
     const authData: AuthData = {email: email, password: password}
-    this.httpClient.post('http://localhost:3000/api/users/signup', authData).subscribe((res) => {
+    this.httpClient.post(environment.apiUrl + 'users/signup', authData).subscribe((res) => {
       this.login(email, password);
     }, error => {
       setTimeout(() => {
@@ -28,7 +29,7 @@ export class AuthService {
 
   login(email: string, password: string) {
     const authData: AuthData = {email: email, password: password}
-    this.httpClient.post<{token: string, expiresIn: number}>('http://localhost:3000/api/users/login', authData).pipe(tap(
+    this.httpClient.post<{token: string, expiresIn: number}>(environment.apiUrl + 'users/login', authData).pipe(tap(
       ({token, expiresIn}) => {
         AuthService.setSession({token, expiresIn})
       }

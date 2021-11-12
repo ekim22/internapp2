@@ -4,6 +4,7 @@ import {Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Post} from './post.model';
 import {Router} from "@angular/router";
+import {environment} from "../../environments/environment";
 
 
 @Injectable({
@@ -17,14 +18,14 @@ export class PostService {
               private router: Router) {}
 
   getPost(postId: string | null) {
-    return this.httpClient.get<{message: string, post: Post}>('http://localhost:3000/api/posts/' + postId);
+    return this.httpClient.get<{message: string, post: Post}>(environment.apiUrl + 'posts/' + postId);
   }
 
   getPosts(pageIndex: number, pageSize: number) {
     // Backticks indicate that it is a template literal.
     const queryParams = `?pageIndex=${pageIndex}&pageSize=${pageSize}`;
     this.httpClient
-        .get<{message: string, posts: Post[], maxPosts: number}>('http://localhost:3000/api/posts' + queryParams)
+        .get<{message: string, posts: Post[], maxPosts: number}>(environment.apiUrl + 'posts' + queryParams)
         .pipe(map((postData) => {
           return { posts: postData.posts.map((post: Post) => {
             return {
@@ -45,7 +46,7 @@ export class PostService {
     postData.append('content', post.content);
     postData.append('image', image, post.title);
     this.httpClient
-      .post<{message: string, post: Post}>('http://localhost:3000/api/posts', postData)
+      .post<{message: string, post: Post}>(environment.apiUrl + 'posts', postData)
       .subscribe((responseData) => {
         this.router.navigate(['/']);
       });
@@ -62,14 +63,14 @@ export class PostService {
     } else {
       postData = newPost;
     }
-    this.httpClient.patch<{message: string}>('http://localhost:3000/api/posts/' + post._id, postData)
+    this.httpClient.patch<{message: string}>(environment.apiUrl + 'posts/' + post._id, postData)
       .subscribe((responseData) => {
         this.router.navigate(['/']);
       })
   }
 
   deletePost(postId: string) {
-    return this.httpClient.delete('http://localhost:3000/api/posts/' + postId);
+    return this.httpClient.delete(environment.apiUrl + 'posts/' + postId);
   }
 
   getPostChangedListener() {
