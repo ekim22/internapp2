@@ -13,11 +13,12 @@ import {PageService} from "../page.service";
 })
 export class PostListComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
+  postsOpened = 0;
   // Angular counts pages from 0
   currentPage!: number;
   pageSize!: number;
   // Default set to 0 and updates when postService returns getPosts()
-  itemsOnPage = 0;
+  totalNumberOfPosts = 0;
   pageSizeOptions!: number[];
   listExpandOrCollapse: string = 'Expand';
   private postsChangedSub!: Subscription;
@@ -35,7 +36,7 @@ export class PostListComponent implements OnInit, OnDestroy {
     this.postsChangedSub = this.postService.getPostChangedListener().subscribe(
       (postData: {posts: Post[]; postCount: number}) => {
         this.posts = postData.posts;
-        this.itemsOnPage = postData.postCount;
+        this.totalNumberOfPosts = postData.postCount;
         this.isLoading = false;
       }
     )
@@ -59,12 +60,12 @@ export class PostListComponent implements OnInit, OnDestroy {
     } else if (this.listExpandOrCollapse === 'Expand') {
       accordion.openAll();
     }
-    this.listExpandOrCollapse = this.listExpandOrCollapse === 'Collapse' ? 'Expand' : 'Collapse';
   }
 
   onChangedPageSize(pageData: PageEvent) {
     this.pageSize = pageData.pageSize;
     this.currentPage = pageData.pageIndex;
+    this.postsOpened = 0;
     this.pageService.pageSize = this.pageSize;
     this.pageService.pageIndex = this.currentPage;
     this.isLoading = true;
@@ -73,4 +74,17 @@ export class PostListComponent implements OnInit, OnDestroy {
     this.listExpandOrCollapse = 'Expand';
   }
 
+  onPostClosed() {
+    this.postsOpened -= 1;
+    if (this.postsOpened === 0 && this.postsOpened < this.pageSize) {
+      this.listExpandOrCollapse = 'Expand';
+    }
+  }
+
+  onPostOpened() {
+    this.postsOpened += 1;
+    if (this.postsOpened === this.pageSize && this.postsOpened > 0) {
+      this.listExpandOrCollapse = 'Collapse';
+    }
+  }
 }
