@@ -13,6 +13,7 @@ import { ErrorComponent } from './error/error.component';
 import {AngularMaterialModule} from "./angular-material.module";
 import {PostsModule} from "./posts/posts.module";
 import { FormsComponent } from './forms/forms.component';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { FormsComponent } from './forms/forms.component';
     HeaderComponent,
     ErrorComponent,
     FormsComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
