@@ -12,6 +12,7 @@ import {ErrorInterceptor} from "./error-interceptor";
 import { ErrorComponent } from './error/error.component';
 import {AngularMaterialModule} from "./angular-material.module";
 import {PostsModule} from "./posts/posts.module";
+import { FormsComponent } from './forms/forms.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import {PostsModule} from "./posts/posts.module";
     AppComponent,
     HeaderComponent,
     ErrorComponent,
+    FormsComponent,
   ],
   imports: [
     BrowserModule,
