@@ -12,8 +12,12 @@ import {ErrorInterceptor} from "./error-interceptor";
 import { ErrorComponent } from './error/error.component';
 import {AngularMaterialModule} from "./angular-material.module";
 import {PostsModule} from "./posts/posts.module";
-import { FormsComponent } from './forms/forms.component';
 import { HomeComponent } from './home/home.component';
+import {MatSelectModule} from "@angular/material/select";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import { ItecComponent } from './applications/itec/itec.component';
+import { BioComponent } from './applications/bio/bio.component';
 
 
 @NgModule({
@@ -21,8 +25,9 @@ import { HomeComponent } from './home/home.component';
     AppComponent,
     HeaderComponent,
     ErrorComponent,
-    FormsComponent,
     HomeComponent,
+    ItecComponent,
+    BioComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,6 +36,10 @@ import { HomeComponent } from './home/home.component';
     HttpClientModule,
     AngularMaterialModule,
     PostsModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    MatCheckboxModule,
+    FormsModule,
   ],
   // multi: true simply means there can be multi interceptors so don't override any
   // existing interceptors

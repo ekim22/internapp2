@@ -1,9 +1,16 @@
 <mat-toolbar color="primary">
-  <span><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Posts</a></span>
+  <ul>
+    <li>
+      <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+    </li>
+    <li>
+      <a mat-button routerLink="/posts" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Posts</a>
+    </li>
+  </ul>
   <span class="spacer"></span>
   <ul>
     <li>
-      <a mat-button routerLink="/create" routerLinkActive="active">Create a Post</a>
+      <a mat-button routerLink="/posts/create" routerLinkActive="active">Create a Post</a>
     </li>
     <li>
       <a mat-button routerLink="/auth/login" routerLinkActive="active" *ngIf="!isAuthenticated">Log in</a>

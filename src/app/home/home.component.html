@@ -1,1 +1,13 @@
-<p>home works!</p>
+<h1>Welcome! Please choose a program to begin the application process.</h1>
+<form (submit)="onSubmit()">
+<mat-form-field appearance="fill">
+  <mat-label>Choose an option</mat-label>
+  <mat-select [disabled]="disableSelect.value" [(ngModel)]="application" name="applications">
+    <mat-option value="ITEC">Information Technology</mat-option>
+    <mat-option value="EXER" disabled>Exercise Science (disabled)</mat-option>
+    <mat-option value="BIO">Biology</mat-option>
+  </mat-select>
+</mat-form-field>
+<br>
+<button mat-stroked-button color="primary" type="submit">Begin application</button>
+</form>
