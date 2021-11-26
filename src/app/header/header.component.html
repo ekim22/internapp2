@@ -4,13 +4,13 @@
       <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
     </li>
     <li>
-      <a mat-button routerLink="/posts" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Posts</a>
+      <a mat-button routerLink="/posts" routerLinkActive="active" *ngIf="isAuthenticated" [routerLinkActiveOptions]="{exact: true}">Posts</a>
     </li>
   </ul>
   <span class="spacer"></span>
   <ul>
     <li>
-      <a mat-button routerLink="/posts/create" routerLinkActive="active">Create a Post</a>
+      <a mat-button routerLink="/posts/create" routerLinkActive="active" *ngIf="isAuthenticated">Create a Post</a>
     </li>
     <li>
       <a mat-button routerLink="/auth/login" routerLinkActive="active" *ngIf="!isAuthenticated">Log in</a>
