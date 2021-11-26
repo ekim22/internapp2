@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl} from "@angular/forms";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -8,15 +9,21 @@ import {FormControl} from "@angular/forms";
 })
 export class HomeComponent implements OnInit {
   disableSelect = new FormControl(false);
-  application: string = '';
+  program: string = '';
 
-  constructor() { }
+
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+
   }
 
   onSubmit() {
-    console.log(this.application)
+    if (this.program.toLowerCase() === 'bio') {
+      this.router.navigate(['/bio'])
+    } else if (this.program.toLowerCase() === 'itec') {
+      this.router.navigate(['/itec'])
+    }
   }
 
 }
