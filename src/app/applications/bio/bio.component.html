@@ -23,7 +23,7 @@
             <mat-select>
               <mat-option value="fall">Fall</mat-option>
               <mat-option value="spring">Spring</mat-option>
-              <mat-option value="summer" disabled>Summer</mat-option>
+              <mat-option value="summer">Summer</mat-option>
             </mat-select>
           </mat-form-field>
         </td>
@@ -63,7 +63,7 @@
             <mat-select>
               <mat-option value="fall">Fall</mat-option>
               <mat-option value="spring">Spring</mat-option>
-              <mat-option value="summer" disabled>Summer</mat-option>
+              <mat-option value="summer">Summer</mat-option>
             </mat-select>
           </mat-form-field>
         </td>
@@ -74,6 +74,50 @@
               <mat-option *ngFor="let year of this.years"
                           [value]="year.value">{{ year.label }}</mat-option>
             </mat-select>
+          </mat-form-field>
+        </td>
+      </tr></table>
+      <div class="sub-step">
+        <h4>Overall GPA</h4>
+      </div>
+      <table cellspacing="0"><tr>
+        <td>
+          <mat-form-field appearance="fill">
+            <mat-label>Overall GPA</mat-label>
+            <input type="number" step="0.01" min="0" matInput placeholder="Ex: 3.0">
+          </mat-form-field>
+        </td>
+      </tr></table>
+      <div class="sub-step">
+        <h4>Program GPA</h4>
+      </div>
+      <table cellspacing="0"><tr>
+        <td>
+          <mat-form-field appearance="fill">
+            <mat-label>Program GPA</mat-label>
+            <input type="number" step="0.01" min="0" matInput placeholder="Ex: 3.0">
+          </mat-form-field>
+        </td>
+      </tr></table>
+      <div class="sub-step">
+        <h4>Number of hours completed within Biology</h4>
+      </div>
+      <table cellspacing="0"><tr>
+        <td>
+          <mat-form-field appearance="fill">
+            <mat-label>Overall GPA</mat-label>
+            <input type="number" min="0" matInput placeholder="Ex: 12">
+          </mat-form-field>
+        </td>
+      </tr></table>
+      <div class="sub-step">
+        <h4>What is your intended profession/career?</h4>
+      </div>
+      <table cellspacing="0"><tr>
+        <td>
+          <mat-form-field appearance="fill">
+            <mat-label>Profession/Career</mat-label>
+            <input type="text" matInput placeholder="Ex: Marine Biologist">
           </mat-form-field>
         </td>
       </tr></table>
