@@ -1,1 +1,163 @@
-<p>bio works!</p>
+<h2>Biology (BIOL 4800) Internship Application Instructions</h2>
+<hr>
+<p>
+  Submit a typed, completed, and signed form with an attached, printed copy of your unofficial academic transcript (obtained from Banner) to the SST Office in the Allied Health and Sciences (H2) Building, Room 3209.
+</p>
+<p>
+  <b>IMPORTANT:</b> The information you submit will be used to determine if you will be accepted to participate in the program. Completion of this application does <span style="color: red"><b>NOT</b></span> guarantee your acceptance into the Biology Internship Program and/or enrollment in BIOL4800.
+</p>
+<p>
+  Please remember to upload all required application materials (transcript, essay, preceptor form if picking your own internship site, and other necessary documents) as a part of your application.
+</p>
+<mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="studentAcademicInfo">
+    <form [formGroup]="studentAcademicInfo">
+      <ng-template matStepLabel>Student Academic Information</ng-template>
+      <div class="sub-step">
+        <h4>Choose your desired internship semester and year</h4>
+      </div>
+      <table cellspacing="0"><tr>
+        <td>
+          <mat-form-field appearance="fill">
+            <mat-label>Semester</mat-label>
+            <mat-select>
+              <mat-option value="fall">Fall</mat-option>
+              <mat-option value="spring">Spring</mat-option>
+              <mat-option value="summer" disabled>Summer</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field appearance="fill">
+            <mat-label>Year</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let year of this.years"
+                          [value]="year.value">{{ year.label }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr></table>
+      <div class="sub-step">
+        <h4>Concentration</h4>
+      </div>
+      <table cellspacing="0"><tr>
+        <td>
+          <mat-form-field appearance="fill">
+            <mat-label>Concentration</mat-label>
+            <mat-select>
+              <mat-option value="biochem">Biochemistry</mat-option>
+              <mat-option value="cell bio">Cell Biology and Biotechnology</mat-option>
+              <mat-option value="gen bio">General Biology</mat-option>
+              <mat-option value="bio teach">Biology Teacher Certification</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr></table>
+      <div class="sub-step">
+        <h4>Expected Graduation Date</h4>
+      </div>
+      <table cellspacing="0"><tr>
+        <td>
+          <mat-form-field appearance="fill">
+            <mat-label>Semester</mat-label>
+            <mat-select>
+              <mat-option value="fall">Fall</mat-option>
+              <mat-option value="spring">Spring</mat-option>
+              <mat-option value="summer" disabled>Summer</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field appearance="fill">
+            <mat-label>Year</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let year of this.years"
+                          [value]="year.value">{{ year.label }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr></table>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="emergencyContactInfo">
+    <form [formGroup]="emergencyContactInfo">
+      <ng-template matStepLabel>Emergency Contact Information</ng-template>
+      <mat-form-field appearance="fill">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
+               required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="mentorInfo">
+    <form [formGroup]="mentorInfo">
+      <ng-template matStepLabel>Mentor Information</ng-template>
+      <mat-form-field appearance="fill">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="thirdCtrl" placeholder="Ex. 1 Main St, New York, NY"
+               required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="emergencyContactInfo">
+    <form [formGroup]="emergencyContactInfo">
+      <ng-template matStepLabel>Internship Information</ng-template>
+      <mat-form-field appearance="fill">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
+               required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="emergencyContactInfo">
+    <form [formGroup]="emergencyContactInfo">
+      <ng-template matStepLabel>Educational Objectives</ng-template>
+      <mat-form-field appearance="fill">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
+               required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="emergencyContactInfo">
+    <form [formGroup]="emergencyContactInfo">
+      <ng-template matStepLabel>Signature</ng-template>
+      <mat-form-field appearance="fill">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
+               required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p>You are now done.</p>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-stepper>
