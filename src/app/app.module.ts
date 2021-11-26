@@ -18,6 +18,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { ItecComponent } from './applications/itec/itec.component';
 import { BioComponent } from './applications/bio/bio.component';
+import {MatStepperModule} from "@angular/material/stepper";
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { BioComponent } from './applications/bio/bio.component';
     ReactiveFormsModule,
     MatCheckboxModule,
     FormsModule,
+    MatStepperModule,
   ],
   // multi: true simply means there can be multi interceptors so don't override any
   // existing interceptors
