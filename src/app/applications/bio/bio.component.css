@@ -10,10 +10,35 @@
   width: 100%;
 }
 
+.form-container .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
 td {
+  /*padding-left: 10px;*/
   padding-right: 8px;
 }
 
 .sub-step {
   margin-top: 8px;
+}
+
+.semester {
+  width: 150px;
+}
+
+.year {
+  width: 100px;
+}
+
+.contact-mailing {
+  width: 300px;
+}
+
+.contact-state {
+  width: 80px;
+}
+
+.contact-zip {
+  width: 100px;
 }
