@@ -36,7 +36,13 @@ export class BioComponent implements OnInit {
       intendedProfession: ['', Validators.required],
     });
     this.emergencyContactInfo = this._formBuilder.group({
-      secondCtrl: ['', Validators.required],
+      contactName: ['', Validators.required],
+      contactAddress: ['', Validators.required],
+      contactCity: ['', Validators.required],
+      contactState: ['', Validators.required],
+      contactZip: ['', Validators.required],
+      contactPhone: ['', Validators.required],
+      contactEmail: ['', Validators.required],
     });
     this.mentorInfo = this._formBuilder.group({
       thirdCtrl: ['', Validators.required],

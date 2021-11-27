@@ -103,11 +103,67 @@
   <mat-step [stepControl]="emergencyContactInfo">
     <form [formGroup]="emergencyContactInfo">
       <ng-template matStepLabel>Emergency Contact Information</ng-template>
-      <mat-form-field appearance="fill">
-        <mat-label>Address</mat-label>
-        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
-               required>
-      </mat-form-field>
+      <div class="sub-step">
+        <h4>Name of parent or legal guardian</h4>
+      </div>
+      <div class="form-container">
+        <mat-form-field appearance="fill">
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="contactName" placeholder="Ex. Jane"
+                 required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="contactName" placeholder="Ex. Doe"
+                 required>
+        </mat-form-field>
+      </div>
+      <div class="sub-step">
+        <h4>Emergency contact's mailing address</h4>
+      </div>
+      <div class="form-container">
+        <mat-form-field class="contact-mailing" appearance="fill">
+          <mat-label>Street Address</mat-label>
+          <input matInput formControlName="contactAddress" placeholder="Ex. 1 Main St"
+                 required>
+        </mat-form-field>
+      </div>
+      <div class="form-container">
+        <mat-form-field appearance="fill">
+          <mat-label>City</mat-label>
+          <input matInput formControlName="contactCity" placeholder="Ex. Lawrenceville"
+                 required>
+        </mat-form-field>
+
+        <mat-form-field class="contact-state" appearance="fill">
+          <mat-label>State</mat-label>
+          <input matInput formControlName="contactState" placeholder="Ex. GA"
+                 required>
+        </mat-form-field>
+
+        <mat-form-field class="contact-zip" appearance="fill">
+          <mat-label>Zip Code</mat-label>
+          <input matInput formControlName="contactZip" placeholder="Ex. 10001"
+                 required>
+        </mat-form-field>
+      </div>
+      <div class="sub-step">
+        <h4>Emergency contact's phone number and email</h4>
+      </div>
+      <div class="form-container">
+        <mat-form-field appearance="fill">
+          <mat-label>Phone number</mat-label>
+          <input matInput type="tel" formControlName="contactPhone" placeholder="Ex. 123-456-7890"
+                 required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Email address</mat-label>
+          <input matInput formControlName="contactEmail" placeholder="Ex. contact@example.com"
+                 required>
+        </mat-form-field>
+      </div>
       <div>
         <button mat-button matStepperPrevious>Back</button>
         <button mat-button matStepperNext>Next</button>
