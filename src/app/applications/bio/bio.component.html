@@ -20,7 +20,7 @@
         <td>
           <mat-form-field appearance="fill">
             <mat-label>Semester</mat-label>
-            <mat-select>
+            <mat-select formControlName="desiredInternshipSemester">
               <mat-option value="fall">Fall</mat-option>
               <mat-option value="spring">Spring</mat-option>
               <mat-option value="summer">Summer</mat-option>
@@ -30,7 +30,7 @@
         <td>
           <mat-form-field appearance="fill">
             <mat-label>Year</mat-label>
-            <mat-select>
+            <mat-select formControlName="desiredInternshipYear">
               <mat-option *ngFor="let year of this.years"
                           [value]="year.value">{{ year.label }}</mat-option>
             </mat-select>
@@ -44,7 +44,7 @@
         <td>
           <mat-form-field appearance="fill">
             <mat-label>Concentration</mat-label>
-            <mat-select>
+            <mat-select formControlName="concentration">
               <mat-option value="biochem">Biochemistry</mat-option>
               <mat-option value="cell bio">Cell Biology and Biotechnology</mat-option>
               <mat-option value="gen bio">General Biology</mat-option>
@@ -60,7 +60,7 @@
         <td>
           <mat-form-field appearance="fill">
             <mat-label>Semester</mat-label>
-            <mat-select>
+            <mat-select formControlName="expectedGradSemester">
               <mat-option value="fall">Fall</mat-option>
               <mat-option value="spring">Spring</mat-option>
               <mat-option value="summer">Summer</mat-option>
@@ -70,7 +70,7 @@
         <td>
           <mat-form-field appearance="fill">
             <mat-label>Year</mat-label>
-            <mat-select>
+            <mat-select formControlName="expectedGradYear">
               <mat-option *ngFor="let year of this.years"
                           [value]="year.value">{{ year.label }}</mat-option>
             </mat-select>
@@ -84,7 +84,7 @@
         <td>
           <mat-form-field appearance="fill">
             <mat-label>Overall GPA</mat-label>
-            <input type="number" step="0.01" min="0" matInput placeholder="Ex: 3.0">
+            <input type="number" step="0.01" min="0" formControlName="overallGPA" matInput placeholder="Ex: 3.0">
           </mat-form-field>
         </td>
       </tr></table>
@@ -95,7 +95,7 @@
         <td>
           <mat-form-field appearance="fill">
             <mat-label>Program GPA</mat-label>
-            <input type="number" step="0.01" min="0" matInput placeholder="Ex: 3.0">
+            <input type="number" step="0.01" min="0" formControlName="programGPA" matInput placeholder="Ex: 3.0">
           </mat-form-field>
         </td>
       </tr></table>
@@ -105,8 +105,8 @@
       <table cellspacing="0"><tr>
         <td>
           <mat-form-field appearance="fill">
-            <mat-label>Overall GPA</mat-label>
-            <input type="number" min="0" matInput placeholder="Ex: 12">
+            <mat-label>Hours</mat-label>
+            <input type="number" min="0" formControlName="hoursCompleted" matInput placeholder="Ex: 12">
           </mat-form-field>
         </td>
       </tr></table>
@@ -117,7 +117,7 @@
         <td>
           <mat-form-field appearance="fill">
             <mat-label>Profession/Career</mat-label>
-            <input type="text" matInput placeholder="Ex: Marine Biologist">
+            <input type="text" formControlName="intendedProfession" matInput placeholder="Ex: Marine Biologist">
           </mat-form-field>
         </td>
       </tr></table>

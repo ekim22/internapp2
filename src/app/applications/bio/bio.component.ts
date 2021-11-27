@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ApplicationsService} from "../applications.service";
 
 @Component({
@@ -25,7 +25,15 @@ export class BioComponent implements OnInit {
 
   ngOnInit() {
     this.studentAcademicInfo = this._formBuilder.group({
-      firstCtrl: ['', Validators.required],
+      desiredInternshipSemester: ['', Validators.required],
+      desiredInternshipYear: ['', Validators.required],
+      concentration: ['', Validators.required],
+      expectedGradSemester: ['', Validators.required],
+      expectedGradYear: ['', Validators.required],
+      overallGPA: ['', Validators.required],
+      programGPA: ['', Validators.required],
+      hoursCompleted: ['', Validators.required],
+      intendedProfession: ['', Validators.required],
     });
     this.emergencyContactInfo = this._formBuilder.group({
       secondCtrl: ['', Validators.required],
