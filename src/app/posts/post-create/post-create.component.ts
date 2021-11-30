@@ -88,7 +88,7 @@ export class PostCreateComponent implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(['/'])
+    this.router.navigate(['/posts'])
   }
 
 }
