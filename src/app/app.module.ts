@@ -20,6 +20,7 @@ import { ItecComponent } from './applications/itec/itec.component';
 import { BioComponent } from './applications/bio/bio.component';
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatTabsModule} from "@angular/material/tabs";
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     FormsModule,
     MatStepperModule,
     MatTooltipModule,
+    MatTabsModule,
   ],
   // multi: true simply means there can be multi interceptors so don't override any
   // existing interceptors

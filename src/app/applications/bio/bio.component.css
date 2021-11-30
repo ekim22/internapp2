@@ -15,8 +15,11 @@
 }
 
 td {
-  /*padding-left: 10px;*/
   padding-right: 8px;
+}
+
+input[type="file"] {
+  visibility: hidden;
 }
 
 .sub-step {
@@ -31,14 +34,32 @@ td {
   width: 100px;
 }
 
-.contact-mailing {
+.contact-mailing, .site-mailing {
   width: 300px;
 }
 
-.contact-state {
+.contact-state, .site-state {
   width: 80px;
 }
 
-.contact-zip {
+.contact-zip, .site-zip {
   width: 100px;
+}
+
+.site-phone {
+  width: 150px;
+}
+
+.educational-obj {
+  width: 450px;
+}
+
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
 }
