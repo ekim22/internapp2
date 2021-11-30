@@ -40,7 +40,6 @@ export class PostListComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       }
     )
-
   }
 
   ngOnDestroy(): void {
@@ -83,7 +82,12 @@ export class PostListComponent implements OnInit, OnDestroy {
 
   onPostOpened() {
     this.postsOpened += 1;
-    if (this.postsOpened === this.pageSize && this.postsOpened > 0) {
+    if (Math.floor(this.totalNumberOfPosts / this.pageSize) === this.currentPage && this.pageSize != 1) {
+      if (this.postsOpened === this.totalNumberOfPosts % this.pageSize && this.postsOpened > 0) {
+        this.listExpandOrCollapse = 'Collapse'
+      }
+    }
+    else if (this.postsOpened === this.pageSize && this.postsOpened > 0) {
       this.listExpandOrCollapse = 'Collapse';
     }
   }
