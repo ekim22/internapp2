@@ -51,10 +51,10 @@ module.exports.login = (req, res) => {
         }
         // The expiresIn in the jwt is NOT the same as expiresIn in the res body.
         const token = jwt.sign({email: returnedUser.email, userId: returnedUser._id},
-            'secret_this_should_be_longer', {expiresIn: '1h'});
+            'secret_this_should_be_longer', {expiresIn: '24h'});
         res.status(200).json({
           token: token,
-          expiresIn: 3600,
+          expiresIn: 86400,
         });
       })
       .catch(() => {
