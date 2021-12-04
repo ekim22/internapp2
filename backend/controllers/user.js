@@ -51,17 +51,14 @@ module.exports.login = (req, res) => {
           });
         }
         // The expiresIn in the jwt is NOT the same as expiresIn in the res body.
-        const token = jwt.sign({email: returnedUser.email, userId: returnedUser._id},
+        const token = jwt.sign({email: returnedUser.email, userId: returnedUser._id, role: returnedUser.role},
             'secret_this_should_be_longer', {expiresIn: '24h'});
         res.status(200).json({
           token: token,
           expiresIn: 86400,
         });
       })
-      .catch(() => {
-        res.status(401).json({
-          message: 'Invalid credentials!',
-        });
-      })
-  ;
+      .catch((err) => {
+        console.log(err);
+      });
 };
