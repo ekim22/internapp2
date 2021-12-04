@@ -6,6 +6,7 @@ const userSchema = mongoose.Schema({
   // unique: true doesn't validate input; It merely allows mongoose to do some optimizations
   email: {type: String, required: true, unique: true},
   password: {type: String, required: true},
+  role: {type: String, required: true},
 });
 
 // eslint-disable-next-line max-len

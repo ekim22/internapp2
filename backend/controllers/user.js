@@ -14,6 +14,7 @@ module.exports.createUser = (req, res) => {
         const user = new User({
           email: req.body.email,
           password: hash,
+          role: 'student',
         });
         user.save().then(
             (result) => {
