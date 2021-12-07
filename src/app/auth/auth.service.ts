@@ -34,10 +34,11 @@ export class AuthService {
         AuthService.setSession({token, expiresIn})
       }
     )).subscribe(res => {
-      this.router.navigate(['/']);
       this.loggedIn.next(this.isLoggedIn());
+      this.router.navigate(['/']);
       this.autoLogout();
     }, error => {
+      console.log(error)
       setTimeout(() => {
         this.loggedIn.next(false);
       }, 2000)
