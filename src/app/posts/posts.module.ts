@@ -8,6 +8,13 @@ import {CommonModule} from "@angular/common";
 import {RouterModule} from "@angular/router";
 import {LinebreakPipe} from "../utils/linebreak.pipe";
 
+import {MatSelectModule} from "@angular/material/select";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatStepperModule} from "@angular/material/stepper";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatTabsModule} from "@angular/material/tabs";
+import {MatTableModule} from "@angular/material/table";
+
 @NgModule({
   declarations: [
     PostListComponent,
@@ -19,11 +26,17 @@ import {LinebreakPipe} from "../utils/linebreak.pipe";
     RouterModule,
     AngularMaterialModule,
     ReactiveFormsModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatStepperModule,
+    MatTooltipModule,
+    MatTabsModule,
+    MatTableModule,
   ],
   exports: [
     // PostListComponent,
     PostCreateComponent,
-    LinebreakPipe
+    // LinebreakPipe
   ]
 })
 export class PostsModule {}
