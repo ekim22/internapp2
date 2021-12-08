@@ -3,6 +3,7 @@ import {AngularMaterialModule} from "../angular-material.module";
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {AdminHomeComponent} from "./admin-home/admin-home.component";
+import {AdminRoutingModule} from "./admin-routing.module";
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import {AdminHomeComponent} from "./admin-home/admin-home.component";
     AngularMaterialModule,
     CommonModule,
     FormsModule,
+    AdminRoutingModule,
   ]
 })
 export class AdminModule {}
