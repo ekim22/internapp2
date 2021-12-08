@@ -2,9 +2,10 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PostService} from "../post.service";
 import {Post} from "../post.model";
 import {Subscription} from "rxjs";
-import {MatAccordion} from "@angular/material/expansion";
 import {PageEvent} from "@angular/material/paginator";
 import {PageService} from "../page.service";
+import {HeaderService} from "../../header/header.service";
+import {MatAccordion} from "@angular/material/expansion";
 
 @Component({
   selector: 'app-post-list',
@@ -25,9 +26,11 @@ export class PostListComponent implements OnInit, OnDestroy {
   public isLoading = false;
 
   constructor(private postService: PostService,
-              private pageService: PageService) { }
+              private pageService: PageService,
+              private headerService: HeaderService) { }
 
   ngOnInit(): void {
+    this.headerService.activateRoute('posts');
     this.pageSize = this.pageService.pageSize;
     this.currentPage = this.pageService.pageIndex
     this.pageSizeOptions = this.pageService.pageSizeOptions;
@@ -44,6 +47,7 @@ export class PostListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.postsChangedSub.unsubscribe();
+    this.headerService.deactivateRoute('posts');
   }
 
   onDelete(postId: string) {
