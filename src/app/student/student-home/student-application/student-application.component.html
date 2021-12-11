@@ -1,0 +1,7 @@
+<button mat-button (click)="changeStatus()">Change Status</button>
+<div *ngIf="studentApplicationStatus === 'complete'">{{ this.studentApplicationStatus }}</div>
+<div *ngIf="studentApplicationStatus === 'incomplete'">{{ this.studentApplicationStatus }}</div>
+<div *ngIf="studentApplicationStatus === 'needs review'">{{ this.studentApplicationStatus }}</div>
+<div *ngIf="studentApplicationStatus === 'rescinded'">{{ this.studentApplicationStatus }}</div>
+<div *ngIf="studentApplicationStatus === 'postponed'">{{ this.studentApplicationStatus }}</div>
+<div *ngIf="studentApplicationStatus === 'site declined'">{{ this.studentApplicationStatus }}</div>
