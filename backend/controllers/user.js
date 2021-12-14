@@ -56,6 +56,7 @@ module.exports.login = (req, res) => {
         res.status(200).json({
           token: token,
           expiresIn: 86400,
+          role: returnedUser.role,
         });
       })
       .catch((err) => {
