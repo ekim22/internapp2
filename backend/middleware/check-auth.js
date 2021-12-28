@@ -8,6 +8,7 @@ module.exports = (req, res, next) => {
     // This is middleware so we want it to continue on to the next code.
     next();
   } catch (err) {
+    // 401 is not authenticated
     res.status(401).json({message: 'No token has been found!'});
   }
 };
