@@ -49,15 +49,27 @@ export class BioService {
     return this.bioAppDocs.slice();
   }
 
-  addDoc(pos: number, id: string, filename: string) {
-    this.bioAppDocs.push({position: pos, filetype: id, filename});
+  addDoc(pos: number, id: string, filename: string, date_uploaded: string) {
+    this.bioAppDocs.push({position: pos, filetype: id, filename: filename, date_uploaded: date_uploaded});
   }
 
-  setStudentApplicationStatus(status: string) {
-    this.studentApplicationStatus = status;
-  }
+  saveApplication(appForm: FormArray) {
+    const formData = new FormData();
 
-  getStudentApplicationStatus() {
-    return this.studentApplicationStatus;
+    for (let i = 0; i < appForm.length; i++) {
+      if (appForm.controls[i].touched) {
+        Object.keys(appForm.controls[i].value).forEach(key => {
+          if (appForm.controls[i].get(key)?.touched) {
+            formData.append(key, appForm.controls[i].value[key])
+          }
+        })
+      }
+    }
+
+    this.httpClient
+      .post<any>(environment.apiUrl + 'bio', formData)
+      .subscribe(res => {
+        console.log(res);
+      });
   }
 }
