@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 
 const postsRoutes = require('./routes/posts');
 const usersRoutes = require('./routes/users');
+const bioRoutes = require('./routes/bio');
 
 const app = express();
 
@@ -17,7 +18,7 @@ mongoose.connect('mongodb://localhost:27017/node-angular')
     });
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use('/images', express.static(path.join('backend/images')));
 
 app.use((req, res, next) => {
@@ -37,6 +38,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/posts', postsRoutes);
 app.use('/api/users', usersRoutes);
+app.use('/api/bio', bioRoutes);
 
 
 module.exports = app;
