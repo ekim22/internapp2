@@ -1,4 +1,8 @@
 import {Injectable} from "@angular/core";
+import {FormArray} from "@angular/forms";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../environments/environment";
+import {BioApplication} from "./bio.model";
 
 @Injectable({
   providedIn: 'root'
@@ -14,25 +18,26 @@ export class BioService {
     'Gwinnett County (Water Resources, Environmental Health and Police Departments)',
     'Consultorio Medico Hispano',
   ]
-  bioAppDocs: {position: number, filetype: string, filename: string}[] = [{
+  bioAppDocs: {position: number, filetype: string, filename: string, date_uploaded: string}[] = [{
     position: 1,
     filename: 'essay.docx',
-    filetype: 'essay'
+    filetype: 'Essay',
+    date_uploaded: new Date(Date.UTC(2021, 8, 14, 4,42,12)).toLocaleString(),
   },
     {
       position: 2,
-      filetype: 'transcript',
+      filetype: 'Transcript',
       filename: 'unofficial_transcript.pdf',
+      date_uploaded: new Date(Date.UTC(2021, 9, 25, 7,13,54)).toLocaleString(),
     },
     {
       position: 3,
-      filetype: 'preceptor form',
-      filename: 'preceptor.docx'
+      filetype: 'Preceptor Form',
+      filename: 'preceptor.docx',
+      date_uploaded: new Date(Date.UTC(2021, 11, 3, 1,28,4)).toLocaleString(),
     }];
-  // Statuses: complete, incomplete, not started
-  studentApplicationStatus!: string;
 
-  constructor() {
+  constructor(private httpClient: HttpClient) {
     for (let i = 1; i < 4; i++) {
       this.years.push({
         label: String(this.year + i),
@@ -54,20 +59,20 @@ export class BioService {
   }
 
   saveApplication(appForm: FormArray) {
-    const formData = new FormData();
+    const jsonFormData: {[index: string]: string | number} = {};
 
     for (let i = 0; i < appForm.length; i++) {
       if (appForm.controls[i].touched) {
         Object.keys(appForm.controls[i].value).forEach(key => {
           if (appForm.controls[i].get(key)?.touched) {
-            formData.append(key, appForm.controls[i].value[key])
+            jsonFormData[key] =  appForm.controls[i].value[key]
           }
         })
       }
     }
 
     this.httpClient
-      .post<any>(environment.apiUrl + 'bio', formData)
+      .post<{message: string}>(environment.apiUrl + 'bio/save', jsonFormData)
       .subscribe(res => {
         console.log(res);
       });
