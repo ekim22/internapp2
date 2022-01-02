@@ -5,7 +5,7 @@ module.exports.getProgram = (req, res) => {
   Student.findOne({userId: req.userData.userId})
       .then((student) => {
         res.status(201).json({
-          appType: student.program,
+          appType: student.appType,
         });
       });
 };
