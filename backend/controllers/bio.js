@@ -1,15 +1,30 @@
-const Bio = require('../models/bio');
+const BioForm = require('../models/bio/form');
 
 
 module.exports.getApps = (req, res) => {
 
 };
 
-module.exports.getApp = () => {};
+module.exports.getApp = (req, res) => {
+  BioForm.findOne({userId: req.userData.userId})
+      .then((application) => {
+        res.status(201).json({
+          application: application,
+        });
+      });
+};
 
 module.exports.saveApp = (req, res) => {
-  console.log(req.body);
-  res.status(201).json({
-    message: 'got here!',
-  });
+  BioForm.findOneAndUpdate({userId: req.userData.userId}, req.body, {upsert: true, new: true})
+      .then((savedFormData) => {
+        res.status(201).json({
+          message: 'Application updated!',
+          savedFormData: savedFormData,
+        });
+      })
+      .catch(() => {
+        res.status(500).json({
+          message: 'Failed to update application!',
+        });
+      });
 };
