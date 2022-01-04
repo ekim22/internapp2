@@ -1,13 +1,14 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
+const options = {discriminatorKey: 'role'};
+
 const userSchema = mongoose.Schema({
   // eslint-disable-next-line max-len
   // unique: true doesn't validate input; It merely allows mongoose to do some optimizations
   email: {type: String, required: true, unique: true},
   password: {type: String, required: true},
-  role: {type: String, required: true},
-});
+}, options);
 
 // eslint-disable-next-line max-len
 // We pass mongoose-unique-validator here as a plugin to actually make sure the email is unique.
