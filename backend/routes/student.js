@@ -5,7 +5,13 @@ const studentController = require('../controllers/student');
 
 const router = express.Router();
 
-router.get('', checkAuth, studentController.getProgram);
-router.post('', checkAuth, studentController.setProgram);
+router.post('/signup', studentController.createStudent);
+router.get('/appType', checkAuth, studentController.getAppType);
+router.post('/appType', checkAuth, studentController.setAppType);
+router.get('/appStatus', checkAuth, studentController.getAppStatus);
+router.post('/appStatus', checkAuth, studentController.setAppStatus);
+router.get('/appProgress', checkAuth, studentController.getAppProgress);
+router.post('/appProgress', checkAuth, studentController.setAppProgress);
+
 
 module.exports = router;
