@@ -58,23 +58,9 @@ export class BioService {
     this.bioAppDocs.push({position: pos, filetype: id, filename: filename, date_uploaded: date_uploaded});
   }
 
-  saveApplication(appForm: FormArray) {
-    const jsonFormData: {[index: string]: string | number} = {};
-
-    for (let i = 0; i < appForm.length; i++) {
-      if (appForm.controls[i].touched) {
-        Object.keys(appForm.controls[i].value).forEach(key => {
-          if (appForm.controls[i].get(key)?.touched) {
-            jsonFormData[key] =  appForm.controls[i].value[key]
-          }
-        })
-      }
-    }
-
-    this.httpClient
-      .post<{message: string}>(environment.apiUrl + 'bio/save', jsonFormData)
-      .subscribe(res => {
-        console.log(res);
-      });
+  getApplication() {
+    return this.httpClient.get<{message: string, application: BioApplication}>(environment.apiUrl + 'bio');
   }
+
+
 }
