@@ -1,4 +1,5 @@
 const BioForm = require('../models/bio/form');
+const {setAppProgress} = require('./student');
 
 
 module.exports.getApps = (req, res) => {
@@ -17,6 +18,7 @@ module.exports.getApp = (req, res) => {
 module.exports.saveApp = (req, res) => {
   BioForm.findOneAndUpdate({userId: req.userData.userId}, req.body, {upsert: true, new: true})
       .then((savedFormData) => {
+        setAppProgress(req, res);
         res.status(201).json({
           message: 'Application updated!',
           savedFormData: savedFormData,
