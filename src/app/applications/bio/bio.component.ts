@@ -68,14 +68,13 @@ export class BioComponent implements OnInit, OnDestroy {
     Validators.required
   ]
 
-
   errorMsg: string = "Please check the form for errors, fill in required fields, and resubmit.";
   thing!: string;
   bioStoreListener!: Subscription;
   isDirty$!: Observable<boolean>;
 
   // Going to get rid of these
-  bioApp!: BioApplication;
+  bioApp!: any;
   essayFileName!: string;
   transcriptFileName!: string;
   otherFileName!: string;
