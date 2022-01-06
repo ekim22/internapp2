@@ -88,7 +88,6 @@ export class BioComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.headerService.activateRoute('application');
-
     this.studentAcademicInfo = this._formBuilder.group({
       desiredInternshipSemester: ['', Validators.required],
       desiredInternshipYear: ['', Validators.required],
@@ -162,7 +161,35 @@ export class BioComponent implements OnInit, OnDestroy {
 
     this.bioStoreListener = this.bioService.getApplication().subscribe(res => {
       this.bioApp = res.application;
-      this.studentAcademicInfo.get('desiredInternshipSemester')?.patchValue(this.bioApp.desiredInternshipSemester)
+      if (this.bioApp) {
+        Object.keys(this.bioApp).forEach(key => {
+          if (key !== '_id' && key !== 'userId' && key !== '__v') {
+            Object.keys(this.bioApp[key]).forEach(value => {
+              if (key === 'studentAcademicInfo') {
+                this.studentAcademicInfo.get(value)?.patchValue(this.bioApp[key][value]);
+              }
+              else if (key === 'emergencyContactInfo') {
+                this.emergencyContactInfo.get(value)?.patchValue(this.bioApp[key][value]);
+              }
+              else if (key === 'mentorInfo') {
+                this.mentorInfo.get(value)?.patchValue(this.bioApp[key][value]);
+              }
+              else if (key === 'internshipInfo') {
+                this.internshipInfo.get(value)?.patchValue(this.bioApp[key][value]);
+              }
+              else if (key === 'educationalObjectives') {
+                this.educationalObjectives.get(value)?.patchValue(this.bioApp[key][value]);
+              }
+              else if (key === 'documents') {
+                this.documents.get(value)?.patchValue(this.bioApp[key][value]);
+              }
+              else if (key === 'signature') {
+                this.signature.get(value)?.patchValue(this.bioApp[key][value]);
+              }
+            })
+          }
+        });
+      }
     })
 
     bioStore$.subscribe(state => {
