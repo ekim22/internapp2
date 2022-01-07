@@ -204,7 +204,12 @@ export class BioComponent implements OnInit, OnDestroy {
 
     this.isDirty$ = merge(
       this.studentAcademicInfo.valueChanges,
-      this.emergencyContactInfo.valueChanges
+      this.emergencyContactInfo.valueChanges,
+      this.mentorInfo.valueChanges,
+      this.internshipInfo.valueChanges,
+      this.educationalObjectives.valueChanges,
+      this.documents.valueChanges,
+      this.signature.valueChanges
     ).pipe(
       dirtyCheck(bioStore$)
     )
