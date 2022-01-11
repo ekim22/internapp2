@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
-const formSchema = mongoose.Schema({
-  userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
+const studentAcademicInfoSchema = mongoose.Schema({
   desiredInternshipSemester: {type: String},
   desiredInternshipYear: {type: String},
   concentration: {type: String},
@@ -11,6 +10,10 @@ const formSchema = mongoose.Schema({
   programGPA: {type: Number},
   hoursCompleted: {type: Number},
   intendedProfession: {type: String},
+  completed: {type: Boolean},
+}, {_id: false});
+
+const emergencyContactInfoSchema = mongoose.Schema({
   contactFirstName: {type: String},
   contactLastName: {type: String},
   contactAddress: {type: String},
@@ -19,11 +22,19 @@ const formSchema = mongoose.Schema({
   contactZip: {type: String},
   contactPhone: {type: String},
   contactEmail: {type: String},
+  completed: {type: Boolean},
+}, {_id: false});
+
+const mentorInfoSchema = mongoose.Schema({
   mentorFirstName: {type: String},
   mentorLastName: {type: String},
   mentorOffice: {type: String},
   mentorPhone: {type: String},
   mentorEmail: {type: String},
+  completed: {type: Boolean},
+}, {_id: false});
+
+const internshipInfoSchema = mongoose.Schema({
   committeeSites: {type: String},
   siteName: {type: String},
   siteSpecialty: {type: String},
@@ -48,13 +59,37 @@ const formSchema = mongoose.Schema({
   studentAvgWorkingHours: {type: String},
   studentInternshipVsWork: {type: String},
   studentPersonalConnection: {type: String},
+  completed: {type: Boolean},
+}, {_id: false});
+
+const educationalObjectivesSchema = mongoose.Schema({
   firstObjective: {type: String},
   secondObjective: {type: String},
   thirdObjective: {type: String},
+  completed: {type: Boolean},
+}, {_id: false});
+
+const documentsSchema = mongoose.Schema({
   essay: {type: String},
   transcript: {type: String},
   otherDoc: [''],
-  signature: {type: String},
+  completed: {type: Boolean},
+}, {_id: false});
+
+const signatureSchema = mongoose.Schema({
+  printedSignature: {type: String},
+  completed: {type: Boolean},
+}, {_id: false});
+
+const bioFormSchema = mongoose.Schema({
+  userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
+  studentAcademicInfo: studentAcademicInfoSchema,
+  emergencyContactInfo: emergencyContactInfoSchema,
+  mentorInfo: mentorInfoSchema,
+  internshipInfo: internshipInfoSchema,
+  educationalObjectives: educationalObjectivesSchema,
+  documents: documentsSchema,
+  signature: signatureSchema,
 });
 
-module.exports = mongoose.model('BioForm', formSchema);
+module.exports = mongoose.model('BioForm', bioFormSchema);
