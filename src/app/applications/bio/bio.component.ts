@@ -6,38 +6,34 @@ import {MatTable} from "@angular/material/table";
 import {MatStep} from "@angular/material/stepper";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {StudentService} from "../../student/student.service";
-import {BehaviorSubject, combineLatest, merge, Observable, Subscription} from "rxjs";
-import {debounceTime, map, startWith, tap} from "rxjs/operators";
+import {BehaviorSubject, combineLatest, Observable, Subscription} from "rxjs";
+import {debounceTime, map, shareReplay, startWith, tap} from "rxjs/operators";
 import * as equal from "fast-deep-equal"
-import {BioApplication} from "./bio.model";
 
 // TODO save bio form fields into store and load only if it's the same user.
-export const bioStore = new BehaviorSubject({
-  studentAcademicInfo: [
-    {desiredInternshipSemester: '',},
-    {desiredInternshipYear: '',},
-    {concentration: '',},
-    {expectedGradSemester: '',},
-    {expectedGradYear: '',},
-    {overallGPA: '',},
-    {programGPA: '',},
-    {hoursCompleted: '',},
-    {intendedProfession: '',},
-  ],
-  emergencyContactInfo: [
-    {contactFirstName: ''},
-    {contactLastName: ''},
-    {contactAddress: ''},
-    {contactCity: ''},
-    {contactState: ''},
-    {contactZip: ''},
-    {contactPhone: ''},
-    {contactEmail: ''},
-  ],
-})
+export const bioStore = new BehaviorSubject({})
 
 export const bioStore$ = bioStore.asObservable();
 
+export function dirtyCheck<U>(source: Observable<U>) {
+  return function<T>(valueChanges: Observable<T>): Observable<boolean> {
+
+    const isDirty$ = combineLatest(
+      source,
+      valueChanges,
+    ).pipe(
+      debounceTime(300),
+      tap(([a,b]) => {
+        console.log(a)
+        console.log(b)
+      }),
+      map(([a, b]) => equal(a, b)),
+      startWith(true),
+      shareReplay({ bufferSize: 1, refCount: true }),
+    );
+    return isDirty$;
+  };
+}
 
 @Component({
   selector: 'app-bio',
