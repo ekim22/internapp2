@@ -22,8 +22,22 @@ export class StudentApplicationComponent implements OnInit, OnDestroy {
   constructor(private studentService: StudentService) { }
 
   ngOnInit(): void {
-    this.studentApplicationStatusListener = this.studentService.applicationStatus.subscribe(status => {
-      this.studentApplicationStatus = status;
+    this.studentApplicationTypeListener = this.studentService.getAppType().subscribe(
+      (student) => {
+        this.studentAppType = student.appType;
+      }
+    )
+    this.studentApplicationProgressListener = this.studentService.getAppProgress().subscribe(
+      (student) => {
+        this.applicationProgress = parseFloat(student.appProgress);
+      }
+    )
+    this.studentService.getAppInfo().subscribe(res => {
+      this.studentAppType = res.appInfo.appType;
+      this.applicationProgress = parseFloat(res.appInfo.appProgress);
+      for (let step of res.appInfo.appSteps) {
+        this.task.subtasks?.push(step);
+      }
     })
   }
 
