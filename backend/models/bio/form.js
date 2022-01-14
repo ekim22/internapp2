@@ -53,7 +53,7 @@ const internshipInfoSchema = mongoose.Schema({
   preceptorEmail: {type: String},
   preceptorTitle: {type: String},
   preceptorManagerStatus: {type: String},
-  studentEmploymentStatus: {type: String},
+  studentEmployedHere: {type: String},
   studentPosition: {type: String},
   studentPayStatus: {type: String},
   studentAvgWorkingHours: {type: String},
