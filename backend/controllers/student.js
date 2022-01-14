@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const Student = require('../models/student');
+const BioForm = require('../models/bio/form');
 const bcrypt = require('bcrypt');
 
 module.exports.createStudent = (req, res) => {
@@ -82,7 +83,7 @@ module.exports.getAppStatus = (req, res) => {
         res.status(401).json({
           message: 'Could not get app status!',
         });
-      }); ;
+      });
 };
 
 module.exports.setAppStatus = (req, res) => {
@@ -127,24 +128,53 @@ module.exports.getAppProgress = (req, res) => {
       });
 };
 
-module.exports.setAppProgress = (req, res) => {
-  Student.findOne({_id: req.userData.userId}, (err, foundDoc) => {
-    console.log(foundDoc);
-    console.log(req.body.appProgress);
-    foundDoc.appProgress = req.body.appProgress;
-    foundDoc.markModified('appProgress');
-    foundDoc.save().then(
-        (result) => {
-          console.log('result' + result);
-          if (result) {
-            res.status(200).json({
-              message: 'App progress updated!',
-            });
-          } else {
-            res.status(401).json({message: 'There was an error updating app progress!'});
-          }
-        },
-    );
+module.exports.setAppProgress = (req) => {
+  Student.findOne({_id: req.userData.userId}, (err, foundStudent) => {
+    foundStudent.appProgress = req.body.appProgress;
+    foundStudent.markModified('appProgress');
+    foundStudent.save();
   });
 };
 
+module.exports.getAppSteps = (req, res) => {
+
+};
+
+module.exports.getAppInfo = (req, res) => {
+  const appInfo = {
+    appType: '',
+    appProgress: '',
+    appSteps: [],
+  };
+  Student.findOne({_id: req.userData.userId})
+      .then((student) => {
+        appInfo.appType = student.appType;
+        appInfo.appProgress = student.appProgress;
+        BioForm.findOne({userId: req.userData.userId}, (err, application) => {
+          if (err) {
+            res.status(401).json({
+              error: err,
+            });
+          } else {
+            appInfo.appSteps = [
+              {'name': 'Student Academic Info', 'completed': application.studentAcademicInfo.completed},
+              {'name': 'Emergency Contact Info', 'completed': application.emergencyContactInfo.completed},
+              {'name': 'Mentor Info', 'completed': application.mentorInfo.completed},
+              {'name': 'Internship Info', 'completed': application.internshipInfo.completed},
+              {'name': 'Educational Objectives', 'completed': application.educationalObjectives.completed},
+              {'name': 'Documents', 'completed': application.documents.completed},
+              {'name': 'Signature', 'completed': application.signature.completed},
+            ];
+
+            res.status(201).json({
+              appInfo: appInfo,
+            });
+          }
+        });
+      })
+      .catch((err) => {
+        res.status(401).json({
+          message: err,
+        });
+      });
+};
