@@ -9,4 +9,9 @@ export class StudentService {
   constructor() { }
 
 
+  getAppInfo() {
+    return this.httpClient.get<{appInfo: {appType: string, appProgress: string, appSteps: []}}>(environment.apiUrl + 'student/appInfo');
+  }
+
+
 }
