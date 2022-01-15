@@ -172,6 +172,14 @@ export class BioComponent implements OnInit, OnDestroy {
               }
               else if (key === 'internshipInfo') {
                 this.internshipInfo.get(value)?.patchValue(this.bioApp[key][value]);
+                if (value === 'committeeSites') {
+                  if (this.bioApp[key]['committeeSites'] === 'other') {
+                    this.siteIsOther = true;
+                    this.siteSelected = 'other';
+                  } else if (this.bioApp[key]['committeeSites'] !== 'other' && this.bioApp[key]['committeeSites'] !== '') {
+                    this.siteSelected = this.bioApp[key]['committeeSites'];
+                  }
+                }
               }
               else if (key === 'educationalObjectives') {
                 this.educationalObjectives.get(value)?.patchValue(this.bioApp[key][value]);
