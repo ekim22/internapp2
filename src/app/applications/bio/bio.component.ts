@@ -164,7 +164,7 @@ export class BioComponent implements OnInit, OnDestroy {
       this.bioApp = res.application;
       if (this.bioApp) {
         Object.keys(this.bioApp).forEach(key => {
-          if (key !== '_id' && key !== 'userId' && key !== '__v') {
+          if (key !== '_id' && key !== 'userId' && key !== '__v' && key !== 'completed') {
             Object.keys(this.bioApp[key]).forEach(value => {
               if (key === 'studentAcademicInfo') {
                 this.studentAcademicInfo.get(value)?.patchValue(this.bioApp[key][value]);
