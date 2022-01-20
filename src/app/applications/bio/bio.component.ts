@@ -153,8 +153,9 @@ export class BioComponent implements OnInit, OnDestroy {
       otherDoc: [[]],
     })
     this.signature = this._formBuilder.group({
-      signature: ['', Validators.required],
+      printedSignature: ['', Validators.required],
     })
+
     this.years = this.bioService.years;
     this.bioAppSites = this.bioService.getBioAppSites();
     this.bioDocs = this.bioService.getDocs();
