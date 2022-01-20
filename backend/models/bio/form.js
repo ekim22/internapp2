@@ -70,11 +70,26 @@ const educationalObjectivesSchema = mongoose.Schema({
 }, {_id: false});
 
 const documentsSchema = mongoose.Schema({
-  essay: {type: String},
-  transcript: {type: String},
-  otherDoc: [''],
+  essay: [{
+    fileName: {type: String},
+    fileType: {type: String},
+    filePath: {type: String},
+    dateUploaded: {type: Date},
+  }],
+  transcript: [{
+    fileName: {type: String},
+    fileType: {type: String},
+    filePath: {type: String},
+    dateUploaded: {type: Date},
+  }],
+  otherDoc: [{
+    fileName: {type: String},
+    fileType: {type: String},
+    filePath: {type: String},
+    dateUploaded: {type: Date},
+  }],
   completed: {type: Boolean},
-}, {_id: false});
+}, {_id: true});
 
 const signatureSchema = mongoose.Schema({
   printedSignature: {type: String},
