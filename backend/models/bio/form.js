@@ -75,21 +75,24 @@ const documentsSchema = mongoose.Schema({
     fileType: {type: String},
     filePath: {type: String},
     dateUploaded: {type: Date},
+    creator: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
   }],
   transcript: [{
     fileName: {type: String},
     fileType: {type: String},
     filePath: {type: String},
     dateUploaded: {type: Date},
+    creator: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
   }],
   otherDoc: [{
     fileName: {type: String},
     fileType: {type: String},
     filePath: {type: String},
     dateUploaded: {type: Date},
+    creator: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
   }],
   completed: {type: Boolean},
-}, {_id: true});
+}, {_id: false});
 
 const signatureSchema = mongoose.Schema({
   printedSignature: {type: String},
