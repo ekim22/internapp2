@@ -70,9 +70,55 @@ module.exports.addDoc = (req, res) => {
             },
         );
   } else if (req.body.fileType === 'Transcript') {
-
-  } else if (req.body.fileType === 'Other') {
-
+    BioForm.findOneAndUpdate({'userId': req.userData.userId},
+        {
+          $set: {
+            'documents.transcript.0': {
+              ...req.body,
+              filePath: req.file.filename,
+              creator: req.userData.userId,
+            },
+          },
+        }, {new: true})
+        .then(
+            (bioForm) => {
+              res.status(200).json({
+                message: 'Successfully uploaded transcript!',
+                document: bioForm.documents.transcript,
+              });
+            },
+        )
+        .catch(
+            (err) => {
+              console.log('catching');
+              console.log(err);
+            },
+        );
+  } else {
+    BioForm.findOneAndUpdate({'userId': req.userData.userId},
+        {
+          $push: {
+            'documents.otherDoc': {
+              ...req.body,
+              filePath: req.file.filename,
+              creator: req.userData.userId,
+            },
+          },
+        }, {new: true})
+        .then(
+            (bioForm) => {
+              res.status(200).json({
+                message: 'Successfully uploaded document!',
+                document: bioForm.documents.otherDoc[bioForm.documents.otherDoc.length - 1],
+              });
+            },
+        )
+        .catch(
+            (err) => {
+              console.log('catching');
+              console.log(err);
+            },
+        );
   }
 };
 
