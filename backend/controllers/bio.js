@@ -40,7 +40,7 @@ module.exports.downloadDoc = (req, res) => {
   );
 };
 
-module.exports.addDoc = (req, res) => {
+module.exports.uploadDoc = (req, res) => {
   if (req.body.fileType === 'Essay') {
     BioForm.findOneAndUpdate({'userId': req.userData.userId},
         {
@@ -138,15 +138,15 @@ module.exports.getApp = (req, res) => {
 module.exports.saveApp = (req, res) => {
   BioForm.findOneAndUpdate({userId: req.userData.userId}, req.body, {upsert: true, new: true})
       .then((savedFormData) => {
-        setAppProgress(req, res);
+        setAppProgress(req);
         res.status(201).json({
           message: 'Application updated!',
           savedFormData: savedFormData,
         });
       })
-      .catch(() => {
+      .catch((err) => {
         res.status(500).json({
-          message: 'Failed to update application!',
+          message: err.message,
         });
       });
 };
