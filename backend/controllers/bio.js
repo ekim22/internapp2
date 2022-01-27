@@ -74,8 +74,10 @@ module.exports.uploadDoc = (req, res) => {
         )
         .catch(
             (err) => {
-              console.log('catching');
-              console.log(err);
+              res.status(400).json({
+                message: 'There was an error uploading your document.',
+                error: err,
+              });
             },
         );
   } else if (req.body.fileType === 'Transcript') {
@@ -99,8 +101,10 @@ module.exports.uploadDoc = (req, res) => {
         )
         .catch(
             (err) => {
-              console.log('catching');
-              console.log(err);
+              res.status(400).json({
+                message: 'There was an error uploading your document.',
+                error: err,
+              });
             },
         );
   } else {
@@ -124,8 +128,10 @@ module.exports.uploadDoc = (req, res) => {
         )
         .catch(
             (err) => {
-              console.log('catching');
-              console.log(err);
+              res.status(400).json({
+                message: 'There was an error uploading your document.',
+                error: err,
+              });
             },
         );
   }
