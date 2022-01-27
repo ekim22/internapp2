@@ -138,7 +138,36 @@ module.exports.uploadDoc = (req, res) => {
 };
 
 module.exports.deleteDoc = (req, res) => {
-
+  console.log(req.params);
+  if (req.params.fileType === 'Essay') {
+    BioForm.findOneAndUpdate({'userId': req.userData.userId},
+        {
+          $unset: {
+            'documents.essay.0': {
+              fileName: '',
+              fileType: '',
+              filePath: '',
+              dateUploaded: '',
+              creator: '',
+            },
+          },
+        }, {new: true})
+        .then(
+            (bioForm) => {
+              res.status(200).json({
+                message: 'Successfully deleted essay!',
+              });
+            },
+        )
+        .catch(
+            (err) => {
+              res.status(400).json({
+                message: 'There was an error deleting your document.',
+                error: err,
+              });
+            },
+        );
+  }
 };
 
 module.exports.getApp = (req, res) => {
