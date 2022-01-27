@@ -4,40 +4,49 @@ const {setAppProgress} = require('./student');
 
 module.exports.downloadDoc = (req, res) => {
   const fileType = req.params.fileType;
-  BioForm.findOne({userId: req.userData.userId}).then(
-      (application) => {
-        if (fileType === 'Essay') {
-          if (application.documents.essay[0].creator.toString() !== req.userData.userId) {
-            res.status(401).json({
-              message: 'Failed to get document!',
-            });
-          }
-          res.download('/home/ethan/projects/mean-playground/backend/docs/' + req.params.filePath,
-              'req.params.fileName');
-        } else if (fileType === 'Transcript') {
-          if (application.documents.transcript[0].creator.toString() !== req.userData.userId) {
-            res.status(401).json({
-              message: 'Failed to get document!',
-            });
-
-            res.download('/home/ethan/projects/mean-playground/backend/docs/' + req.params.filePath,
-                req.params.fileName);
-          }
-        } else {
-          for (const doc of application.documents.otherDoc) {
-            if (doc.fileType === fileType) {
-              if (doc.creator !== req.userData.userId) {
+  BioForm.findOne({userId: req.userData.userId})
+      .then(
+          (application) => {
+            if (fileType === 'Essay') {
+              if (application.documents.essay[0].creator.toString() !== req.userData.userId) {
                 res.status(401).json({
                   message: 'Failed to get document!',
                 });
               }
               res.download('/home/ethan/projects/mean-playground/backend/docs/' + req.params.filePath,
-                  req.params.fileName);
+                  'req.params.fileName');
+            } else if (fileType === 'Transcript') {
+              if (application.documents.transcript[0].creator.toString() !== req.userData.userId) {
+                res.status(401).json({
+                  message: 'Failed to get document!',
+                });
+
+                res.download('/home/ethan/projects/mean-playground/backend/docs/' + req.params.filePath,
+                    req.params.fileName);
+              }
+            } else {
+              for (const doc of application.documents.otherDoc) {
+                if (doc.fileType === fileType) {
+                  if (doc.creator !== req.userData.userId) {
+                    res.status(401).json({
+                      message: 'Failed to get document!',
+                    });
+                  }
+                  res.download('/home/ethan/projects/mean-playground/backend/docs/' + req.params.filePath,
+                      req.params.fileName);
+                }
+              }
             }
-          }
-        }
-      },
-  );
+          },
+      )
+      .catch(
+          (err) => {
+            res.status(400).json({
+              message: 'There was an error downloading the document.',
+              error: err,
+            });
+          },
+      );
 };
 
 module.exports.uploadDoc = (req, res) => {
