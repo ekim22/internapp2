@@ -167,6 +167,35 @@ module.exports.deleteDoc = (req, res) => {
               });
             },
         );
+  } else if (req.params.fileType === 'Transcript') {
+    BioForm.findOneAndUpdate({'userId': req.userData.userId},
+        {
+          $unset: {
+            'documents.transcript.0': {
+              fileName: '',
+              fileType: '',
+              filePath: '',
+              dateUploaded: '',
+              creator: '',
+            },
+          },
+        }, {new: true})
+        .then(
+            (bioForm) => {
+              res.status(200).json({
+                message: 'Successfully deleted transcript!',
+              });
+            },
+        )
+        .catch(
+            (err) => {
+              res.status(400).json({
+                message: 'There was an error deleting your document.',
+                error: err,
+              });
+            },
+        );
+  } else {
   }
 };
 
