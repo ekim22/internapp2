@@ -138,7 +138,6 @@ module.exports.uploadDoc = (req, res) => {
 };
 
 module.exports.deleteDoc = (req, res) => {
-  console.log(req.params);
   if (req.params.fileType === 'Essay') {
     BioForm.findOneAndUpdate({'userId': req.userData.userId},
         {
@@ -153,7 +152,7 @@ module.exports.deleteDoc = (req, res) => {
           },
         }, {new: true})
         .then(
-            (bioForm) => {
+            () => {
               res.status(200).json({
                 message: 'Successfully deleted essay!',
               });
@@ -196,6 +195,33 @@ module.exports.deleteDoc = (req, res) => {
             },
         );
   } else {
+    BioForm.findOneAndUpdate({
+      'userId': req.userData.userId,
+      'documents.otherDoc': {$elemMatch: {fileType: req.params.fileType}},
+    }, {
+      $unset: {
+        'documents.otherDoc.$.fileName': '',
+        'documents.otherDoc.$.fileType': '',
+        'documents.otherDoc.$.filePath': '',
+        'documents.otherDoc.$.dateUploaded': '',
+        'documents.otherDoc.$.creator': '',
+      },
+    }, {new: true})
+        .then(
+            () => {
+              res.status(200).json({
+                message: 'Successfully deleted essay!',
+              });
+            },
+        )
+        .catch(
+            (err) => {
+              res.status(400).json({
+                message: 'There was an error deleting your document.',
+                error: err,
+              });
+            },
+        );
   }
 };
 
