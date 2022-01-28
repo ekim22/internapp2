@@ -210,7 +210,7 @@ module.exports.deleteDoc = (req, res) => {
         .then(
             () => {
               res.status(200).json({
-                message: 'Successfully deleted essay!',
+                message: 'Successfully deleted document of type: ' + req.params.fileType + '!',
               });
             },
         )
