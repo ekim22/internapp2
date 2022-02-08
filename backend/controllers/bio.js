@@ -108,32 +108,49 @@ module.exports.uploadDoc = (req, res) => {
             },
         );
   } else {
-    BioForm.findOneAndUpdate({'userId': req.userData.userId},
-        {
-          $push: {
-            'documents.otherDoc': {
-              ...req.body,
-              filePath: req.file.filename,
-              creator: req.userData.userId,
-            },
-          },
-        }, {new: true})
-        .then(
-            (bioForm) => {
-              res.status(200).json({
-                message: 'Successfully uploaded document!',
-                document: bioForm.documents.otherDoc[bioForm.documents.otherDoc.length - 1],
-              });
-            },
-        )
-        .catch(
-            (err) => {
-              res.status(400).json({
-                message: 'There was an error uploading your document.',
-                error: err,
-              });
-            },
-        );
+    // TODO: this is not ideal. If I can get a specific range of "other" doc types from Latanya
+    //  this would be much smoother to implement, so plan to ask her about getting one.
+    console.log(req.body.fileType);
+    BioForm.find({
+      'userId': req.userData.userId,
+      'documents.otherDoc': {$elemMatch: {fileType: req.body.fileType}},
+    }).then((doc) => {
+      if (doc.length === 0) {
+        console.log('found nothing');
+        console.log(doc);
+        BioForm.findOneAndUpdate({'userId': req.userData.userId},
+            {
+              $push: {
+                'documents.otherDoc': {
+                  ...req.body,
+                  filePath: req.file.filename,
+                  creator: req.userData.userId,
+                },
+              },
+            }, {new: true})
+            .then(
+                (bioForm) => {
+                  res.status(200).json({
+                    message: 'Successfully uploaded document!',
+                    document: bioForm.documents.otherDoc[bioForm.documents.otherDoc.length - 1],
+                  });
+                },
+            )
+            .catch(
+                (err) => {
+                  res.status(400).json({
+                    message: 'There was an error uploading your document.',
+                    error: err,
+                  });
+                },
+            );
+      } else {
+        res.status(400).json({
+          message: 'File of type ' + '\"' + req.body.fileType + '\"' + ' already exists! Only one file per type is' +
+            ' permitted. Delete existing document with file type ' + '\"' + req.body.fileType + '\"' + ' and try again.',
+        });
+      }
+    });
   }
 };
 
