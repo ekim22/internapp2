@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const dotenv = require('dotenv').config();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
@@ -13,10 +14,15 @@ const commentRoutes = require('./routes/comment');
 const announcementsRoutes = require('./routes/announcements');
 
 const app = express();
+
 // Local
-const mongoDB = 'mongodb://localhost:27017/node-angular';
+let mongoDB;
+if (app.settings.env === 'development') {
+  mongoDB = process.env.LOCAL_DB;
+} else {
+  mongoDB = process.env.PROD_DB;
+}
 // Atlas
-// const mongoDB = 'mongodb+srv://admin:xUn7Xa6m4bdWWnfk@cluster0.rydkl.mongodb.net/internappV2?retryWrites=true&w=majority';
 const options = {useNewUrlParser: true, useUnifiedTopology: true};
 mongoose.connect(mongoDB, options);
 
