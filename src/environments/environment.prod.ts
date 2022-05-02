@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://shrouded-dusk-22324.herokuapp.com/api/',
+  apiUrl: 'https://shrouded-dusk-22324.herokuapp.com/',
 };
