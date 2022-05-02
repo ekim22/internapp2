@@ -316,7 +316,7 @@ module.exports.updateInstructions = (req, res) => {
 module.exports.getInstructions = (req, res) => {
   BioInstructions.findOne().then((document) => {
     if (!document) {
-      res.status(400).json({
+      res.status(204).json({
         message: 'No instructions exist yet!',
       });
     } else {
