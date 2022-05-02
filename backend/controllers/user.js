@@ -5,13 +5,14 @@ const User = require('../models/user');
 
 module.exports.createUser = (req, res) => {
   if (!req.body.email || !req.body.password) {
-    return res.status(500).json({
+    return res.status(400).json({
       message: 'Email and password cannot be empty!',
     });
   }
   bcrypt.hash(req.body.password, 10).then(
       (hash) => {
         const user = new User({
+          name: req.body.name,
           email: req.body.email,
           password: hash,
         });
@@ -31,6 +32,11 @@ module.exports.createUser = (req, res) => {
 };
 
 module.exports.login = (req, res) => {
+  if (!req.body.email || !req.body.password) {
+    return res.status(400).json({
+      message: 'Email and password cannot be empty!',
+    });
+  }
   let returnedUser;
   User.findOne({email: req.body.email})
       .then((user) => {
@@ -55,10 +61,25 @@ module.exports.login = (req, res) => {
         res.status(200).json({
           token: token,
           expiresIn: 86400,
-          role: returnedUser.role,
+          name: returnedUser.name,
+          userRole: returnedUser.role,
         });
       })
       .catch((err) => {
         console.log(err);
+      });
+};
+
+module.exports.getUserInfo = (req, res) => {
+  User.findById(req.userData.userId)
+      .then((returnedUser) => {
+        res.status(200).json({
+          name: returnedUser.name,
+          email: returnedUser.email,
+        });
+      }).catch(() => {
+        res.status(403).json({
+          message: 'Could not get user info.',
+        });
       });
 };

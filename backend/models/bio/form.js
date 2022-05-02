@@ -110,4 +110,4 @@ const bioFormSchema = mongoose.Schema({
   signature: signatureSchema,
 });
 
-module.exports = mongoose.model('BioForm', bioFormSchema);
+module.exports = mongoose.model('BioApp', bioFormSchema);

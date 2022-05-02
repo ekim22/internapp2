@@ -1,0 +1,39 @@
+<div class="login-panel">
+  <mat-card class="mat-elevation-z3">
+
+    <mat-card-content>
+      <form (ngSubmit)="onSubmit()" [formGroup]="commentForm">
+        <mat-form-field
+          *ngIf="isCommentThread"
+          appearance="standard" class="title">
+          <mat-label>Subject</mat-label>
+          <input matInput           formControlName="subject">
+        </mat-form-field>
+
+        <div class="mat-form-field-wrapper">
+          <editor  apiKey="du9m1saikikpw691ehhwqki94t27ghy6pyvfgwrnl73bperk"
+                   formControlName="body"
+                   class="mat-elevation-z1"
+                   (onInit)="handleEditorInit($event)"
+                   [init]="{
+          icons: 'material',
+          skin: 'borderless',
+          plugins: 'wordcount',
+          menubar: false,
+          min_height: 350
+        }"
+          ></editor>
+        </div>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <button mat-raised-button (click)="onSubmit()">
+        Submit
+      </button>
+      <button mat-raised-button (click)="onCancel()">
+        Cancel
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

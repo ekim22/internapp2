@@ -9,8 +9,8 @@ const router = express.Router();
 
 router.get('', checkAuth, postController.getPosts );
 router.get('/:id', checkAuth, postController.getPost );
-router.post('', checkAuth, fileOps.storeFile, postController.createPost );
-router.patch('/:id', checkAuth, fileOps.storeFile, postController.updatePost );
+router.post('', checkAuth, fileOps.storeImage, postController.createPost );
+router.patch('/:id', checkAuth, fileOps.storeImage, postController.updatePost );
 router.delete('/:id', checkAuth, postController.deletePost );
 
 module.exports = router;

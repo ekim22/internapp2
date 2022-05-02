@@ -4,6 +4,21 @@
   <br>
   <form (submit)="onSignup(signupForm)" #signupForm="ngForm" *ngIf="!isLoading">
     <mat-form-field appearance="outline">
+      <mat-label class="mat-body">&nbsp; Full Name</mat-label>
+      <div class="input-icon icon-username">
+      </div>
+      <input
+        matInput
+        type="text"
+        name="name"
+        ngModel
+        #name="ngModel"
+        required
+        placeholder="Ex: Jane Doe">
+      <mat-icon matPrefix class="input material-icons-outlined" color="primary">account_circle</mat-icon>
+      <mat-error *ngIf="name.invalid">Name is <strong>required</strong></mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label class="mat-body">&nbsp; Email Address</mat-label>
       <div class="input-icon icon-username">
       </div>
@@ -16,7 +31,7 @@
         required
         email
         placeholder="Ex: pat@example.com">
-      <mat-icon matPrefix class="input material-icons-outlined" color="primary">account_circle</mat-icon>
+      <mat-icon matPrefix class="input material-icons-outlined" color="primary">email</mat-icon>
       <mat-error *ngIf="email.invalid">Email is <strong>required</strong></mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
@@ -44,6 +59,6 @@
   <mat-divider></mat-divider>
   <mat-card-footer>
     Already have an account?&nbsp;
-    <a routerLink="/login">Log In</a>
+    <a routerLink="/auth/login">Log In</a>
   </mat-card-footer>
 </mat-card>

@@ -4,6 +4,7 @@ import {Post} from "../post.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {mimeType} from "./mime-type.validator";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-post-create',
@@ -17,6 +18,7 @@ export class PostCreateComponent implements OnInit {
   private postId!: string | null;
   public post: Post = {_id: "", title: "", content: "", imagePath: ""};
   public isLoading = false;
+  public isLoadingListener = new Subscription();
 
   constructor(private postsService: PostService,
               public route: ActivatedRoute,
@@ -55,6 +57,11 @@ export class PostCreateComponent implements OnInit {
         this.postId = null;
       }
     });
+    this.isLoadingListener = this.postsService.postIsLoading.subscribe(
+      postIsLoading => {
+        this.isLoading = postIsLoading;
+      }
+    )
   }
 
   onImagePicked(event: Event) {

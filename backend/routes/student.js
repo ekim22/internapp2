@@ -13,6 +13,7 @@ router.post('/appStatus', checkAuth, studentController.setAppStatus);
 router.get('/appProgress', checkAuth, studentController.getAppProgress);
 router.post('/appProgress', checkAuth, studentController.setAppProgress);
 router.get('/appInfo', checkAuth, studentController.getAppInfo);
+router.get('/appSteps', checkAuth, studentController.getAppSteps);
 
 
 module.exports = router;

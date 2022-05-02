@@ -1,1 +1,7 @@
-<p>student-home works!</p>
+<div *ngIf="!appStatus">
+  <h3>Welcome! <br>This is your home page where you will be able to find your application (once you've started one),
+    and information from your internship program and coordinators to assist you with your internship application.
+    <br><br>To get started, click <a routerLink="/student/apply">here</a> or find 'Apply' in the sidebar.</h3>
+  <hr>
+</div>
+<app-student-application *ngIf="appStatus"></app-student-application>

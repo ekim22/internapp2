@@ -1,11 +1,14 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
+// This discriminatorKey is the field on which Users will be
+//  distinguishable in mongoDB.
 const options = {discriminatorKey: 'role'};
 
 const userSchema = mongoose.Schema({
   // eslint-disable-next-line max-len
   // unique: true doesn't validate input; It merely allows mongoose to do some optimizations
+  name: {type: String, required: true},
   email: {type: String, required: true, unique: true},
   password: {type: String, required: true},
 }, options);

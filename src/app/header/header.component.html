@@ -1,16 +1,20 @@
-<mat-toolbar color="primary">
+<mat-toolbar class=".mat-toolbar-row" [ngClass]="{'app-toolbar' : this.activeRoutes['application']}" color="primary">
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="onMenuClicked()" *ngIf="isAuthenticated">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <img src="assets/favicon.png" alt="" style="padding-right: 10px; padding-left: 10px"><a [routerLink]="this.userRole + '/home'" style="padding-right: 10px">My InternApp</a>
   <ul>
     <li>
-      <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
-    </li>
-    <li>
-      <a mat-button routerLink="/posts" routerLinkActive="active" *ngIf="isAuthenticated" [routerLinkActiveOptions]="{exact: true}">Posts</a>
+      <a mat-button routerLink="/student/apply" routerLinkActive="active" *ngIf="isAuthenticated && this.appType === undefined && userRole === 'student' && this.activeRoutes['application'] === false" [routerLinkActiveOptions]="{exact: true}">Apply</a>
     </li>
   </ul>
   <span class="spacer"></span>
   <ul>
     <li>
-      <a mat-button routerLink="/posts/create" routerLinkActive="active" *ngIf="isAuthenticated">Create a Post</a>
+      <a mat-button routerLink="/posts/create" routerLinkActive="active" *ngIf="isAuthenticated && this.activeRoutes['posts']">Create a Post</a>
+    </li>
+    <li>
+      <a mat-button *ngIf="isAuthenticated && this.activeRoutes['application'] && this.userRole === 'coordinator'" (click)="open()">New Comment Thread</a>
     </li>
     <li>
       <a mat-button routerLink="/auth/login" routerLinkActive="active" *ngIf="!isAuthenticated">Log in</a>
@@ -19,7 +23,7 @@
       <a mat-button routerLink="/auth/signup" routerLinkActive="active" *ngIf="!isAuthenticated">Sign up</a>
     </li>
     <li>
-      <a mat-button *ngIf="isAuthenticated" (click)="onLogout()">Logout</a>
+      <a mat-button *ngIf="isAuthenticated" (click)="onLogout()">Log out</a>
     </li>
   </ul>
 </mat-toolbar>

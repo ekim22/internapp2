@@ -14,6 +14,7 @@
         ngModel
         #email="ngModel"
         required
+        autocomplete="email"
         email
         placeholder="Ex: pat@example.com">
       <mat-icon matPrefix class="input material-icons-outlined" color="primary">account_circle</mat-icon>
@@ -28,7 +29,7 @@
         ngModel
         #password="ngModel"
         required
-        autocomplete
+        autocomplete="password"
         placeholder="Password">
       <mat-icon matPrefix class="input material-icons-outlined" color="primary">lock</mat-icon>
       <button type="button" class="hide" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
@@ -43,7 +44,7 @@
   <br>
   <mat-divider></mat-divider>
   <mat-card-footer>
-    New to Posts? &nbsp;
-    <a routerLink="/signup">Sign Up</a>
+    New to the InternApp? &nbsp;
+    <a routerLink="/auth/signup">Sign Up</a>
   </mat-card-footer>
 </mat-card>

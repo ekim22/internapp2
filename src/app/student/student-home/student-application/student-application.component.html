@@ -1,7 +1,106 @@
-<button mat-button (click)="changeStatus()">Change Status</button>
-<div *ngIf="studentApplicationStatus === 'complete'">{{ this.studentApplicationStatus }}</div>
-<div *ngIf="studentApplicationStatus === 'incomplete'">{{ this.studentApplicationStatus }}</div>
-<div *ngIf="studentApplicationStatus === 'needs review'">{{ this.studentApplicationStatus }}</div>
-<div *ngIf="studentApplicationStatus === 'rescinded'">{{ this.studentApplicationStatus }}</div>
-<div *ngIf="studentApplicationStatus === 'postponed'">{{ this.studentApplicationStatus }}</div>
-<div *ngIf="studentApplicationStatus === 'site declined'">{{ this.studentApplicationStatus }}</div>
+<div class="flex-grid">
+  <div class="col">
+    <mat-accordion>
+      <mat-expansion-panel hideToggle #infoPanel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Important Information and Announcements
+          </mat-panel-title>
+          <mat-panel-description>
+            {{ infoPanel.expanded ? "Click to close panel" : "Click me to open panel" }}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-card>
+          <app-announcements></app-announcements>
+        </mat-card>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>
+<div [ngClass]="isMobileResolution ? 'mobile-grid' : 'flex-grid-half'">
+  <div [ngClass]="isMobileResolution ? 'mobile-grid' : 'col'">
+    <mat-card class="application-card">
+      <img class="card-image" mat-card-image src="assets/national-cancer-institute-1PpyUZceg_I-unsplash.jpg" alt="Photo of cancer cells">
+      <mat-card-header>
+        <app-profile-icon mat-card-avatar iconClass="personal-icon" [userInitials]="userName | async"></app-profile-icon>
+        <mat-card-title>Application Details</mat-card-title>
+        <mat-card-subtitle>Candidate for BIOL 4800 Internship Program</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          Application progress:
+          <mat-progress-bar mode="determinate" [value]="appProgress"></mat-progress-bar> {{ appProgress + "%" }}
+        </p>
+        <p>
+          Application status: {{ appStatus }}
+        </p>
+        <p>
+          The steps below represent the steps that you have currently completed in the application. Steps that were completed have check marks, while those that still need to be filled out are in gray.
+          <br>
+          You can click 'Resume' below to return to your application.
+        </p>
+      </mat-card-content>
+      <section class="example-section">
+        <span class="example-list-section">
+          <mat-checkbox class="example-margin"
+                        [checked]="updateAllComplete()"
+                        [disabled]="true"
+                        [indeterminate]="false">
+          {{task.name}}
+          </mat-checkbox>
+        </span>
+              <span class="example-list-section">
+          <ul>
+            <li *ngFor="let subtask of task.subtasks">
+              <mat-checkbox [(ngModel)]="subtask.completed"
+                            [disabled]="true"
+                            [indeterminate]="subtask.completed"
+                            (ngModelChange)="updateAllComplete()">
+                {{subtask.name}}
+              </mat-checkbox>
+            </li>
+          </ul>
+        </span>
+      </section>
+      <mat-card-actions>
+        <div style="display: flex">
+          <div style="margin-left: auto">
+            <button mat-button (click)="resumeApplication()">Resume</button>
+          </div>
+<!--          <div style="margin-left: auto">-->
+<!--            <button mat-raised-button [matBadge]="commentBadges" matBadgeColor="warn" matBadgePosition="after" matBadgeSize="small" [matBadgeHidden]="this.commentBadges === 0" (click)="onViewComments()">{{ this.showComments ? "Hide Comments" : "Show Feedback" }}</button>-->
+<!--          </div>-->
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+<!--  <div class="col" *ngIf="showComments">-->
+<!--    <mat-card class="comment-card" [@widthGrow]>-->
+<!--      <mat-card-title class="title">-->
+<!--        <div style="display: flex; align-items: center">-->
+<!--          <div style="justify-content: flex-start">-->
+<!--            Comments by Coordinators-->
+<!--          </div>-->
+<!--          <div style="margin-left: auto">-->
+<!--            <button mat-button matTooltip="Set all comments as read" (click)="setCommentsAsRead()">-->
+<!--              <mat-icon>done_all</mat-icon>-->
+<!--            </button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </mat-card-title>-->
+<!--      <mat-divider style="padding-top: 10px" [inset]="true"></mat-divider>-->
+<!--      <mat-card-content>-->
+<!--        <div class="container">-->
+<!--          <div class="comment-container">-->
+<!--            <div mat-card-avatar class="comment-image">-->
+<!--            </div>-->
+<!--            <div class="comment">-->
+<!--              Internship coordinators can comment on your application on a review. You can view their comments here if they do. The 'View Comments' button will notify you with a red notification badge with the number of new comments your application's received.-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </mat-card-content>-->
+<!--    </mat-card>-->
+<!--  </div>-->
+</div>
+

@@ -1,0 +1,19 @@
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th {
+  width: 25%;
+}
+
+.announcements-panel {
+  border: solid 1px black;
+  border-radius: 6px;
+  background-color: #DAF7A6;
+  padding-left: 10px;
+}

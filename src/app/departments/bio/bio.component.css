@@ -1,0 +1,113 @@
+.mat-stepper-vertical {
+  margin-top: 8px;
+}
+
+.mat-form-field {
+  margin-top: 1px;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.form-container .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+td {
+  padding-right: 8px;
+}
+
+input[type="file"] {
+  visibility: hidden;
+}
+
+.sub-step {
+  margin-top: 8px;
+}
+
+.semester {
+  width: 150px;
+}
+
+.year {
+  width: 100px;
+}
+
+.contact-mailing, .site-mailing {
+  width: 300px;
+}
+
+.contact-state, .site-state {
+  width: 80px;
+}
+
+.contact-zip, .site-zip {
+  width: 100px;
+}
+
+.site-phone {
+  width: 150px;
+}
+
+.educational-obj {
+  width: 450px;
+}
+
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+table.mat-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.application-actions {
+  align-content: center;
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 8px 8px 16px;
+}
+
+.application-container {
+  border: 1px solid lightgray;
+  border-radius: 4px;
+  margin: 24px 0;
+}
+
+td, th {
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 200px;
+}
+
+.instructions-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.instructions-submit {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.comment-card {
+  margin-bottom: 8px;
+  border: solid 1px black;
+  border-radius: 6px;
+  background-color: #A59CAD;
+  color: white;
+}
+
+.comment-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}

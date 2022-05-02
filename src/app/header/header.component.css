@@ -16,5 +16,15 @@ a {
 
 .mat-button:hover {
   color: inherit;
-  background: royalblue;
+  background: #512DA8;
+  border-radius: 10px;
 }
+
+.app-toolbar {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+

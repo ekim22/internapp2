@@ -1,0 +1,95 @@
+.header-image {
+  background-image: url("src/assets/portrait.jpg");
+  background-size: contain;
+}
+
+.container {
+  padding-bottom: 10px;
+}
+
+.comment-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: solid 1px black;
+  border-radius: 6px;
+  background-color: #673AB7;
+  color: white;
+  padding-left: 10px;
+}
+
+.comment-image {
+  background-image: url("src/assets/portrait.jpg");
+  background-size: contain;
+  float: left;
+}
+
+.comment {
+  float: right;
+  padding: 10px;
+}
+
+.applicant-comment {
+  float: bottom;
+}
+
+.card-image {
+  height: 200px;
+  object-fit: cover;
+}
+
+.comment-card {
+  height: 530px;
+  max-height: 100%;
+  overflow: auto;
+}
+
+.comment-card .title {
+  text-align: center;
+  align-items: center;
+  font-family: "Agency FB", sans-serif;
+}
+
+.flex-grid {
+  display: flex;
+  margin: 0 0 20px 0;
+}
+
+.mobile-grid {
+  margin-bottom: 20px;
+}
+
+.col {
+  flex: 1;
+  width: 100%;
+}
+
+.flex-grid-half {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-grid-half .col{
+  width: 47%;
+}
+
+.flex-grid-half .col + .col{
+  padding-left: 20px;
+}
+
+.example-section {
+  margin: 12px 0;
+}
+
+.example-margin {
+  margin: 0 12px;
+}
+
+ul {
+  list-style-type: none;
+  margin-top: 4px;
+}
+
+::ng-deep.mat-checkbox-checked.mat-accent.mat-checkbox-disabled .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: #673AB7 !important;
+}

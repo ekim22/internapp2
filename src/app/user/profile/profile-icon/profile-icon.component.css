@@ -1,0 +1,48 @@
+.personal-icon {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  font-size: 20px;
+  background: #DAF7A6;
+  color: #2623d9;
+  text-align: center;
+}
+
+.comment-other-icon {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  font-size: 20px;
+  background: #DAF7A6;
+  color: #2623d9;
+  text-align: center;
+}
+
+.sidenav-icon {
+  width: 100px;
+  height: 100px;
+  line-height: 105px;
+  border-radius: 50%;
+  font-size: 50px;
+  background: #9d52e3;
+  color: #94ffb4;
+  text-align: center;
+}
+
+.profile-icon {
+  width: 200px;
+  height: 200px;
+  line-height: 200px;
+  border-radius: 50%;
+  font-size: 100px;
+  background: #cf153d;
+  color: #62eb3f;
+  margin: auto;
+  text-align: center;
+}
+
+.sidenav {
+  padding: 0 60px;
+}

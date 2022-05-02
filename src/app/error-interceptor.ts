@@ -15,7 +15,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         setTimeout(() => {
           this.dialog.open(ErrorComponent, {data: {message: error.error.message}});
-        }, 2000)
+        }, 2000);
         return throwError(error);
       })
     )

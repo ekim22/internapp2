@@ -1,12 +1,10 @@
 <div class="profile-container">
   <mat-card class="profile-card">
     <mat-card-header>
-      <mat-card-title>Ethan Kim</mat-card-title>
-      <mat-card-subtitle>Aspiring Software Engineer</mat-card-subtitle>
+      <mat-card-title>{{ userName.value }}</mat-card-title>
+      <mat-card-subtitle>{{ userEmail.value }}</mat-card-subtitle>
     </mat-card-header>
-    <div class="profile-image-container">
-      <img mat-card-image src="assets/portrait.jpg" alt="E. K.">
-    </div>
+    <app-profile-icon iconClass="profile-icon" [userInitials]="userName | async"></app-profile-icon>
     <mat-card-content>
       <h3>About me</h3>
       <p>

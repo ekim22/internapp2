@@ -1,4 +1,54 @@
-<app-header></app-header>
-<main>
-  <router-outlet></router-outlet>
-</main>
+<mat-sidenav-container fullscreen>
+  <mat-sidenav [ngClass]="color === 'default' ? 'default mat-elevation-z8' : 'alternative mat-elevation-z8'" #sidenav (click)="sidenav.toggle()">
+    <a routerLink="/profile" class="sidenav-icon">
+        <app-profile-icon iconClass="sidenav-icon" [userInitials]="userName | async"></app-profile-icon>
+    </a>
+
+    <div>
+      <h4 class="name">{{ userName.value }}</h4>
+      <p class="designation">{{ userEmail.value }}</p>
+    </div>
+
+
+    <mat-divider></mat-divider>
+
+    <button mat-button class="menu-button" [routerLink]="this.role + '/home'">
+      <mat-icon>home</mat-icon>
+      <span>Home</span>
+    </button>
+    <button mat-button class="menu-button" routerLink="/profile">
+      <mat-icon>person</mat-icon>
+      <span>Profile</span>
+    </button>
+    <button mat-button class="menu-button" *ngIf="isAuthenticated && role === 'Student' && appStatus !== 'In Progress'" routerLink="/student/apply">
+      <mat-icon>fact_check</mat-icon>
+      <span>Apply</span>
+    </button>
+    <button mat-button class="menu-button" *ngIf="isAuthenticated && role === 'Student' && appStatus === 'In Progress'" [routerLink]="'/' + appType">
+      <mat-icon>fact_check</mat-icon>
+      <span>My Application</span>
+    </button>
+
+    <mat-divider></mat-divider>
+
+    <button mat-button class="menu-button" routerLink="/about">
+      <mat-icon>info</mat-icon>
+      <span>About</span>
+    </button>
+    <button mat-button class="menu-button" routerLink="/help">
+      <mat-icon>help</mat-icon>
+      <span>Help</span>
+    </button>
+    <button mat-button class="menu-button" (click)="changeColor()">
+      <mat-icon>help</mat-icon>
+      <span>Color Switch</span>
+    </button>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <app-header (menuClicked)="sidenav.toggle()"></app-header>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

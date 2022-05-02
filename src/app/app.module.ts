@@ -1,26 +1,24 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { HeaderComponent } from './header/header.component';
 import {AuthInterceptor} from "./auth/auth-interceptor";
-import {LinebreakPipe} from "./utils/linebreak.pipe";
 import {ErrorInterceptor} from "./error-interceptor";
 import { ErrorComponent } from './error/error.component';
 import {AngularMaterialModule} from "./angular-material.module";
+import { ItecComponent } from './departments/itec/itec.component';
+import {BioModule} from "./departments/bio/bio.module";
 import {PostsModule} from "./posts/posts.module";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import { ProfileComponent } from './user/profile/profile.component';
+import { AboutComponent } from './about/about.component';
+import { HelpComponent } from './help/help.component';
 import { HomeComponent } from './home/home.component';
-import {MatSelectModule} from "@angular/material/select";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {MatCheckboxModule} from "@angular/material/checkbox";
-import { ItecComponent } from './applications/itec/itec.component';
-import { BioComponent } from './applications/bio/bio.component';
-import {MatStepperModule} from "@angular/material/stepper";
-import {MatTooltipModule} from "@angular/material/tooltip";
-import {MatTabsModule} from "@angular/material/tabs";
+import {ProfileModule} from "./user/profile/profile.module";
 
 
 @NgModule({
@@ -28,9 +26,11 @@ import {MatTabsModule} from "@angular/material/tabs";
     AppComponent,
     HeaderComponent,
     ErrorComponent,
-    HomeComponent,
     ItecComponent,
-    BioComponent,
+    ProfileComponent,
+    AboutComponent,
+    HelpComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,13 +39,11 @@ import {MatTabsModule} from "@angular/material/tabs";
     HttpClientModule,
     AngularMaterialModule,
     PostsModule,
-    MatSelectModule,
     ReactiveFormsModule,
-    MatCheckboxModule,
     FormsModule,
-    MatStepperModule,
-    MatTooltipModule,
-    MatTabsModule,
+    BioModule,
+    MatSidenavModule,
+    ProfileModule,
   ],
   // multi: true simply means there can be multi interceptors so don't override any
   // existing interceptors
@@ -55,7 +53,7 @@ import {MatTabsModule} from "@angular/material/tabs";
   ],
   bootstrap: [AppComponent],
   exports: [
-    LinebreakPipe
+    // LinebreakPipe
   ],
   entryComponents: [ErrorComponent]
 })

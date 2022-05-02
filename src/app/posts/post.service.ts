@@ -13,6 +13,7 @@ import {environment} from "../../environments/environment";
 export class PostService {
   private postsChanged = new Subject<{posts: Post[], postCount: number}>();
   private posts: Post[] = []
+  postIsLoading = new Subject<boolean>();
 
   constructor(private httpClient: HttpClient,
               private router: Router) {}
@@ -41,6 +42,7 @@ export class PostService {
   }
 
   createPost(post: Post, image: File) {
+    this.postIsLoading.next(true);
     const postData = new FormData();
     postData.append('title', post.title);
     postData.append('content', post.content);
@@ -48,7 +50,10 @@ export class PostService {
     this.httpClient
       .post<{message: string, post: Post}>(environment.apiUrl + 'posts', postData)
       .subscribe((responseData) => {
-        this.router.navigate(['/']);
+        setTimeout(() => {
+          this.postIsLoading.next(false);
+          this.router.navigate(['/posts']);
+        }, 1200)
       });
   }
 
@@ -65,7 +70,7 @@ export class PostService {
     }
     this.httpClient.patch<{message: string}>(environment.apiUrl + 'posts/' + post._id, postData)
       .subscribe((responseData) => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/posts']);
       })
   }
 

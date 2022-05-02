@@ -1,0 +1,722 @@
+<app-spinner-overlay *ngIf="instructionsLoading">
+</app-spinner-overlay>
+<div class="instructions-title">
+  <h2>Biology (BIOL 4800) Internship Application Instructions</h2>
+  <button mat-icon-button type="button" color="primary" matTooltip="Edit instructions" *ngIf="instructionsEditable" (click)="toggleInstructionsMode()">
+    <mat-icon>edit</mat-icon>
+  </button>
+</div>
+<hr>
+
+<form [formGroup]="instructions" *ngIf="instructionsMode === 'edit'">
+  <div class="mat-form-field-wrapper">
+    <editor  apiKey="du9m1saikikpw691ehhwqki94t27ghy6pyvfgwrnl73bperk"
+      formControlName="body"
+      class="mat-elevation-z1"
+      (onInit)="handleEditorInit($event)"
+      [init]="{
+          icons: 'material',
+          skin: 'borderless',
+          plugins: 'wordcount, link',
+          toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link',
+          menubar: false,
+          min_height: 350
+        }"
+    ></editor>
+  </div>
+  <div class="instructions-submit">
+    <button mat-button type="button" color="warn" (click)="toggleInstructionsMode()">Cancel</button>
+    <button mat-button type="button" color="primary" (click)="onSubmitInstructions()">Submit</button>
+  </div>
+</form>
+<div *ngIf="instructionsMode === 'view'" [innerHTML]="this.instructions.controls['body'].value">
+</div>
+
+<div class="application-container">
+  <div class="application-actions">
+    <button mat-icon-button type="submit" color="primary" matTooltip="Save application" (click)="onSaveApplication()" [disabled]="isDirty$ | async">
+      <mat-icon>save</mat-icon></button>
+  </div>
+  <mat-tab-group mat-stretch-tabs>
+    <mat-tab label="APPLICATION">
+      <ng-template matTabContent>
+        <mat-stepper orientation="vertical" [linear]="false" #stepper>
+          <mat-step [stepControl]="studentAcademicInfo" [errorMessage]="errorMsg">
+            <form [formGroup]="studentAcademicInfo">
+              <ng-template matStepLabel>Student Academic Information</ng-template>
+              <div class="sub-step">
+                <h4>Choose your desired internship semester and year</h4>
+              </div>
+              <div class="form-container">
+                <mat-form-field class="semester" appearance="fill">
+                  <mat-label>Semester</mat-label>
+                  <mat-select formControlName="desiredInternshipSemester">
+                    <mat-option value="fall">Fall</mat-option>
+                    <mat-option value="spring">Spring</mat-option>
+                    <mat-option value="summer">Summer</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="year" appearance="fill">
+                  <mat-label>Year</mat-label>
+                  <mat-select formControlName="desiredInternshipYear">
+                    <mat-option *ngFor="let year of this.years"
+                                [value]="year.value">{{ year.label }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="sub-step">
+                <h4>Concentration</h4>
+              </div>
+              <mat-form-field appearance="fill">
+                <mat-label>Concentration</mat-label>
+                <mat-select formControlName="concentration">
+                  <mat-option value="biochem">Biochemistry</mat-option>
+                  <mat-option value="cell bio">Cell Biology and Biotechnology</mat-option>
+                  <mat-option value="gen bio">General Biology</mat-option>
+                  <mat-option value="bio teach">Biology Teacher Certification</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div class="sub-step">
+                <h4>Expected Graduation Date</h4>
+              </div>
+              <div class="form-container">
+                <mat-form-field class="semester" appearance="fill">
+                  <mat-label>Semester</mat-label>
+                  <mat-select formControlName="expectedGradSemester">
+                    <mat-option value="fall">Fall</mat-option>
+                    <mat-option value="spring">Spring</mat-option>
+                    <mat-option value="summer">Summer</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="year" appearance="fill">
+                  <mat-label>Year</mat-label>
+                  <mat-select formControlName="expectedGradYear">
+                    <mat-option *ngFor="let year of this.years"
+                                [value]="year.value">{{ year.label }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="sub-step">
+                <h4>Overall GPA</h4>
+              </div>
+              <mat-form-field appearance="fill">
+                <mat-label>Overall GPA</mat-label>
+                <input type="number" step="1.00" min="0" formControlName="overallGPA" matInput placeholder="Ex: 3.0">
+              </mat-form-field>
+              <div class="sub-step">
+                <h4>Program GPA</h4>
+              </div>
+              <mat-form-field appearance="fill">
+                <mat-label>Program GPA</mat-label>
+                <input type="number" step="1.00" min="0" formControlName="programGPA" matInput placeholder="Ex: 3.0">
+              </mat-form-field>
+              <div class="sub-step">
+                <h4>Number of hours completed within biology</h4>
+              </div>
+              <mat-form-field appearance="fill">
+                <mat-label>Hours</mat-label>
+                <input type="number" min="0" formControlName="hoursCompleted" matInput placeholder="Ex: 12">
+              </mat-form-field>
+              <div class="sub-step">
+                <h4>What is your intended profession/career?</h4>
+              </div>
+              <mat-form-field appearance="fill">
+                <mat-label>Profession/Career</mat-label>
+                <input type="text" formControlName="intendedProfession" matInput placeholder="Ex: Marine biologist">
+              </mat-form-field>
+              <div>
+                <button mat-button matStepperNext>Next</button>
+              </div>
+            </form>
+          </mat-step>
+
+          <mat-step [stepControl]="emergencyContactInfo" [errorMessage]="errorMsg">
+            <form [formGroup]="emergencyContactInfo">
+              <ng-template matStepLabel>Emergency Contact Information</ng-template>
+              <div class="sub-step">
+                <h4>Name of parent or legal guardian</h4>
+              </div>
+              <div class="form-container">
+                <mat-form-field appearance="fill">
+                  <mat-label>First Name</mat-label>
+                  <input matInput formControlName="contactFirstName" placeholder="Ex. Jane"
+                         required>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                  <mat-label>Last Name</mat-label>
+                  <input matInput formControlName="contactLastName" placeholder="Ex. Doe"
+                         required>
+                </mat-form-field>
+              </div>
+              <div class="sub-step">
+                <h4>Emergency contact's mailing address</h4>
+              </div>
+              <div class="form-container">
+                <mat-form-field class="contact-mailing" appearance="fill">
+                  <mat-label>Street Address</mat-label>
+                  <input matInput formControlName="contactAddress" placeholder="Ex. 1 Main St"
+                         required>
+                </mat-form-field>
+              </div>
+              <div class="form-container">
+                <mat-form-field appearance="fill">
+                  <mat-label>City</mat-label>
+                  <input matInput formControlName="contactCity" placeholder="Ex. Lawrenceville"
+                         required>
+                </mat-form-field>
+
+                <mat-form-field class="contact-state" appearance="fill">
+                  <mat-label>State</mat-label>
+                  <input matInput formControlName="contactState" placeholder="Ex. GA"
+                         required>
+                </mat-form-field>
+
+                <mat-form-field class="contact-zip" appearance="fill">
+                  <mat-label>Zip Code</mat-label>
+                  <input matInput formControlName="contactZip" placeholder="Ex. 10001"
+                         required>
+                </mat-form-field>
+              </div>
+              <div class="sub-step">
+                <h4>Emergency contact's phone number and email</h4>
+              </div>
+              <div class="form-container">
+                <mat-form-field appearance="fill">
+                  <mat-label>Phone number</mat-label>
+                  <input matInput type="tel" formControlName="contactPhone" placeholder="Ex. 123-456-7890"
+                         required>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                  <mat-label>Email address</mat-label>
+                  <input type="email" matInput formControlName="contactEmail" placeholder="Ex. contact@example.com"
+                         required>
+                </mat-form-field>
+              </div>
+              <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+              </div>
+            </form>
+          </mat-step>
+
+          <mat-step [stepControl]="mentorInfo" [errorMessage]="errorMsg">
+            <form [formGroup]="mentorInfo">
+              <ng-template matStepLabel>Mentor Information</ng-template>
+              <div class="sub-step">
+                <h4>Mentor's name</h4>
+              </div>
+              <div class="form-container">
+                <mat-form-field appearance="fill">
+                  <mat-label>First name</mat-label>
+                  <input matInput formControlName="mentorFirstName" placeholder="Ex. Jane"
+                         required>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                  <mat-label>Last name</mat-label>
+                  <input matInput formControlName="mentorLastName" placeholder="Ex. Doe"
+                         required>
+                </mat-form-field>
+              </div>
+              <div class="sub-step">
+                <h4>Mentor's office location</h4>
+              </div>
+              <mat-form-field appearance="fill" [floatLabel]="'always'">
+                <mat-label>Office</mat-label>
+                <input type="text" matInput formControlName="mentorOffice" placeholder="Ex. H-3241"
+                       required>
+              </mat-form-field>
+              <div class="sub-step">
+                <h4>Mentor's phone number and email</h4>
+              </div>
+              <div class="form-container">
+                <mat-form-field appearance="fill">
+                  <mat-label>Phone number</mat-label>
+                  <input type="tel" matInput formControlName="mentorPhone" placeholder="Ex. 123-456-7890"
+                         required>
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                  <mat-label>Email address</mat-label>
+                  <input type="email" matInput formControlName="mentorEmail" placeholder="Ex. person@example.com"
+                         required>
+                </mat-form-field>
+              </div>
+              <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+              </div>
+            </form>
+          </mat-step>
+
+          <mat-step [stepControl]="internshipInfo" [errorMessage]="errorMsg">
+            <form [formGroup]="internshipInfo">
+              <ng-template matStepLabel>Internship Information</ng-template>
+              <div class="sub-step">
+                <h4>
+                  Approved internship committee sites
+                </h4>
+              </div>
+              <mat-form-field appearance="fill">
+                <mat-label>Site</mat-label>
+                <mat-select formControlName="committeeSites" (valueChange)="onCommitteeSiteChange($event); onSiteSelected($event)" required>
+                  <mat-option value="other">Other</mat-option>
+                  <mat-option *ngFor="let site of bioAppSites" [value]="site">{{ site }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <h4>If your internship is not listed in the options above, then please select "Other" and fill out the form for review.
+                <br>
+                <br>
+                <b>Note:</b> It is a conflict of interest if you have a close personal or family relationship with a proposed preceptor and/or site manager/supervisor. Providing false information about connections between you and the site staff would constitute a violation of the GGC Honor Code (see policy on academic honesty).
+              </h4>
+              <div *ngIf="siteIsOther">
+                <div class="sub-step">
+                  <hr>
+                  <h4>
+                    Name of site and specialty (e.g. pharmacy, medical practice, etc)
+                  </h4>
+                </div>
+                <div class="form-container">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Site name</mat-label>
+                    <input type="text" formControlName="siteName" matInput required>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>Site specialty</mat-label>
+                    <input type="text" formControlName="siteSpecialty" matInput required>
+                  </mat-form-field>
+                </div>
+
+                <div class="sub-step">
+                  <h4>
+                    Site address
+                  </h4>
+                </div>
+                <div class="form-container">
+                  <mat-form-field class="site-mailing" appearance="fill">
+                    <mat-label>Street Address</mat-label>
+                    <input matInput formControlName="siteAddress" placeholder="Ex. 1 Main St"
+                           required>
+                  </mat-form-field>
+                </div>
+                <div class="form-container">
+                  <mat-form-field appearance="fill">
+                    <mat-label>City</mat-label>
+                    <input matInput formControlName="siteCity" placeholder="Ex. Lawrenceville"
+                           required>
+                  </mat-form-field>
+
+                  <mat-form-field class="site-state" appearance="fill">
+                    <mat-label>State</mat-label>
+                    <input matInput formControlName="siteState" placeholder="Ex. GA"
+                           required>
+                  </mat-form-field>
+
+                  <mat-form-field class="site-zip" appearance="fill">
+                    <mat-label>Zip Code</mat-label>
+                    <input matInput formControlName="siteZip" placeholder="Ex. 10001"
+                           required>
+                  </mat-form-field>
+                </div>
+                <mat-form-field class="site-phone" appearance="fill">
+                  <mat-label>Site phone number</mat-label>
+                  <input matInput type="tel" formControlName="sitePhone" placeholder="Ex. 123-456-7890"
+                         required>
+                </mat-form-field>
+
+                <div class="sub-step">
+                  <h4>
+                    Internship manager information
+                  </h4>
+                </div>
+                <div class="form-container">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Manager first name</mat-label>
+                    <input type="text" formControlName="managerFirstName" matInput required placeholder="Ex. Jane">
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>Manager last name</mat-label>
+                    <input type="text" formControlName="managerLastName" matInput required placeholder="Ex. Doe">
+                  </mat-form-field>
+                </div>
+                <div class="form-container">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Manager title</mat-label>
+                    <input type="text" formControlName="managerTitle" matInput required placeholder="Ex. Director of Research">
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>Manager email</mat-label>
+                    <input type="email" formControlName="managerEmail" matInput required placeholder="Ex. person@example.com">
+                  </mat-form-field>
+                </div>
+                <hr>
+                <div class="sub-step">
+                  <h4>
+                    Proposed preceptor information
+                  </h4>
+                </div>
+                <div class="form-container">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Preceptor first name</mat-label>
+                    <input type="text" formControlName="preceptorFirstName" matInput required placeholder="Ex. Jane">
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>Preceptor last name</mat-label>
+                    <input type="text" formControlName="preceptorLastName" matInput required placeholder="Ex. Doe">
+                  </mat-form-field>
+                </div>
+                <div class="form-container">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Preceptor phone number</mat-label>
+                    <input type="tel" formControlName="preceptorPhone" matInput required placeholder="Ex. 123-456-7890">
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>Preceptor email</mat-label>
+                    <input type="email" formControlName="preceptorEmail" matInput required placeholder="Ex. person@example.com">
+                  </mat-form-field>
+                </div>
+                <mat-form-field appearance="fill">
+                  <mat-label>Preceptor's position title</mat-label>
+                  <input type="text" formControlName="preceptorTitle" matInput required placeholder="Ex. Director of Research">
+                </mat-form-field>
+                <div class="sub-step">
+                  <h5>
+                    Is this person a manager?
+                  </h5>
+                </div>
+                <mat-form-field appearance="fill">
+                  <mat-label>Manager?</mat-label>
+                  <mat-select formControlName="preceptorManagerStatus">
+                    <mat-option value="no">No</mat-option>
+                    <mat-option value="yes">Yes</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div *ngIf="siteSelected">
+                <hr>
+                <div class="sub-step">
+                  <h4>Are you currently employed at this site?</h4>
+                </div>
+                <mat-form-field appearance="fill">
+                  <mat-label>Employed here?</mat-label>
+                  <mat-select formControlName="studentEmployedHere" (valueChange)="onStudentEmploymentChange($event)">
+                    <mat-option value="no">No</mat-option>
+                    <mat-option value="yes">Yes</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <div *ngIf="studentIsEmployed | async">
+                  <div class="sub-step">
+                    <h4>What is your current position?</h4>
+                  </div>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Position</mat-label>
+                    <input type="text" formControlName="studentPosition" matInput required>
+                  </mat-form-field>
+                  <div class="sub-step">
+                    <h4>Is this a paid position?</h4>
+                  </div>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Pay status</mat-label>
+                    <mat-select formControlName="studentPayStatus">
+                      <mat-option value="no">No</mat-option>
+                      <mat-option value="yes">Yes</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div class="sub-step">
+                    <h4>What are your current average working hours in a week?</h4>
+                  </div>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Avg working hours</mat-label>
+                    <input type="number" min="0" formControlName="studentAvgWorkingHours" matInput required>
+                  </mat-form-field>
+                  <div class="sub-step">
+                    <h4>Are you willing to complete your internship hours at a separate time from your normal work hours?</h4>
+                  </div>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Separate working hours</mat-label>
+                    <mat-select formControlName="studentInternshipVsWork">
+                      <mat-option value="no">No</mat-option>
+                      <mat-option value="yes">Yes</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div class="sub-step">
+                    <h4>Do you have personal or family relationship with anyone employed at this potential internship site?</h4>
+                  </div>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Personal connection</mat-label>
+                    <mat-select formControlName="studentPersonalConnection">
+                      <mat-option value="no">No</mat-option>
+                      <mat-option value="yes">Yes</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+              </div>
+            </form>
+          </mat-step>
+
+          <mat-step [stepControl]="educationalObjectives" [errorMessage]="errorMsg">
+            <form [formGroup]="educationalObjectives">
+              <h4>
+                List 3 major educational objectives that you wish to achieve at the hosting facility. Educational objectives pertain to what you want to learn on-site.
+              </h4>
+              <h5>For example:</h5>
+              <ul>
+                <li>
+                  <h5>Effectively use problem solving techniques within the hospital environment and specific training area</h5>
+                </li>
+                <li>
+                  <h5>Be able to analyze data and interpret results including, but not limited to blood tests, EKGs, X-rays, scans, and patient charts.</h5>
+                </li>
+              </ul>
+              <div>
+              </div>
+              <ng-template matStepLabel>Educational Objectives</ng-template>
+              <div>
+                <mat-form-field appearance="standard" class="educational-obj">
+                  <mat-label>First objective</mat-label>
+                  <textarea matInput
+                            cdkTextareaAutosize
+                            cdkAutosizeMinRows="1"
+                            cdkAutosizeMaxRows="5"
+                            formControlName="firstObjective"
+                            required></textarea>
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field appearance="standard" class="educational-obj">
+                  <mat-label>Second objective</mat-label>
+                  <textarea matInput
+                            cdkTextareaAutosize
+                            cdkAutosizeMinRows="1"
+                            cdkAutosizeMaxRows="5"
+                            formControlName="secondObjective"
+                            required></textarea>
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field appearance="standard" class="educational-obj">
+                  <mat-label>Third objective</mat-label>
+                  <textarea matInput
+                            cdkTextareaAutosize
+                            cdkAutosizeMinRows="1"
+                            cdkAutosizeMaxRows="5"
+                            formControlName="thirdObjective"
+                            required></textarea>
+                </mat-form-field>
+              </div>
+              <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+              </div>
+            </form>
+          </mat-step>
+
+          <mat-step [stepControl]="documents" [errorMessage]="'Check that an essay and transcript have been uploaded.'">
+            <form [formGroup]="documents">
+              <ng-template matStepLabel>Upload Documents</ng-template>
+              <div class="sub-step">
+                <h4>Click the panels below to see specific instructions for the document type and the upload button. The application is automatically saved when a document is uploaded.</h4>
+              </div>
+              <mat-accordion class="example-headers-align">
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Essay
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      {{ this.essayFileName ? this.essayFileName + " uploaded" : "File upload status" }}
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <p>
+                    Please use up to ONE page and describe clearly and firmly why the site you've selected is important to your career goals (BE SPECIFIC!). <b>Your essay will be evaluated both on its merits and on proper usage of grammar and spelling. Proofread your essay carefully before submitting.</b> Please list the name of the site you're applying to at the top of the essay.
+                    <br>
+                    <br>
+                    When finished, click the blue upload button on the bottom left of this panel to upload your essay.
+                  </p>
+                  <mat-action-row>
+                    <input type="file" #essay (change)="onFilePicked($event, 'Essay')">
+                    <button mat-icon-button type="button" color="primary" (click)="essay.click()" matTooltip="Upload essay"><mat-icon>upload_file</mat-icon></button>
+                  </mat-action-row>
+
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Transcript
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      {{ this.transcriptFileName ? this.transcriptFileName + " uploaded" : "File upload status"}}
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <p>
+                    Please upload a PDF of your unofficial academic transcript. To obtain a PDF of your unofficial academic transcript, open your web browser (Ex. Chrome, Firefox) -> log into Banner -> select the Student tab -> select View Student Record -> select Unofficial Academic Transcript -> select Submit -> Right click page and select print -> Change destination to Save as PDF (underneath Local Destinations) -> Select Print -> Save and upload the PDF file here.
+                  </p>
+                  <br>
+                  When finished, click the blue upload button on the bottom left of this panel to upload your transcript.
+                  <mat-action-row>
+                    <input type="file" #transcript (change)="onFilePicked($event, 'Transcript')">
+                    <button mat-icon-button type="button" color="primary" (click)="transcript.click()" matTooltip="Upload transcript"><mat-icon>upload_file</mat-icon></button>
+                  </mat-action-row>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Other
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      {{ this.otherFileName ? this.otherFileName + " uploaded" : "File upload status" }}
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <p>
+                    Use this upload box for any additional forms you may need to upload for your BIO application. A brief descriptor of the file being uploaded is required.
+                  </p>
+                  <mat-form-field appearance="fill">
+                    <mat-label>File type</mat-label>
+                    <input type="text" #otherDesc matInput placeholder="Ex. Preceptor form">
+                  </mat-form-field>
+                  <br>
+                  When finished and once a file descriptor has been provided, the gray upload button on the bottom left of this panel will turn blue and permit you to upload your file.
+                  <mat-action-row>
+                    <input type="file" #otherFile (change)="onFilePicked($event, otherDesc.value); otherDesc.value = ''">
+                    <button mat-icon-button type="button" color="primary" (click)="otherFile.click()" [disabled]="!(otherDesc.value.length > 1)" matTooltip="Upload other document"><mat-icon>upload_file</mat-icon></button>
+                  </mat-action-row>
+                </mat-expansion-panel>
+              </mat-accordion>
+              <div style="padding-top: 10px">
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+              </div>
+            </form>
+          </mat-step>
+
+          <mat-step [stepControl]="signature" [errorMessage]="errorMsg">
+            <form [formGroup]="signature">
+              <h4><b style="color: red">Applicant's Statement</b></h4>
+              <hr>
+              <div>
+                <h4>
+                  I certify that the information contained in this application is true, correct, and complete. I understand that, if employed, false statements reported on this application may be considered sufficient cause for denial of a Biology Internship Experience and enrollment in the BIOL4800 Biology Internship course.
+                </h4>
+              </div>
+
+              <ng-template matStepLabel>Sign and Submit</ng-template>
+              <mat-form-field appearance="standard">
+                <mat-label>Printed name of applicant</mat-label>
+                <input matInput formControlName="printedSignature" placeholder="Ex. Jane Doe"
+                       required>
+              </mat-form-field>
+              <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button type="submit" (click)="onSubmit(stepper.steps)">Submit</button>
+              </div>
+            </form>
+          </mat-step>
+        </mat-stepper>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="DOCUMENTS" class="mat-elevation-z8">
+      <table mat-table [dataSource]="bioDocs">
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()"
+                          [aria-label]="checkboxLabel()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let file">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(file) : null"
+                          [checked]="selection.isSelected(file)"
+                          [aria-label]="checkboxLabel(file)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="filename">
+          <th mat-header-cell *matHeaderCellDef> File Name </th>
+          <td mat-cell *matCellDef="let file"> {{file.fileName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="filetype">
+          <th mat-header-cell *matHeaderCellDef> File Type </th>
+          <td mat-cell *matCellDef="let file"> {{file.fileType}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="date uploaded">
+          <th mat-header-cell *matHeaderCellDef> Date Uploaded </th>
+          <td mat-cell *matCellDef="let file"> {{file.dateUploaded}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let file">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="downloadFiles(file)">
+                <mat-icon>file_download</mat-icon>
+                <span>Download Selected</span>
+              </button>
+              <button mat-menu-item (click)="deleteFiles(file)">
+                <mat-icon style="color: red">delete</mat-icon>
+                <span>Delete Selected</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </mat-tab>
+    <mat-tab label="COMMENTS">
+      <ng-template matTabContent>
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let commentThread of bioCommentThreads">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{ "Author: " + commentThread.threadAuthor }}
+              </mat-panel-title>
+              <mat-panel-description>
+                {{ "Subject: " + commentThread.threadSubject }}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-card *ngFor="let comment of commentThread.comments" class="comment-card">
+              <mat-card-header>
+                <div mat-card-avatar class="comment-header-image"></div>
+                <mat-card-title>
+                  {{ comment.commentAuthor }}
+                </mat-card-title>
+                <mat-card-subtitle>
+                  {{ comment.profile.email }}
+                </mat-card-subtitle>
+              </mat-card-header>
+              <mat-divider inset style="margin-bottom: 10px"></mat-divider>
+              <mat-card-content [innerHTML]="comment.comment">
+              </mat-card-content>
+            </mat-card>
+            <mat-action-row>
+              <a mat-button color="primary" (click)="addComment(commentThread._id)">Reply</a>
+              <button mat-flat-button color="warn" (click)="openDialog(commentThread._id)">Delete</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>
