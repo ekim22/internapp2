@@ -38,7 +38,7 @@ app.use('/docs', express.static(path.join('backend/docs')));
 
 // Angular server
 const distDir = path.join(__dirname, '../dist');
-app.use('/', express.static(distDir, {redirect: false}));
+app.use(express.static(distDir + '/mean-playground', {redirect: false}));
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(distDir + '/mean-playground/index.html'));
 });
