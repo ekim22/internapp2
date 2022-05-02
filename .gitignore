@@ -46,3 +46,6 @@ backend/.eslintrc.js
 Thumbs.db
 backend/images/
 backend/docs/
+
+# Local environment variables
+.env
