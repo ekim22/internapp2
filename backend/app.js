@@ -38,7 +38,7 @@ app.use('/docs', express.static(path.join('backend/docs')));
 
 // Angular server
 app.use(express.static(__dirname + '../dist/mean-playground'));
-app.use(/^((?!(api)).)*/, (req, res) => {
+app.use('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../dist/mean-playground/index.html'));
 });
 console.log(path.join(__dirname, '../dist/mean-playground/index.html'));
