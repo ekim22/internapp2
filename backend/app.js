@@ -54,11 +54,11 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/', (req, res) => {
-  res.status(200).json({
-    message: 'This is the root of the server!',
-  });
-});
+// app.get('/', (req, res) => {
+//   res.status(200).json({
+//     message: 'This is the root of the server!',
+//   });
+// });
 
 app.use('/api/posts', postsRoutes);
 app.use('/api/users', usersRoutes);
