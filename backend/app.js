@@ -37,9 +37,11 @@ app.use('/images', express.static(path.join('backend/images')));
 app.use('/docs', express.static(path.join('backend/docs')));
 
 // Angular server
-app.use(express.static(__dirname + '../dist/mean-playground'));
+const distDir = path.join(__dirname, '../dist/');
+console.log(distDir);
+app.use(express.static(distDir));
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../dist/mean-playground/index.html'));
+  res.sendFile(distDir + 'mean-playground/index.html');
 });
 console.log(path.join(__dirname, '../dist/mean-playground/index.html'));
 
