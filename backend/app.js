@@ -38,10 +38,10 @@ app.use('/docs', express.static(path.join('backend/docs')));
 
 // Angular server
 const distDir = path.join(__dirname, '../dist');
-app.use(express.static(distDir));
-// app.get('/*', (req, res) => {
-//   res.sendFile(distDir + '/mean-playground/index.html');
-// });
+app.use('/', express.static(distDir, {redirect: false}));
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(distDir + '/mean-playground/index.html'));
+});
 console.log(distDir);
 console.log(distDir + '/mean-playground/index.html');
 
