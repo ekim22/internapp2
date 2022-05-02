@@ -37,13 +37,13 @@ app.use('/images', express.static(path.join('backend/images')));
 app.use('/docs', express.static(path.join('backend/docs')));
 
 // Angular server
-const distDir = path.join(__dirname, '../dist/');
-console.log(distDir);
+const distDir = path.join(__dirname, '../dist');
 app.use(express.static(distDir));
-app.get('*', (req, res) => {
-  res.sendFile(distDir + 'mean-playground/index.html');
-});
-console.log(path.join(__dirname, '../dist/mean-playground/index.html'));
+// app.get('/*', (req, res) => {
+//   res.sendFile(distDir + '/mean-playground/index.html');
+// });
+console.log(distDir);
+console.log(distDir + '/mean-playground/index.html');
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
