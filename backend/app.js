@@ -37,10 +37,11 @@ app.use('/images', express.static(path.join('backend/images')));
 app.use('/docs', express.static(path.join('backend/docs')));
 
 // Angular server
-app.use(express.static(__dirname + '/dist/mean-playground'));
+app.use(express.static(__dirname + '../dist/mean-playground'));
 app.use(/^((?!(api)).)*/, (req, res) => {
-  res.sendFile(path.join(__dirname, '/dist/mean-playground/index.html'));
+  res.sendFile(path.join(__dirname, '../dist/mean-playground/index.html'));
 });
+console.log(path.join(__dirname, '../dist/mean-playground/index.html'));
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
