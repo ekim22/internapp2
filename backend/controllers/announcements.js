@@ -46,7 +46,7 @@ module.exports.getAnnouncements = async (req, res) => {
       announcements = await Announcements.findOne({dept: user.appType}).lean();
     }
     if (!announcements) {
-      res.status(203).json({
+      res.status(204).json({
         message: 'No announcements exist yet!',
       });
     } else {
