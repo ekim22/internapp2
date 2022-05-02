@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv').config();
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
@@ -14,6 +15,7 @@ const commentRoutes = require('./routes/comment');
 const announcementsRoutes = require('./routes/announcements');
 
 const app = express();
+app.use(cors());
 
 // Local
 let mongoDB;
@@ -25,7 +27,6 @@ if (app.settings.env === 'development') {
 // Atlas
 const options = {useNewUrlParser: true, useUnifiedTopology: true};
 mongoose.connect(mongoDB, options);
-
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error: '));
 mongoose.connection.once('open', () => {
   console.log('Connected to database!');
@@ -33,33 +34,9 @@ mongoose.connection.once('open', () => {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
 app.use('/images', express.static(path.join('backend/images')));
 app.use('/docs', express.static(path.join('backend/docs')));
-
-// Angular server
-const distDir = path.join(__dirname, '../dist');
-app.use(express.static(distDir + '/mean-playground', {redirect: false}));
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(distDir + '/mean-playground/index.html'));
-});
-console.log(distDir);
-console.log(distDir + '/mean-playground/index.html');
-
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers',
-      'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.setHeader('Access-Control-Allow-Methods',
-      'GET, POST, PATCH, DELETE, OPTIONS');
-  next();
-});
-
-// app.get('/', (req, res) => {
-//   res.status(200).json({
-//     message: 'This is the root of the server!',
-//   });
-// });
-
 app.use('/api/posts', postsRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/profile', profileRoutes);
@@ -69,5 +46,11 @@ app.use('/api/bio', bioRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/announcements', announcementsRoutes);
 
+// Angular server
+const distDir = path.join(__dirname, '../dist');
+app.use(express.static(path.join(distDir + '/mean-playground')));
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(distDir + '/mean-playground/index.html'));
+});
 
 module.exports = app;
