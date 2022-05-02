@@ -35,6 +35,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use('/images', express.static(path.join('backend/images')));
 app.use('/docs', express.static(path.join('backend/docs')));
+app.use(express.static(__dirname + '/dist/mean-playground'));
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
