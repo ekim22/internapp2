@@ -40,7 +40,7 @@ app.use('/docs', express.static(path.join('backend/docs')));
 const distDir = path.join(__dirname, '../dist/');
 console.log(distDir);
 app.use(express.static(distDir));
-app.get('/*', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(distDir + 'mean-playground/index.html');
 });
 console.log(path.join(__dirname, '../dist/mean-playground/index.html'));
