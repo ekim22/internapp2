@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {Router} from "@angular/router";
 import {StudentService} from "../student.service";
+import {BioService} from "../../departments/bio/bio.service";
 
 @Component({
   selector: 'app-student-apply',
@@ -14,7 +15,8 @@ export class StudentApplyComponent implements OnInit {
 
 
   constructor(private router: Router,
-              private studentService: StudentService) { }
+              private studentService: StudentService,
+              private bioService: BioService) { }
 
   ngOnInit() {
     // TODO really bad code here that starts an infinite loop...
@@ -30,8 +32,14 @@ export class StudentApplyComponent implements OnInit {
       this.studentService.setAppType('bio');
       this.studentService.setAppStatus('Not Started');
       this.studentService.setAppProgress('0.0');
-      this.studentService.saveBioApplication(
+      this.bioService.saveApplication(
         {
+          documents: {
+            essay: [],
+            transcript: [],
+            otherDoc: [],
+            completed: false
+          },
           educationalObjectives: {completed: false, firstObjective: "", secondObjective: "", thirdObjective: ""},
           emergencyContactInfo: {
             completed: false,

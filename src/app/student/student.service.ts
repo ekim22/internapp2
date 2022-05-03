@@ -65,14 +65,7 @@ export class StudentService {
   }
 
   // TODO this needs to go into bioService if possible or refactor into a general saveStudApp() that can call the right saveApp depending on the appType.
-  saveBioApplication(formData: BioApplication) {
-    this.httpClient
-      .post<{message: string, savedFormData: BioApplication}>(environment.apiUrl + 'bio/save', formData)
-      .subscribe(res => {
-        console.log(res.savedFormData);
-        console.log(res.message);
-      });
-  }
+
 
   getAppType() {
     return this.appType;
