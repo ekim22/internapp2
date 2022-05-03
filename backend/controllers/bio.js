@@ -21,7 +21,7 @@ module.exports.downloadDoc = async (req, res) => {
           .select('documents.essay.$')
           .lean();
       if (doc) {
-        res.download('/home/ethan/projects/mean-playground/backend/docs/' + req.params.filePath,
+        res.download('./backend/docs/' + req.params.filePath,
             req.params.fileName);
       } else {
         res.status(400).json({
@@ -44,7 +44,7 @@ module.exports.downloadDoc = async (req, res) => {
           .select('documents.transcript.$')
           .lean();
       if (doc) {
-        res.download('/home/ethan/projects/mean-playground/backend/docs/' + req.params.filePath,
+        res.download('./backend/docs/' + req.params.filePath,
             req.params.fileName);
       } else {
         res.status(400).json({
@@ -67,7 +67,7 @@ module.exports.downloadDoc = async (req, res) => {
           .select('documents.otherDoc.$')
           .lean();
       if (doc) {
-        res.download('/home/ethan/projects/mean-playground/backend/docs/' + req.params.filePath,
+        res.download('./backend/docs/' + req.params.filePath,
             req.params.fileName);
       } else {
         res.status(400).json({
