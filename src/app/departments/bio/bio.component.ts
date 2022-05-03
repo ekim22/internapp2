@@ -378,6 +378,12 @@ export class BioComponent implements OnInit, OnDestroy {
         ...this.educationalObjectives.value,
         completed: this.educationalObjectives.valid,
       },
+      documents: {
+        essay: this.getEssay().value,
+        transcript: this.getTranscript().value,
+        otherDoc: this.getOtherDocument().value,
+        completed: this.documents.valid,
+      },
       signature: {
         ...this.signature.value,
         completed: this.signature.valid,
@@ -395,7 +401,7 @@ export class BioComponent implements OnInit, OnDestroy {
       ]
     );
 
-    this.studentService.saveBioApplication(bioAppToServer);
+    this.bioService.saveApplication(bioAppToServer);
     this.studentService.setAppProgress(this.calcAppProgress());
     if (this.studentService.getAppStatus() !== 'In Progress') {
       this.studentService.setAppStatus('In Progress');
@@ -606,47 +612,72 @@ export class BioComponent implements OnInit, OnDestroy {
   }
 
   uploadEssay(file: File) {
-    this.getEssay().insert(0, this._formBuilder.control({
+    const docInfo = {
       fileName: file.name,
       fileType: "Essay",
-      dateUploaded: new Date(Date.now()).toLocaleString(),
-    }));
+      dateUploaded: new Date(Date.now()).toLocaleDateString()
+    }
     this.bioService.uploadDoc(
-      this.documents.get('essay')?.value[0],
-      file);
+      docInfo,
+      file).subscribe((res) => {
+      this.updateEssay(res.documents.essay[0])
+      this.bioService.updateDocs(res);
+    });
     this.essayFileName = file.name;
   }
 
+  updateEssay(essay: BioDoc) {
+    if (this.getEssay().length > 0) {
+      this.getEssay().at(0).patchValue(essay);
+    } else {
+      this.getEssay().insert(0, this._formBuilder.control(essay));
+    }
+  }
+
   uploadTranscript(file: File) {
-    this.getTranscript().insert(0, this._formBuilder.control({
+    const docInfo = {
       fileName: file.name,
       fileType: "Transcript",
-      dateUploaded: new Date(Date.now()).toLocaleString(),
-    }));
+      dateUploaded: new Date(Date.now()).toLocaleDateString()
+    }
     this.bioService.uploadDoc(
-      this.documents.get('transcript')?.value[0],
-      file);
+      docInfo,
+      file).subscribe((res) => {
+      this.updateTranscript(res.documents.transcript[0]);
+      this.bioService.updateDocs(res);
+    });
     this.transcriptFileName = file.name;
   }
 
-  uploadOtherDoc(file: File, fileType: string) {
-    if (this.getOtherDocument().length > 0) {
-      this.getOtherDocument().push(this._formBuilder.control({
-        fileName: file.name,
-        fileType: fileType,
-        dateUploaded: new Date(Date.now()).toLocaleString(),
-      }));
+  updateTranscript(transcript: BioDoc) {
+    if (this.getTranscript().length > 0) {
+      this.getTranscript().at(0).patchValue(transcript);
     } else {
-      this.getOtherDocument().insert(0 , this._formBuilder.control({
-        fileName: file.name,
-        fileType: fileType,
-        dateUploaded: new Date(Date.now()).toLocaleString(),
-      }));
+      this.getTranscript().insert(0, this._formBuilder.control(transcript));
+    }
+  }
+
+  uploadOtherDoc(file: File, fileType: string) {
+    const docInfo = {
+      fileName: file.name,
+      fileType: fileType,
+      dateUploaded: new Date(Date.now()).toLocaleDateString()
     }
     this.bioService.uploadDoc(
-      this.documents.get('otherDoc')?.value[this.getOtherDocument().length - 1],
-      file);
+      docInfo,
+      file).subscribe((res) => {
+        this.updateOtherDoc(res.documents.otherDoc[res.documents.otherDoc.length - 1]);
+      this.bioService.updateDocs(res);
+    });
     this.otherFileName = file.name;
+  }
+
+  updateOtherDoc(otherDoc: BioDoc) {
+    if (this.getOtherDocument().length > 0) {
+      this.getOtherDocument().push(this._formBuilder.control(otherDoc));
+    } else {
+      this.getOtherDocument().insert(0 , this._formBuilder.control(otherDoc));
+    }
   }
 }
 
