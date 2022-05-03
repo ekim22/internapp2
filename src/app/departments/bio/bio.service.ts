@@ -69,6 +69,9 @@ export class BioService {
   }
 
   downloadDoc(fileType: string, filePath: string, fileName: string, appId?: string) {
+    if (!appId) {
+      appId = 'student';
+    }
     const params = appId + "/" + fileType + "/" + filePath + "/" + fileName;
     this.httpClient.get(environment.apiUrl + 'bio/doc/' + params, {responseType: "blob"})
       .toPromise()
