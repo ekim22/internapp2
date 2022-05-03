@@ -395,7 +395,7 @@ export class BioComponent implements OnInit, OnDestroy {
         {...this.mentorInfo.value},
         {...this.internshipInfo.value},
         {...this.educationalObjectives.value},
-        {...this.documents.value},
+        // {...this.documents.value},
         {...this.signature.value}
       ]
     );
