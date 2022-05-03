@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const fs = require('fs');
 const dotenv = require('dotenv').config();
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -31,6 +32,12 @@ mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection 
 mongoose.connection.once('open', () => {
   console.log('Connected to database!');
 });
+
+// Make docs directory; Should replace this with an S3 filesystem though.
+if (!fs.existsSync(__dirname + '/docs')) {
+  console.log('making docs directory...');
+  fs.mkdirSync(__dirname + '/docs');
+}
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
