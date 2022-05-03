@@ -45,7 +45,6 @@ backend/.eslintrc.js
 .DS_Store
 Thumbs.db
 backend/images/
-backend/docs/
 
 # Local environment variables
 .env
