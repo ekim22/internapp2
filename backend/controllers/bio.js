@@ -4,10 +4,10 @@ const BioAnnouncements = require('../models/announcements');
 
 module.exports.downloadDoc = async (req, res) => {
   let appId;
-  if (req.params.appId) {
-    appId = req.params.appId;
-  } else {
+  if (req.params.appId === 'student') {
     appId = req.userData.userId;
+  } else {
+    appId = req.params.appId;
   }
   const fileType = req.params.fileType;
   if (fileType === 'Essay') {
