@@ -546,12 +546,33 @@ export class BioComponent implements OnInit, OnDestroy {
       return;
     }
     if (this.selection.selected.length > 0) {
+      let deleteEssay = false;
+      let deleteTranscript = false;
       this.selection.selected.forEach((doc) => {
         this.bioService.deleteDoc(doc.fileType, doc.filePath)
+        if (doc.fileType.toLowerCase() === 'essay') {
+          deleteEssay = true;
+        } else if (doc.fileType.toLowerCase() === 'transcript') {
+          deleteTranscript = true;
+        }
       });
+      if (deleteEssay) {
+        this.getEssay().removeAt(0);
+      }
+      if (deleteTranscript) {
+        this.getTranscript().removeAt(0);
+      }
     } else {
+      console.log(file.fileType.toLowerCase())
+      console.log(this.documents.get(file.fileType.toLowerCase())?.value)
       this.bioService.deleteDoc(file.fileType, file.filePath);
+      if (file.fileType.toLowerCase() === 'essay') {
+        this.getEssay().removeAt(0);
+      } else if (file.fileType.toLowerCase() === 'transcript') {
+        this.getTranscript().removeAt(0);
+      }
     }
+    this.studentService.setAppProgress(this.calcAppProgress());
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
