@@ -91,15 +91,22 @@ export class BioService {
     docData.append('fileType', docInfo.fileType);
     docData.append('dateUploaded', docInfo.dateUploaded);
     docData.append('document', document)
-    this.httpClient.post<{documents: { essay: Array<BioDoc>, transcript: Array<BioDoc>, otherDoc: Array<BioDoc> }}>(environment.apiUrl + 'bio/doc/upload', docData).subscribe((res) => {
-      this.updateDocs(res);
-    });
+    return this.httpClient.post<{documents: { essay: Array<BioDoc>, transcript: Array<BioDoc>, otherDoc: Array<BioDoc> }}>(environment.apiUrl + 'bio/doc/upload', docData);
   }
 
   deleteDoc(fileType: string, filePath: string) {
     this.httpClient.delete<{message: string, documents: { essay: Array<BioDoc>, transcript: Array<BioDoc>, otherDoc: Array<BioDoc> } }>(environment.apiUrl + 'bio/doc/delete/' + fileType + '/' + filePath).subscribe(res => {
       this.updateDocs(res);
     });
+  }
+
+  saveApplication(formData: BioApplication) {
+    this.httpClient
+      .post<{message: string, savedFormData: BioApplication}>(environment.apiUrl + 'bio/save', formData)
+      .subscribe(res => {
+        console.log(res.savedFormData);
+        console.log(res.message);
+      });
   }
 
   getApplication(studentId?: string) {
