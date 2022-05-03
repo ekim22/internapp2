@@ -32,7 +32,6 @@ export class StudentApplyComponent implements OnInit {
       this.studentService.setAppProgress('0.0');
       this.studentService.saveBioApplication(
         {
-          documents: {completed: false, essay: [], otherDoc: [], transcript: []},
           educationalObjectives: {completed: false, firstObjective: "", secondObjective: "", thirdObjective: ""},
           emergencyContactInfo: {
             completed: false,
