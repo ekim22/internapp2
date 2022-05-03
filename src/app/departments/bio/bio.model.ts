@@ -63,12 +63,6 @@ export interface BioApplication {
     thirdObjective: string,
     completed: boolean,
   };
-  documents: {
-    essay: [],
-    transcript: [],
-    otherDoc: [],
-    completed: boolean,
-  };
   signature: {
     printedSignature: string,
     completed: boolean,

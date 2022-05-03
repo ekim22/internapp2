@@ -378,10 +378,6 @@ export class BioComponent implements OnInit, OnDestroy {
         ...this.educationalObjectives.value,
         completed: this.educationalObjectives.valid,
       },
-      documents: {
-        ...this.documents.value,
-        completed: this.documents.valid,
-      },
       signature: {
         ...this.signature.value,
         completed: this.signature.valid,
@@ -395,7 +391,6 @@ export class BioComponent implements OnInit, OnDestroy {
         {...this.mentorInfo.value},
         {...this.internshipInfo.value},
         {...this.educationalObjectives.value},
-        // {...this.documents.value},
         {...this.signature.value}
       ]
     );
