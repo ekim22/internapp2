@@ -103,6 +103,7 @@ export class BioComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.headerService.activateRoute('application');
     this.loadInstructions();
+    // TODO Gotta move form init into the bio service
     this.bioApplication = this._formBuilder.array([
       this.studentAcademicInfo,
       this.emergencyContactInfo,
@@ -315,6 +316,7 @@ export class BioComponent implements OnInit, OnDestroy {
     }
   }
 
+  // TODO this won't update whether the documents formControl is valid unlike saveApp. Requires a separate server check and update of the document's completed field in order to update home without a saveApp call.
   onFilePicked(event: Event, fileType: string) {
     if (this.studentId) {
       this._snackBar.open('Only the student may upload documents for their application', 'OK');
@@ -328,14 +330,6 @@ export class BioComponent implements OnInit, OnDestroy {
     } else {
       this.uploadOtherDoc(file, fileType);
     }
-    this.studentService.setAppProgress(this.calcAppProgress());
-
-    // this.bioDocs = this.bioService.getDocs()
-    // this.table.renderRows();
-
-    // TODO Running this here is bad. For instance, on uploading an "otherDoc" doc, the file save will fail, but the doc info that's a part of the FormArray will still be saved to the application and appear on a reload of the application as a legitimate file on the doc table, when in reality, there's nothing there.
-    // this.onSaveApplication();
-
   }
 
   downloadDoc(event: Event) {
@@ -509,6 +503,36 @@ export class BioComponent implements OnInit, OnDestroy {
     this.internshipInfo.get('studentPersonalConnection')?.reset()
   }
 
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this.dataSource.data);
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: BioDoc): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+  }
+
+  refreshDocsTable() {
+    this.selection.clear();
+    this.dataSource = new MatTableDataSource<BioDoc>(this.bioDocs.value);
+  }
+
   get bioDocs() {
     return this.bioService.bioDocs;
   }
@@ -543,7 +567,6 @@ export class BioComponent implements OnInit, OnDestroy {
         this.bioService.downloadDoc(file.fileType, file.filePath, file.fileName);
       }
     }
-
   }
 
   deleteFiles(file: any) {
@@ -580,37 +603,7 @@ export class BioComponent implements OnInit, OnDestroy {
     }
     this.studentService.setAppProgress(this.calcAppProgress());
   }
-
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
-
-    this.selection.select(...this.dataSource.data);
-  }
-
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: BioDoc): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
-  }
-
-  refreshDocsTable() {
-    this.selection.clear();
-    this.dataSource = new MatTableDataSource<BioDoc>(this.bioDocs.value);
-  }
-
+  
   uploadEssay(file: File) {
     const docInfo = {
       fileName: file.name,
@@ -622,6 +615,7 @@ export class BioComponent implements OnInit, OnDestroy {
       file).subscribe((res) => {
       this.updateEssay(res.documents.essay[0])
       this.bioService.updateDocs(res);
+      this.studentService.setAppProgress(this.calcAppProgress());
     });
     this.essayFileName = file.name;
   }
@@ -645,6 +639,7 @@ export class BioComponent implements OnInit, OnDestroy {
       file).subscribe((res) => {
       this.updateTranscript(res.documents.transcript[0]);
       this.bioService.updateDocs(res);
+      this.studentService.setAppProgress(this.calcAppProgress());
     });
     this.transcriptFileName = file.name;
   }
@@ -666,8 +661,9 @@ export class BioComponent implements OnInit, OnDestroy {
     this.bioService.uploadDoc(
       docInfo,
       file).subscribe((res) => {
-        this.updateOtherDoc(res.documents.otherDoc[res.documents.otherDoc.length - 1]);
+      this.updateOtherDoc(res.documents.otherDoc[res.documents.otherDoc.length - 1]);
       this.bioService.updateDocs(res);
+      this.studentService.setAppProgress(this.calcAppProgress());
     });
     this.otherFileName = file.name;
   }
