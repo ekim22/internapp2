@@ -1,6 +1,5 @@
 const BioApps = require('../models/bio/form');
 const BioInstructions = require('../models/bio/instructions');
-const BioAnnouncements = require('../models/announcements');
 
 module.exports.downloadDoc = async (req, res) => {
   let appId;
