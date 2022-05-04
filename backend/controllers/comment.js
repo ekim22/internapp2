@@ -44,7 +44,7 @@ module.exports.getCommentThreads = (req, res) => {
   Comment.find({appId: appId})
       .populate({
         path: 'comments.profile',
-        select: 'name email userId -_id',
+        select: 'name email role userId -_id',
       })
       .exec()
       .then((commentThreads) => {
