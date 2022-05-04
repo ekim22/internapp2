@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "./auth/auth.service";
 import {StudentService} from "./student/student.service";
-import {BehaviorSubject, Subscription} from "rxjs";
 import {UserService} from "./user/user.service";
 import {ProfileService} from "./user/profile/profile.service";
+import {AppProgressType} from "./shared/models/AppProgressType";
 
 
 @Component({
@@ -13,14 +13,10 @@ import {ProfileService} from "./user/profile/profile.service";
 })
 export class AppComponent implements OnInit {
   title = 'intern-app';
+  progressType = AppProgressType;
   isAuthenticated!: boolean;
   role!: string;
   color = 'default';
-  // TODO This all sucks. Should be handled
-  //  in a more general way. Probably on login.
-  // studentAppTypeListener!: Subscription;
-  // studentAppStatusListener!: Subscription;
-  // studentAppProgressListener!: Subscription;
 
   constructor(private authService: AuthService,
               private studentService: StudentService,
@@ -42,20 +38,7 @@ export class AppComponent implements OnInit {
     this.authService.userRole$.subscribe(userRole => {
       this.role = userRole;
       if (this.role === 'student') {
-        console.log("LOGGING USER ROLE IN APP COMP...", this.role)
         this.studentService.getAppInfo();
-        // this.studentAppStatusListener = this.studentService.getAppStatus().subscribe(res => {
-        //   console.log('APP COMP, appStat ', res.appStatus);
-        //   this.appStatus.next(res.appStatus);
-        // });
-        // this.studentAppTypeListener = this.studentService.getAppType().subscribe(res => {
-        //   console.log('APP COMP, appType ', res.appType)
-        //   this.appType.next(res.appType);
-        // });
-        // this.studentAppProgressListener = this.studentService.getAppProgress().subscribe(res => {
-        //   console.log('APP COMP, appProg ', res.appProgress)
-        //   this.appProgress.next(res.appProgress);
-        // })
       }
     });
 

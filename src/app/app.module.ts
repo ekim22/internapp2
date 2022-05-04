@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { HeaderComponent } from './header/header.component';
 import {AuthInterceptor} from "./auth/auth-interceptor";
-import {ErrorInterceptor} from "./error-interceptor";
+import {ErrorInterceptor} from "./error/error-interceptor";
 import { ErrorComponent } from './error/error.component';
 import {AngularMaterialModule} from "./angular-material.module";
 import { ItecComponent } from './departments/itec/itec.component';
@@ -19,6 +19,7 @@ import { AboutComponent } from './about/about.component';
 import { HelpComponent } from './help/help.component';
 import { HomeComponent } from './home/home.component';
 import {ProfileModule} from "./user/profile/profile.module";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 @NgModule({
@@ -32,19 +33,20 @@ import {ProfileModule} from "./user/profile/profile.module";
     HelpComponent,
     HomeComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    AngularMaterialModule,
-    PostsModule,
-    ReactiveFormsModule,
-    FormsModule,
-    BioModule,
-    MatSidenavModule,
-    ProfileModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        AngularMaterialModule,
+        PostsModule,
+        ReactiveFormsModule,
+        FormsModule,
+        BioModule,
+        MatSidenavModule,
+        ProfileModule,
+        MatTooltipModule,
+    ],
   // multi: true simply means there can be multi interceptors so don't override any
   // existing interceptors
   providers: [
