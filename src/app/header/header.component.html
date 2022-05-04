@@ -17,6 +17,7 @@
       <button mat-icon-button class="btn" *ngIf="isAuthenticated && this.activeRoutes['application'] && this.userRole === 'coordinator'" (click)="open()"><span class="material-icons">
         <mat-icon matTooltipShowDelay="750" matTooltip="Create new comment thread">add_comment</mat-icon></span></button>
     </li>
+    <div class="vl"></div>
     <li>
       <a mat-button routerLink="/auth/login" routerLinkActive="active" *ngIf="!isAuthenticated">Log in</a>
     </li>
