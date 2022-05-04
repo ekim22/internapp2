@@ -4,7 +4,7 @@
     <mat-label>Choose an option</mat-label>
     <mat-select [disabled]="disableSelect.value" [(ngModel)]="program" name="applications">
       <mat-option value="BIO">Biology (BIOL 4800)</mat-option>
-      <mat-option value="ITEC">Information Technology (ITEC 4900)</mat-option>
+      <mat-option value="ITEC" disabled>Information Technology (ITEC 4900) (disabled)</mat-option>
       <mat-option value="CHEM" disabled>Chemistry (disabled)</mat-option>
       <mat-option value="EXSC" disabled>Exercise Science (disabled)</mat-option>
     </mat-select>
