@@ -9,7 +9,7 @@ import {ComponentPortal} from "@angular/cdk/portal";
 import {CommentComponent} from "./comment.component";
 import {Subject} from "rxjs";
 import {CommentThread} from "./comment-thread.model";
-import {map} from "rxjs/operators";
+import {map, switchMap} from "rxjs/operators";
 import {ProfileService} from "../../user/profile/profile.service";
 import {Profile} from "../../user/profile/profile-model";
 
@@ -53,25 +53,31 @@ export class CommentService {
       subject: subject,
       body: body,
     }
-    this.httpClient.post<{message: string, commentThread: CommentThread}>( environment.apiUrl + 'comments', newCommentThread).subscribe((res) => {
-      console.log('creating comment thread..', res.commentThread)
-      this.profileService.userProfile.subscribe(profile => {
-        const newCommentThread = {
-          ...res.commentThread,
-          comments: [
-            {
-              ...res.commentThread.comments[0],
-              commentEmail: profile.email,
-              profile: profile,
+    this.httpClient
+      .post<{message: string, commentThread: CommentThread}>( environment.apiUrl + 'comments', newCommentThread)
+      .pipe(
+        map((res) => {
+          this.profileService.userProfile
+            .subscribe(profile => {
+            const newCommentThread = {
+              ...res.commentThread,
+              comments: [
+                {
+                  ...res.commentThread.comments[0],
+                  commentEmail: profile.email,
+                  profile: profile,
+                }
+              ]
             }
-          ]
-        }
-        console.log('new comment thread...', newCommentThread)
-        this.commentThreads.push(newCommentThread);
-        this.commentsChanged.next(this.commentThreads);
-      })
+            this.commentThreads.push(newCommentThread);
+            this.commentsChanged.next(this.commentThreads);
+          });
+        })
+    ).subscribe(() => {
       this.close();
-    })
+    }, (error => {
+      console.log("Error adding comment thread: ", error);
+    }));
   }
 
   getCommentThreads() {
@@ -101,20 +107,25 @@ export class CommentService {
         comment: string,
         commentAuthor: string,
         profile: Profile
-      }}>( environment.apiUrl + 'comments/new-comment', commentThread).subscribe((res) => {
-      console.log(res);
-      let ct = this.commentThreads.find(el => el._id === threadId);
-      this.profileService.userProfile.subscribe(profile => {
-        ct?.comments.push({
-          comment: body,
-          commentAuthor: profile.name,
-          commentEmail: profile.email,
-          profile: profile,
+      }}>( environment.apiUrl + 'comments/new-comment', commentThread).pipe(
+        map(res => {
+          console.log(res);
+          let ct = this.commentThreads.find(el => el._id === threadId);
+          this.profileService.userProfile.subscribe(profile => {
+            ct?.comments.push({
+              comment: body,
+              commentAuthor: profile.name,
+              commentEmail: profile.email,
+              profile: profile,
+            })
+          });
+          this.commentsChanged.next(this.commentThreads);
         })
-      })
-      this.commentsChanged.next(this.commentThreads)
+    ).subscribe(() => {
       this.close();
-    })
+    }, error => {
+      console.log("There was error adding the comment: ", error);
+    });
   }
 
   setAppId(studentId: string | null) {
