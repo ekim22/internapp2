@@ -59,3 +59,21 @@ module.exports.approveApplication = (req, res) => {
         });
       });
 };
+
+module.exports.flagApplication = (req, res) => {
+  if (!req.body.studentId) {
+    res.status(400).json({
+      message: 'Field "studentId" cannot be empty!',
+    });
+  }
+  Student.findOneAndUpdate({_id: req.body.studentId}, {appStatus: 'Needs Changes'})
+      .then(() => {
+        res.status(200).json({
+          message: 'Application has been approved.',
+        });
+      }).catch(() => {
+        res.status(500).json({
+          message: 'Server was unable to process the request.',
+        });
+      });
+};

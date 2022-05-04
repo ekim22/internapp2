@@ -22,13 +22,22 @@ export class CoordinatorService {
     this.router.navigate(['/bio', {studentId: studentId, isCoordinator: true}])
   }
 
+  markApplicationNeedsChanges(studentId: string) {
+    const appInfo = {
+      studentId: studentId
+    }
+    this.httpClient.post(environment.apiUrl + 'coordinator/flag-application', appInfo).subscribe(value => {
+      console.log(value)
+    });
+  }
+
   markApplicationApproved(studentId: string) {
     const appInfo = {
       studentId: studentId
     }
     this.httpClient.post(environment.apiUrl + 'coordinator/approve-application', appInfo).subscribe(value => {
       console.log(value)
-    })
+    });
   }
 
 }

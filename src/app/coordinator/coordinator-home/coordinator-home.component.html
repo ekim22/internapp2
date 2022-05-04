@@ -43,13 +43,14 @@
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="onViewApplication(row)">
-                <mat-icon>open_in_new</mat-icon>
+              <button mat-menu-item (click)="onViewApplication(row)"> <mat-icon style="color: #9d52e3">open_in_new</mat-icon>
                 <span>View Application</span>
               </button>
-              <button mat-menu-item (click)="onMarkApproved(row)">
-                <mat-icon>thumb_up</mat-icon>
-                <span>Mark Approved</span>
+              <button mat-menu-item (click)="onMarkNeedsChanges(row)"> <mat-icon class="material-icons-outlined" style="color: red">thumb_down_alt</mat-icon>
+                <span>Mark "Needs Changes"</span>
+              </button>
+              <button mat-menu-item (click)="onMarkApproved(row)"> <mat-icon class="material-icons-outlined" style="color: limegreen">thumb_up_alt</mat-icon>
+                <span>Mark "Approved"</span>
               </button>
             </mat-menu>
           </td>

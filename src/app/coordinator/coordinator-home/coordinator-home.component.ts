@@ -9,6 +9,7 @@ import {ActivatedRoute} from "@angular/router";
 import {FormControl, FormGroup} from "@angular/forms";
 import {AsyncSubject, Subject} from "rxjs";
 import {AnnouncementsService} from "../../announcements/announcements.service";
+import {AppProgressType} from "../../shared/models/AppProgressType";
 
 
 @Component({
@@ -17,6 +18,7 @@ import {AnnouncementsService} from "../../announcements/announcements.service";
   styleUrls: ['./coordinator-home.component.css']
 })
 export class CoordinatorHomeComponent implements OnInit, AfterViewInit {
+  progressType = AppProgressType;
   displayedColumns: string[] = ['email', 'name', 'status', 'progress', 'actions'];
   applications: ApplicationData[] = [];
   applicationsList!: MatTableDataSource<ApplicationData>
@@ -60,8 +62,13 @@ export class CoordinatorHomeComponent implements OnInit, AfterViewInit {
     this.coordinatorService.getApplication( application.type, application._id);
   }
 
+  onMarkNeedsChanges(application: any) {
+    application.status = this.progressType.NEEDS_CHANGES;
+    this.coordinatorService.markApplicationNeedsChanges(application._id);
+  }
+
   onMarkApproved(application: any) {
-    application.status = 'Approved';
+    application.status = this.progressType.APPROVED;
     this.coordinatorService.markApplicationApproved(application._id);
   }
 
