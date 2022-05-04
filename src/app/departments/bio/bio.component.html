@@ -2,7 +2,7 @@
 </app-spinner-overlay>
 <div class="instructions-title">
   <h2>Biology (BIOL 4800) Internship Application Instructions</h2>
-  <button mat-icon-button type="button" color="primary" matTooltip="Edit instructions" *ngIf="instructionsEditable" (click)="toggleInstructionsMode()">
+  <button mat-icon-button type="button" class="btn" color="primary" matTooltipShowDelay="750" matTooltip="Edit instructions" *ngIf="instructionsEditable" (click)="toggleInstructionsMode()">
     <mat-icon>edit</mat-icon>
   </button>
 </div>
@@ -34,7 +34,7 @@
 
 <div class="application-container">
   <div class="application-actions">
-    <button mat-icon-button type="submit" color="primary" matTooltip="Save application" (click)="onSaveApplication()" [disabled]="isDirty$ | async">
+    <button mat-icon-button type="submit" color="primary" matTooltipShowDelay="750" matTooltip="Save application" (click)="onSaveApplication()" [disabled]="isDirty$ | async">
       <mat-icon>save</mat-icon></button>
   </div>
   <mat-tab-group mat-stretch-tabs>
@@ -669,7 +669,7 @@
             </button>
             <mat-menu #menu="matMenu">
               <button mat-menu-item (click)="downloadFiles(file)">
-                <mat-icon>file_download</mat-icon>
+                <mat-icon style="color: #654aff">file_download</mat-icon>
                 <span>Download Selected</span>
               </button>
               <button mat-menu-item (click)="deleteFiles(file)">
@@ -696,13 +696,13 @@
                 {{ "Subject: " + commentThread.threadSubject }}
               </mat-panel-description>
             </mat-expansion-panel-header>
-            <mat-card *ngFor="let comment of commentThread.comments" class="comment-card">
+            <mat-card *ngFor="let comment of commentThread.comments" [ngClass]="{'comment-card-student': comment.profile.role === 'Student', 'comment-card-coordinator': comment.profile.role === 'Coordinator'}">
               <mat-card-header>
-                <div mat-card-avatar class="comment-header-image"></div>
+                <div mat-card-avatar [ngClass]="{'comment-header-image-student': comment.profile.role === 'Student', 'comment-header-image-coordinator': comment.profile.role === 'Coordinator'}"></div>
                 <mat-card-title>
                   {{ comment.commentAuthor }}
                 </mat-card-title>
-                <mat-card-subtitle>
+                <mat-card-subtitle [ngClass]="{'mat-card-subtitle-student': comment.profile.role === 'Student', 'mat-card-subtitle-coordinator': comment.profile.role === 'Coordinator'}">
                   {{ comment.profile.email }}
                 </mat-card-subtitle>
               </mat-card-header>
@@ -711,8 +711,8 @@
               </mat-card-content>
             </mat-card>
             <mat-action-row>
-              <a mat-button color="primary" (click)="addComment(commentThread._id)">Reply</a>
-              <button mat-flat-button color="warn" (click)="openDialog(commentThread._id)">Delete</button>
+              <button mat-icon-button matTooltip="Reply to comment thread" matTooltipShowDelay="750" class="btn" color="primary" (click)="addComment(commentThread._id)"><mat-icon>reply</mat-icon></button>
+              <button *ngIf="this.isStudent()" mat-icon-button matTooltip="Delete comment thread" matTooltipShowDelay="750" class="btn" color="warn" (click)="openDialog(commentThread._id)"><mat-icon>delete</mat-icon></button>
             </mat-action-row>
           </mat-expansion-panel>
         </mat-accordion>

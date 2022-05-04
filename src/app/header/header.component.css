@@ -18,6 +18,17 @@ a {
   color: inherit;
   background: #512DA8;
   border-radius: 10px;
+  transition: all .3s ease-in;
+}
+
+.btn {
+  opacity: 0.6;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  color: orange;
+  opacity: 1;
 }
 
 .app-toolbar {
