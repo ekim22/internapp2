@@ -16,10 +16,12 @@ import {MatBadgeModule} from "@angular/material/badge";
 import {EditorModule} from "@tinymce/tinymce-angular";
 import {SharedModule} from "../../shared/shared.module";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import { InternshipInfoDirective } from './internship-info.directive';
 
 @NgModule({
   declarations: [
     BioComponent,
+    InternshipInfoDirective,
   ],
     imports: [
         CommonModule,

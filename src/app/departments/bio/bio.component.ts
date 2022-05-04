@@ -16,6 +16,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {DialogComponent} from "../../shared/dialog/dialog.component";
 import {BioDoc} from "./biodoc.model";
 import {SelectionModel} from "@angular/cdk/collections";
+import {employedHereValidator, InternshipInfoDirective, otherSiteValidator} from "./internship-info.directive";
+import {AppProgressType} from "../../shared/models/AppProgressType";
 
 // TODO save bio form fields into store and load only if it's the same user.
 export const bioStore = new BehaviorSubject({});
@@ -42,6 +44,7 @@ export function dirtyCheck<U>(source: Observable<U>) {
   styleUrls: ['./bio.component.css']
 })
 export class BioComponent implements OnInit, OnDestroy {
+  progressType = AppProgressType;
   private studentId?: string;
   /*
   * This is for the instructions form */
@@ -73,12 +76,8 @@ export class BioComponent implements OnInit, OnDestroy {
   siteIsOther: boolean = false;
   studentIsEmployed = new BehaviorSubject<boolean>(false);
   siteSelected!: string;
-  private siteValidators = [
-    Validators.required
-  ]
 
   errorMsg: string = "Please check the form for errors, fill in required fields, and resubmit.";
-  thing!: string;
   bioStoreSub!: Subscription;
   isDirty$!: Observable<boolean>;
 
@@ -105,81 +104,75 @@ export class BioComponent implements OnInit, OnDestroy {
     this.loadInstructions();
     // TODO Gotta move form init into the bio service
     this.bioApplication = this._formBuilder.array([
-      this.studentAcademicInfo,
-      this.emergencyContactInfo,
-      this.mentorInfo,
-      this.internshipInfo,
-      this.educationalObjectives,
-      this.documents,
-      this.signature,
-    ]);
-    this.studentAcademicInfo = this._formBuilder.group({
-      desiredInternshipSemester: ['', Validators.required],
-      desiredInternshipYear: ['', Validators.required],
-      concentration: ['', Validators.required],
-      expectedGradSemester: ['', Validators.required],
-      expectedGradYear: ['', Validators.required],
-      overallGPA: ['', Validators.required],
-      programGPA: ['', Validators.required],
-      hoursCompleted: ['', Validators.required],
-      intendedProfession: ['', Validators.required],
+      this.studentAcademicInfo = this._formBuilder.group({
+        desiredInternshipSemester: ['', Validators.required],
+        desiredInternshipYear: ['', Validators.required],
+        concentration: ['', Validators.required],
+        expectedGradSemester: ['', Validators.required],
+        expectedGradYear: ['', Validators.required],
+        overallGPA: ['', Validators.required],
+        programGPA: ['', Validators.required],
+        hoursCompleted: ['', Validators.required],
+        intendedProfession: ['', Validators.required],
+      }),
+      this.emergencyContactInfo = this._formBuilder.group({
+        contactFirstName: ['', Validators.required],
+        contactLastName: ['', Validators.required],
+        contactAddress: ['', Validators.required],
+        contactCity: ['', Validators.required],
+        contactState: ['', Validators.required],
+        contactZip: ['', Validators.required],
+        contactPhone: ['', Validators.required],
+        contactEmail: ['', Validators.required],
+      }),
+      this.mentorInfo = this._formBuilder.group({
+        mentorFirstName: ['', Validators.required],
+        mentorLastName: ['', Validators.required],
+        mentorOffice: ['', Validators.required],
+        mentorPhone: ['', Validators.required],
+        mentorEmail: ['', Validators.required],
+      }),
+      this.internshipInfo = this._formBuilder.group({
+        committeeSites: ['', Validators.required],
+        siteName: ['', ],
+        siteSpecialty: ['', ],
+        siteAddress: ['', ],
+        siteCity: ['', ],
+        siteState: ['', ],
+        siteZip: ['', ],
+        sitePhone: ['', ],
+        managerFirstName: ['', ],
+        managerLastName: ['', ],
+        managerTitle: ['', ],
+        managerEmail: ['', ],
+        preceptorFirstName: ['', ],
+        preceptorLastName: ['', ],
+        preceptorPhone: ['', ],
+        preceptorEmail: ['', ],
+        preceptorTitle: ['', ],
+        preceptorManagerStatus: ['', ],
+        studentEmployedHere: ['', Validators.required],
+        studentPosition: ['', ],
+        studentPayStatus: ['', ],
+        studentAvgWorkingHours: ['', ],
+        studentInternshipVsWork: ['', ],
+        studentPersonalConnection: ['', ],
+      }, {validators: [otherSiteValidator, employedHereValidator] }),
+      this.educationalObjectives = this._formBuilder.group({
+        firstObjective: ['', Validators.required],
+        secondObjective: ['', Validators.required],
+        thirdObjective: ['', Validators.required],
+      }),
+      this.documents = this._formBuilder.group({
+        essay: this._formBuilder.array([], Validators.required),
+        transcript: this._formBuilder.array([], Validators.required),
+        otherDoc: this._formBuilder.array([]),
+      }),
+      this.signature = this._formBuilder.group({
+        printedSignature: ['', Validators.required],
       })
-    this.emergencyContactInfo = this._formBuilder.group({
-      contactFirstName: ['', Validators.required],
-      contactLastName: ['', Validators.required],
-      contactAddress: ['', Validators.required],
-      contactCity: ['', Validators.required],
-      contactState: ['', Validators.required],
-      contactZip: ['', Validators.required],
-      contactPhone: ['', Validators.required],
-      contactEmail: ['', Validators.required],
-    })
-    this.mentorInfo = this._formBuilder.group({
-      mentorFirstName: ['', Validators.required],
-      mentorLastName: ['', Validators.required],
-      mentorOffice: ['', Validators.required],
-      mentorPhone: ['', Validators.required],
-      mentorEmail: ['', Validators.required],
-    })
-    this.internshipInfo = this._formBuilder.group({
-      committeeSites: ['', Validators.required],
-      siteName: ['', Validators.required],
-      siteSpecialty: ['', Validators.required],
-      siteAddress: ['', Validators.required],
-      siteCity: ['', Validators.required],
-      siteState: ['', Validators.required],
-      siteZip: ['', Validators.required],
-      sitePhone: ['', Validators.required],
-      managerFirstName: ['', Validators.required],
-      managerLastName: ['', Validators.required],
-      managerTitle: ['', Validators.required],
-      managerEmail: ['', Validators.required],
-      preceptorFirstName: ['', Validators.required],
-      preceptorLastName: ['', Validators.required],
-      preceptorPhone: ['', Validators.required],
-      preceptorEmail: ['', Validators.required],
-      preceptorTitle: ['', Validators.required],
-      preceptorManagerStatus: ['', Validators.required],
-      studentEmployedHere: ['', Validators.required],
-      studentPosition: ['', Validators.required],
-      studentPayStatus: ['', Validators.required],
-      studentAvgWorkingHours: ['', Validators.required],
-      studentInternshipVsWork: ['', Validators.required],
-      studentPersonalConnection: ['', Validators.required],
-    })
-    this.educationalObjectives = this._formBuilder.group({
-      firstObjective: ['', Validators.required],
-      secondObjective: ['', Validators.required],
-      thirdObjective: ['', Validators.required],
-    })
-    this.documents = this._formBuilder.group({
-      essay: this._formBuilder.array([], Validators.required),
-      transcript: this._formBuilder.array([], Validators.required),
-      otherDoc: this._formBuilder.array([]),
-    })
-    this.signature = this._formBuilder.group({
-      printedSignature: ['', Validators.required],
-    })
+    ]);
+
 
     this.years = this.bioService.years;
     // TODO this should be retrieved from server if I want coordinator to be able to set what the sites are
@@ -230,16 +223,9 @@ export class BioComponent implements OnInit, OnDestroy {
                 this.educationalObjectives.get(value)?.patchValue(this.bioApp[key][value]);
               }
               else if (key === 'documents') {
-                // console.log('logging getting document', this.documents.get(value))
-                // console.log('logging getting bioapp', this.bioApp[key][value])
-                // this.bioApp[key][value].forEach((value: any, index: any) => {
-                //   console.log(value, index)
-                // })
                 for (let i = 0; i < this.bioApp[key][value].length; i++) {
                   (this.documents.get(value) as FormArray).insert(i, this._formBuilder.control(this.bioApp[key][value]))
                   this.bioService.addDoc((this.documents.get(value) as FormArray).at(i).value.at(i))
-                  // console.log('index of ' + value + ' array', i);
-                  // console.log((this.documents.get(value) as FormArray).at(i).value);
                 }
                 this.documents.get(value)?.patchValue(this.bioApp[key][value]);
               }
@@ -288,10 +274,8 @@ export class BioComponent implements OnInit, OnDestroy {
 
   onStudentEmploymentChange(isStudentEmployedAtSite: Event) {
     if (String(isStudentEmployedAtSite) === 'yes') {
-      console.log('logging student employment is yes')
       this.studentIsEmployed.next(true);
     } else {
-      console.log('logging student employment is no')
       this.studentIsEmployed.next(false);
     }
   }
@@ -312,7 +296,10 @@ export class BioComponent implements OnInit, OnDestroy {
     }
     steps.notifyOnChanges()
     if (this.bioApplication.valid) {
-      console.log(this.bioApplication)
+      console.log("Application is valid. Submitting application...")
+      this.onSaveApplication();
+      this.studentService.setAppProgress(this.calcAppProgress());
+      this.studentService.setAppStatus(this.progressType.AWAITING_APPROVAL);
     }
   }
 
@@ -330,10 +317,6 @@ export class BioComponent implements OnInit, OnDestroy {
     } else {
       this.uploadOtherDoc(file, fileType);
     }
-  }
-
-  downloadDoc(event: Event) {
-    console.log(event)
   }
 
   ngOnDestroy(): void {
@@ -397,8 +380,8 @@ export class BioComponent implements OnInit, OnDestroy {
 
     this.bioService.saveApplication(bioAppToServer);
     this.studentService.setAppProgress(this.calcAppProgress());
-    if (this.studentService.getAppStatus() !== 'In Progress') {
-      this.studentService.setAppStatus('In Progress');
+    if (this.studentService.getAppStatus() !== this.progressType.IN_PROGRESS && this.studentService.getAppStatus() !== this.progressType.NEEDS_CHANGES) {
+      this.studentService.setAppStatus(this.progressType.IN_PROGRESS);
     }
     this._snackBar.open('Application was saved!', 'OK');
   }
@@ -440,12 +423,15 @@ export class BioComponent implements OnInit, OnDestroy {
         }
       }
     }
-    console.log('totalControls: ' + totalControls)
-    console.log('validControls: ' + validControls)
-
-    console.log(Number((validControls / totalControls) * 100).toFixed(2).toString())
+    console.log('totalControls: ' + totalControls);
+    console.log('validControls: ' + validControls);
+    console.log('Percent complete: ', Number((validControls / totalControls) * 100).toFixed(2).toString());
 
     return Number((validControls / totalControls) * 100).toFixed(2);
+  }
+
+  isStudent() {
+    return !!this.studentId;
   }
 
   handleEditorInit(e: any) {
@@ -592,8 +578,6 @@ export class BioComponent implements OnInit, OnDestroy {
         this.getTranscript().removeAt(0);
       }
     } else {
-      console.log(file.fileType.toLowerCase())
-      console.log(this.documents.get(file.fileType.toLowerCase())?.value)
       this.bioService.deleteDoc(file.fileType, file.filePath);
       if (file.fileType.toLowerCase() === 'essay') {
         this.getEssay().removeAt(0);
@@ -603,7 +587,7 @@ export class BioComponent implements OnInit, OnDestroy {
     }
     this.studentService.setAppProgress(this.calcAppProgress());
   }
-  
+
   uploadEssay(file: File) {
     const docInfo = {
       fileName: file.name,
