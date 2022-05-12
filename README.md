@@ -1,4 +1,7 @@
-# [InternApp 2.0](https://shrouded-dusk-22324.herokuapp.com/auth/login)
+# [InternApp 2.0](https://shrouded-dusk-22324.herokuapp.com/auth/login) (the link will take you to the live site)
+
+## Key Information
+This app is a demo, and currently only the biology application is complete. The biology coordinator user profile is also complete, but since coordinators have access to all applications and application management features, that feature is only available upon request. 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.6.
 
@@ -24,4 +27,4 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 ## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+For any questions, you shoot me an email (ephraimkim1@gmail.com).
