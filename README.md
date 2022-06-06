@@ -1,4 +1,6 @@
-# [InternApp 2.0](https://shrouded-dusk-22324.herokuapp.com/auth/login) (the link will take you to the live site)
+# InternApp 2.0 
+
+[Visit the demo here](https://my-internapp.herokuapp.com)
 
 ## Key Information
 This app is a demo, and currently only the biology application is complete. The biology coordinator user profile is also complete, but since coordinators have access to all applications and application management features, that feature is only available upon request. 
